@@ -20,9 +20,8 @@ import java.util.UUID;
 public class ServerWorld {
 
     /*
+        Coming up in future:
         - World History
-
-        setup
      */
 
     private final UUID uniqueID;

@@ -1,0 +1,13 @@
+name: World-Manager
+version: 4.0.1-beta
+author: hyperspace_pilot
+main: de.hyper.worlds.domain.WorldManagement
+api-version: 1.18
+depend:
+  - FastAsyncWorldEdit
+commands:
+  world:
+    aliases:
+      - worlds
+      - welt
+      - welten

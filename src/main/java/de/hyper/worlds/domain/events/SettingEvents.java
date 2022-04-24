@@ -5,8 +5,6 @@ import de.hyper.worlds.common.obj.ServerWorld;
 import de.hyper.worlds.common.obj.ServerWorldSettingChangedEvent;
 import de.hyper.worlds.common.obj.StatePart;
 import de.hyper.worlds.common.obj.WorldSetting;
-import de.hyper.worlds.common.obj.settings.BlockGrowSetting;
-import de.hyper.worlds.common.obj.settings.BlockSpreadSetting;
 import de.hyper.worlds.common.util.Converter;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Performance;

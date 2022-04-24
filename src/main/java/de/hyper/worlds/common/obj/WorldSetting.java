@@ -24,7 +24,7 @@ public class WorldSetting {
     }
 
     public String[] buildItemLore() {
-        String[] result = new String[5 + state.getStateParts().length];
+        String[] result = new String[state.getStateParts().length + (adminSetting ? 7 : 5)];
         result[0] = WorldManagement.get().getLanguage().getText(this.descKey);
         result[1] = " ";
         int a = 2;
@@ -37,6 +37,10 @@ public class WorldSetting {
         result[a++] = "  ";
         result[a++] = WorldManagement.get().getLanguage().getText("settings.general.leftclick");
         result[a++] = WorldManagement.get().getLanguage().getText("settings.general.rightclick");
+        if (adminSetting) {
+            result[a++] = "   ";
+            result[a++] = WorldManagement.get().getLanguage().getText("settings.general.adminsetting");
+        }
         return result;
     }
 

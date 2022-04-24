@@ -226,7 +226,7 @@ public class Language {
 
         registerText("settings.general.leftclick", "§7§oNutze Linksklick um den nächsten Modus zu wählen.", "§7§oUse leftclick to switch to the next mode.");
         registerText("settings.general.rightclick", "§7§oNutze Rechtsklick um den vorherigen Modus zu wählen.", "§7§oUse rightclick to switch to the last mode.");
-
+        registerText("settings.general.adminsetting", "§c§oKann nur von Administratoren verändert werden.", "§c§oCan only be changed by administrators.");
 
         WorldManagement.get().getSaveSystem().saveMessages(this.languagesAndKeysAndTexts);
     }

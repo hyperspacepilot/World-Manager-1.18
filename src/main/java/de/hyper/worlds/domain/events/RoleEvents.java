@@ -12,15 +12,53 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.*;
 
 public class RoleEvents implements Listener {
 
     Performance performance = WorldManagement.getInstance().getPerformance();
     CacheSystem cache = WorldManagement.getInstance().getCacheSystem();
     FaweAPI fawe = WorldManagement.get().getFawe();
+
+    @EventHandler
+    public void onPlayerHarvestBlock(PlayerFishEvent event) {
+        ServerWorld serverWorld = cache.getServerWorld(event.getPlayer().getWorld().getName());
+        if (serverWorld != null) {
+            if (!serverWorld.isAllowed(event.getPlayer(), "fish")) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerHarvestBlock(PlayerHarvestBlockEvent event) {
+        ServerWorld serverWorld = cache.getServerWorld(event.getPlayer().getWorld().getName());
+        if (serverWorld != null) {
+            if (!serverWorld.isAllowed(event.getPlayer(), "blocks.harvest")) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+        ServerWorld serverWorld = cache.getServerWorld(event.getPlayer().getWorld().getName());
+        if (serverWorld != null) {
+            if (!serverWorld.isAllowed(event.getPlayer(), "interact.at.entity")) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        ServerWorld serverWorld = cache.getServerWorld(event.getPlayer().getWorld().getName());
+        if (serverWorld != null) {
+            if (!serverWorld.isAllowed(event.getPlayer(), "interact.general")) {
+                event.setCancelled(true);
+            }
+        }
+    }
 
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {

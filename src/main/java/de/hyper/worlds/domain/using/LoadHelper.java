@@ -95,6 +95,12 @@ public class LoadHelper {
                 admission("Use WorldEdit", "worldedit", false),
                 admission("Place Blocks", "blocks.place", false),
                 admission("Break Blocks", "blocks.break", false),
+                admission("Harvest Blocks", "blocks.harvest", false),
+                admission("Fish", "fish", false),
+                admission("Drop Items", "item.drop", true),
+                admission("PickUp Items", "item.pickup", true),
+                admission("Interact General", "interact.general", false),
+                admission("Interact At Entity", "interact.at.entity", false),
                 admission("Add Roles", "roles.add", false),
                 admission("Delete Roles", "roles.delete", false),
                 admission("Edit Roles", "roles.edit", false),
@@ -119,8 +125,6 @@ public class LoadHelper {
                 admission("Change Block-Fertilize Setting", "settings.blockfertilize.change", false),
                 admission("Change Block-Burn Setting", "settings.blockburn.change", false),
                 admission("Change GameMode Setting", "settings.gamemode.change", false),
-                admission("Drop Items", "item.drop", true),
-                admission("PickUp Items", "item.pickup", true),
                 admission("Change Difficulty", "attributes.difficulty.change", false)));
     }
 
@@ -137,6 +141,12 @@ public class LoadHelper {
                 admission("Use WorldEdit", "worldedit", false),
                 admission("Place Blocks", "blocks.place", true),
                 admission("Break Blocks", "blocks.break", true),
+                admission("Harvest Blocks", "blocks.harvest", false),
+                admission("Fish", "fish", false),
+                admission("Drop Items", "item.drop", true),
+                admission("PickUp Items", "item.pickup", true),
+                admission("Interact General", "interact.general", false),
+                admission("Interact At Entity", "interact.at.entity", false),
                 admission("Add Roles", "roles.add", false),
                 admission("Delete Roles", "roles.delete", false),
                 admission("Edit Roles", "roles.edit", false),
@@ -160,8 +170,6 @@ public class LoadHelper {
                 admission("Change Block-Fertilize Setting", "settings.blockfertilize.change", false),
                 admission("Change Block-Burn Setting", "settings.blockburn.change", false),
                 admission("Change GameMode Setting", "settings.gamemode.change", false),
-                admission("Drop Items", "item.drop", true),
-                admission("PickUp Items", "item.pickup", true),
                 admission("Change Difficulty", "attributes.difficulty.change", false))));
 
         defaultRoles.add(new WorldRole(createSaveUUID(), "Admin", toList(new ArrayList<RoleAdmission>(),
@@ -169,6 +177,12 @@ public class LoadHelper {
                 admission("Use WorldEdit", "worldedit", true),
                 admission("Place Blocks", "blocks.place", true),
                 admission("Break Blocks", "blocks.break", true),
+                admission("Harvest Blocks", "blocks.harvest", true),
+                admission("Fish", "fish", true),
+                admission("Drop Items", "item.drop", true),
+                admission("PickUp Items", "item.pickup", true),
+                admission("Interact General", "interact.general", true),
+                admission("Interact At Entity", "interact.at.entity", true),
                 admission("Add Roles", "roles.add", false),
                 admission("Delete Roles", "roles.delete", false),
                 admission("Edit Roles", "roles.edit", true),
@@ -192,8 +206,6 @@ public class LoadHelper {
                 admission("Change Block-Fertilize Setting", "settings.blockfertilize.change", true),
                 admission("Change Block-Burn Setting", "settings.blockburn.change", true),
                 admission("Change GameMode Setting", "settings.gamemode.change", true),
-                admission("Drop Items", "item.drop", true),
-                admission("PickUp Items", "item.pickup", true),
                 admission("Change Difficulty", "attributes.difficulty.change", true))));
     }
 }

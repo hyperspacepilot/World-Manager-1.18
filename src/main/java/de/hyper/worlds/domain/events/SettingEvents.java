@@ -10,10 +10,7 @@ import de.hyper.worlds.common.obj.settings.BlockSpreadSetting;
 import de.hyper.worlds.common.util.Converter;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Performance;
-import org.bukkit.GameMode;
-import org.bukkit.GameRule;
-import org.bukkit.World;
-import org.bukkit.WorldBorder;
+import org.bukkit.*;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -366,10 +363,12 @@ public class SettingEvents implements Listener {
         World world = event.getSourceBlock().getWorld();
         ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
         if (serverWorld != null) {
-            WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_PHYSICS);
-            StatePart part = setting.getState().getActive();
-            boolean value = Converter.getBoolean(part.getValue());
-            event.setCancelled(!value);
+            if (event.getSourceBlock().getType() != Material.CHEST) {
+                WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_PHYSICS);
+                StatePart part = setting.getState().getActive();
+                boolean value = Converter.getBoolean(part.getValue());
+                event.setCancelled(!value);
+            }
         }
     }
 

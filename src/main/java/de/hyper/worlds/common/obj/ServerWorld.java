@@ -28,16 +28,24 @@ public class ServerWorld {
     private final String worldName;
     @Setter private UUID ownerUUID;
     @Setter private boolean ignoreGeneration;
-    @Setter private sLocation spawnLocation;
-    @Setter private long seed;
-    @Setter private Difficulty difficulty;
+    @Setter
+    private sLocation spawnLocation;
+    @Setter
+    private long seed;
+    @Setter
+    private Difficulty difficulty;
     private long realSeed;
 
-    @Setter private GeneratorType generatorType;
-    @Setter private CategoryType categoryType;
+    @Setter
+    private GeneratorType generatorType;
+    @Setter
+    private CategoryType categoryType;
     private final ArrayList<WorldRole> roles;
     private WorldRole defaultRole;
     private final ArrayList<WorldSetting> settings;
+
+    // Not finished yet.
+    private WorldHistory history;
 
     public ServerWorld(UUID uniqueID, String worldName, UUID ownerUUID, boolean ignoreGeneration, long seed, GeneratorType generatorType, CategoryType categoryType) {
         this.uniqueID = uniqueID;
@@ -52,6 +60,7 @@ public class ServerWorld {
         this.categoryType = categoryType;
         this.roles = new ArrayList<>();
         this.settings = WorldManagement.get().getLoadHelper().getDefaultWorldSettings();
+        this.history = new WorldHistory();
     }
 
     public Duett<World, Long> load() {

@@ -7,15 +7,15 @@ import de.hyper.worlds.domain.WorldManagement;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class Performance {
 
-    private final ThreadPoolExecutor threads;
+    private final Executor threads;
 
     public Performance() {
-        this.threads = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+        this.threads = Executors.newCachedThreadPool();
     }
 
     public void async(Runnable run) {

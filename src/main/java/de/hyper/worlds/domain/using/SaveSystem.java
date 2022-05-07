@@ -57,8 +57,10 @@ public class SaveSystem {
 
     @SneakyThrows
     public CopyOnWriteArrayList<ServerUser> getUsers() {
-        return this.gson.fromJson(new FileReader(this.saveUsersFile), new TypeToken<CopyOnWriteArrayList<ServerUser>>() {
-        }.getType());
+        try (FileReader reader = new FileReader(this.saveUsersFile)) {
+            return this.gson.fromJson(reader, new TypeToken<CopyOnWriteArrayList<ServerUser>>() {
+            }.getType());
+        }
     }
 
     @SneakyThrows
@@ -73,8 +75,10 @@ public class SaveSystem {
 
     @SneakyThrows
     public ConcurrentHashMap<String, ServerWorld> getServerWorlds() {
-        return this.gson.fromJson(new FileReader(this.saveWorldsFile), new TypeToken<ConcurrentHashMap<String, ServerWorld>>() {
-        }.getType());
+        try (FileReader reader = new FileReader(this.saveWorldsFile)) {
+            return this.gson.fromJson(reader, new TypeToken<ConcurrentHashMap<String, ServerWorld>>() {
+            }.getType());
+        }
     }
 
     @SneakyThrows
@@ -88,7 +92,9 @@ public class SaveSystem {
 
     @SneakyThrows
     public HashMap<String, HashMap<String, String>> getMessages() {
-        return this.gson.fromJson(new FileReader(this.saveMessagesFile), new TypeToken<HashMap<String, HashMap<String, String>>>() {
-        }.getType());
+        try (FileReader reader = new FileReader(this.saveMessagesFile)) {
+            return this.gson.fromJson(reader, new TypeToken<HashMap<String, HashMap<String, String>>>() {
+            }.getType());
+        }
     }
 }

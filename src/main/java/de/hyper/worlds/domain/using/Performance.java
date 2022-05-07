@@ -15,7 +15,7 @@ public class Performance {
     private final ThreadPoolExecutor threads;
 
     public Performance() {
-        this.threads = (ThreadPoolExecutor) Executors.newFixedThreadPool(50);
+        this.threads = (ThreadPoolExecutor) Executors.newCachedThreadPool();
     }
 
     public void async(Runnable run) {

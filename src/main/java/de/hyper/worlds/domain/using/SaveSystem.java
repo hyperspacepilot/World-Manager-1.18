@@ -48,11 +48,11 @@ public class SaveSystem {
 
     @SneakyThrows
     public void saveUsers(CopyOnWriteArrayList<ServerUser> list) {
-        FileWriter fileWriter = new FileWriter(this.saveUsersFile.getAbsolutePath());
-        this.gson.toJson(list, new TypeToken<CopyOnWriteArrayList<ServerUser>>() {
-        }.getType(), fileWriter);
-        fileWriter.flush();
-        fileWriter.close();
+        try (FileWriter fileWriter = new FileWriter(this.saveUsersFile.getAbsolutePath())) {
+            this.gson.toJson(list, new TypeToken<CopyOnWriteArrayList<ServerUser>>() {
+            }.getType(), fileWriter);
+            fileWriter.flush();
+        }
     }
 
     @SneakyThrows
@@ -63,11 +63,12 @@ public class SaveSystem {
 
     @SneakyThrows
     public void saveWorlds(ConcurrentHashMap<String, ServerWorld> map) {
-        FileWriter fileWriter = new FileWriter(this.saveWorldsFile.getAbsolutePath());
-        this.gson.toJson(map, new TypeToken<ConcurrentHashMap<String, ServerWorld>>() {
-        }.getType(), fileWriter);
-        fileWriter.flush();
-        fileWriter.close();
+        try (
+                FileWriter fileWriter = new FileWriter(this.saveWorldsFile.getAbsolutePath())) {
+            this.gson.toJson(map, new TypeToken<ConcurrentHashMap<String, ServerWorld>>() {
+            }.getType(), fileWriter);
+            fileWriter.flush();
+        }
     }
 
     @SneakyThrows
@@ -78,11 +79,11 @@ public class SaveSystem {
 
     @SneakyThrows
     public void saveMessages(HashMap<String, HashMap<String, String>> map) {
-        FileWriter fileWriter = new FileWriter(this.saveMessagesFile.getAbsolutePath());
-        this.gson.toJson(map, new TypeToken<HashMap<String, HashMap<String, String>>>() {
-        }.getType(), fileWriter);
-        fileWriter.flush();
-        fileWriter.close();
+        try (FileWriter fileWriter = new FileWriter(this.saveMessagesFile.getAbsolutePath())) {
+            this.gson.toJson(map, new TypeToken<HashMap<String, HashMap<String, String>>>() {
+            }.getType(), fileWriter);
+            fileWriter.flush();
+        }
     }
 
     @SneakyThrows

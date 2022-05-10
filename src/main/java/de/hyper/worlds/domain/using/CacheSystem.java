@@ -8,7 +8,9 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
@@ -38,6 +40,10 @@ public class CacheSystem {
             this.serverUsers = new CopyOnWriteArrayList<>();
         }
         save();
+    }
+
+    public void remove(ServerWorld serverWorld) {
+        serverWorlds.remove(serverWorld.getWorldName(), serverWorld);
     }
 
     public List<ServerWorld> getAllServerWorlds() {
@@ -97,6 +103,10 @@ public class CacheSystem {
 
     public boolean existsServerWorld(String worldName) {
         return this.serverWorlds.containsKey(worldName);
+    }
+
+    public ServerWorld getServerWorld(World world) {
+        return this.getServerWorld(world.getName());
     }
 
     public ServerWorld getServerWorld(String worldName) {

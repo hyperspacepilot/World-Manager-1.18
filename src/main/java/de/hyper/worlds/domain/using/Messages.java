@@ -12,11 +12,14 @@ public class Messages {
         return r;
     }
 
-    public static String SYNTAX(String label, String subCMD, String... values) {
-        String r = Language.PREFIX + "§c/" + label + (subCMD == null ? "" : " " + subCMD);
+    public static String SYNTAX(String label, String subCMD, String info, String... values) {
+        StringBuilder stringBuilder = new StringBuilder(Language.PREFIX + "§c/" + label + (subCMD == null ? "" : " " + subCMD));
         for (String s : values) {
-            r = r + " <" + s + ">";
+            stringBuilder.append(" <" + s + ">");
         }
-        return r;
+        if (info != null) {
+            stringBuilder.append(" - " + info);
+        }
+        return stringBuilder.toString();
     }
 }

@@ -231,7 +231,7 @@ public class Inventories {
                             setDisplayName(lang.getText("inventory.world.item.info.name")).
                             setLore(
                                     lang.getText("inventory.world.item.info.desc.1", serverWorld.getWorldName()),
-                                    lang.getText("inventory.world.item.info.desc.2", WorldManagement.get().getName(serverWorld.getOwnerUUID())),
+                                    lang.getText("inventory.world.item.info.desc.2", cache.getServerUser(serverWorld.getOwnerUUID()).getName()),
                                     lang.getText("inventory.world.item.info.desc.3", serverWorld.getRealSeedOfBukkitWorld()),
                                     lang.getText("inventory.world.item.info.desc.4", lang.getText("inventory.attributes.difficulty.desc." + serverWorld.getDifficulty().getLKey())),
                                     lang.getText("inventory.world.item.info.desc.5", serverWorld.getGeneratorType().getName()),

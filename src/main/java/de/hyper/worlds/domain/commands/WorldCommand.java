@@ -53,7 +53,8 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                             ServerWorld serverWorld = cache.getServerWorld(args[0]);
                             invHelper.worldInventory(player, serverWorld, null);
                             return;
-                        }if (args[0].equalsIgnoreCase("help")) {
+                        }
+                        if (args[0].equalsIgnoreCase("help")) {
                             sendSyntax(player, label, null);
                         }
                         sendSyntax(player, label, null);
@@ -93,6 +94,22 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                 invHelper.loadedWorlds(player, null);
                                 return;
                             }
+                            if (args[1].equalsIgnoreCase("delete")) {
+                                if (args.length == 3) {
+                                    perm = "worldmanager.command.world.delete";
+                                    if (player.hasPermission(perm)) {
+                                        ServerWorld targetWorld = cache.getServerWorld(args[2]);
+                                        if (targetWorld != null) {
+                                            cache.remove(targetWorld);
+                                        } else {
+                                            lang.send(player, "general.worldnotregistered", args[2]);
+                                        }
+                                    } else {
+                                        lang.send(player, "general.permission.lacking", perm);
+                                    }
+                                    return;
+                                }
+                            }
                             sendSyntax(player, label, args[0]);
                             return;
                         }
@@ -113,7 +130,7 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                         lang.send(player, "command.world.add.notallowed", args[2]);
                                     }
                                 } else {
-                                    lang.send(player, "general.worldnotregistered", args[1]);
+                                    lang.send(player, "general.worldnotregistered", player.getWorld().getName());
                                 }
                                 return;
                             }
@@ -134,7 +151,24 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                         lang.send(player, "command.world.remove.notallowed", args[2]);
                                     }
                                 } else {
-                                    lang.send(player, "general.worldnotregistered", args[1]);
+                                    lang.send(player, "general.worldnotregistered", player.getWorld().getName());
+                                }
+                                return;
+                            }
+                        }
+                        if (subCMD.equalsIgnoreCase("setowner")) {
+                            if (args.length == 2) {
+                                ServerUser user = cache.getServerUser(args[1]);
+                                ServerWorld world = cache.getServerWorld(player.getWorld());
+                                if (world != null) {
+                                    if (world.isAllowed(player, "setowner")) {
+                                        world.setOwnerUUID(user.getUuid());
+                                        lang.send(player, "command.world.setowner.success", world.getWorldName(), user.getName());
+                                    } else {
+                                        lang.send(player, "command.world.setowner.notallowed");
+                                    }
+                                } else {
+                                    lang.send(player, "general.worldnotregistered", player.getWorld().getName());
                                 }
                                 return;
                             }
@@ -159,13 +193,15 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
 
     private void sendSyntax(Player player, String label, String subCMD) {
         if (player.hasPermission("worldmanager.admin")) {
-            player.sendMessage(Messages.SYNTAX(label, "admin create", "name", "generator", "ignoreGeneration"));
-            player.sendMessage(Messages.SYNTAX(label, "admin loadedworlds"));
+            player.sendMessage(Messages.SYNTAX(label, "admin create", "Create a world.", "name", "generator", "ignoreGeneration"));
+            player.sendMessage(Messages.SYNTAX(label, "admin loadedworlds", "Shows all the worlds, which are currently loaded."));
+            player.sendMessage(Messages.SYNTAX(label, "admin delete", "Removes a world from the system.", "worldname"));
         }
-        player.sendMessage(Messages.SYNTAX(label, "remove", "player"));
-        player.sendMessage(Messages.SYNTAX(label, "add", "player", "role"));
-        player.sendMessage(Messages.SYNTAX(label, "info"));
-        player.sendMessage(Messages.SYNTAX(label, null, "world"));
+        player.sendMessage(Messages.SYNTAX(label, "remove", "Remove a player from a world.", "player"));
+        player.sendMessage(Messages.SYNTAX(label, "add", "Add a player to a world.", "player", "role"));
+        player.sendMessage(Messages.SYNTAX(label, "setowner", "Set the new owner of the world.", "player"));
+        player.sendMessage(Messages.SYNTAX(label, "info", "Opens the inventory of the world you're standing in."));
+        player.sendMessage(Messages.SYNTAX(label, null, "Opens the inventory of specific world.", "world"));
     }
 
     @Override

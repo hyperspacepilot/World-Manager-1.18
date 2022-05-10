@@ -41,17 +41,19 @@ public class Language {
         registerText("general.nouser", "§7Nur Spieler können diesen Command nutzen.", "§7Only players can execute that command.");
         registerText("general.boolean.true", "§aAktiv", "§aActive");
         registerText("general.boolean.false", "§cInaktiv", "§cInactive");
-        registerText("general.worldnotregistered", "§7Es ist keine Welt namens §9{0} §7in den System registriert.","§7There is no world registered in the system called §9{0}§7.");
+        registerText("general.worldnotregistered", "§7Es ist keine Welt namens §9{0} §7in dem System registriert.", "§7There is no world registered in the system called §9{0}§7.");
 
 
         registerText("command.world.createdworld", "§7Welt §9{0} §7erstellt und geladen, dauerte §9{1}ms§7.", "§7World §9{0} §7created and loaded, took §9{1}ms§7.");
         registerText("command.world.alreadyexisting", "§7Es gibt bereits eine Welt namens §9{0}§7.", "§7There's already a world called §9{0}§7.");
-        registerText("command.world.add.notallowed", "§7Du hast in dieser Welt keinen Zugriff auf das Hinzufügen von Spielern.","§7You don't have admission in this world to add players.");
+        registerText("command.world.add.notallowed", "§7Du hast in dieser Welt keinen Zugriff auf das Hinzufügen von Spielern.", "§7You don't have admission in this world to add players.");
         registerText("command.world.add.noroleexisting", "§7In dieser Welt gibt es keine Rolle namens §9{0}§7.", "§7There's no role in this world called §9{0}§7.");
-        registerText("command.world.add.success", "§7Du hast §9{0} §7zur Welt §9{1} §7der Rolle §9{2} §7hinzugefügt.","§7You've added §9{0} §7to the world §9{1} §7to the role §9{2}§7.");
-        registerText("command.world.remove.notallowed", "§7Du hast in dieser Welt keinen Zugriff auf das Entfernen von Spielern.","§7You don't have admission in this world to remove players.");
-        registerText("command.world.remove.nomemberofworld", "§7In dieser Welt ist kein Spieler namens §9{0} §7registriert.","§7There's no player called §9{0} §7registered in this world.");
+        registerText("command.world.add.success", "§7Du hast §9{0} §7zur Welt §9{1} §7der Rolle §9{2} §7hinzugefügt.", "§7You've added §9{0} §7to the world §9{1} §7to the role §9{2}§7.");
+        registerText("command.world.remove.notallowed", "§7Du hast in dieser Welt keinen Zugriff auf das Entfernen von Spielern.", "§7You don't have admission in this world to remove players.");
+        registerText("command.world.remove.nomemberofworld", "§7In dieser Welt ist kein Spieler namens §9{0} §7registriert.", "§7There's no player called §9{0} §7registered in this world.");
         registerText("command.world.remove.success", "§7Du hast §9{0} §7aus der Welt §9{1} §7entfernt.", "§7You've removed §9{0} §7from the world called §9{1}§7.");
+        registerText("command.world.setowner.success", "§7Du hast den Owner der Welt §9{0} §7auf §9{1} §7gesetzt.", "§7You've set the owner of the world §9{0} §7to §9{1}§7.");
+        registerText("command.world.setowner.notallowed", "§7Du hast in dieser Welt keinen Zugriff auf das Setzen des Welten-Owners.", "§7You don't have admission in this world to set the world owner.");
 
 
         registerText("inventory.general.pages.next", "§bNächste Seite", "§bNext page");

@@ -16,7 +16,7 @@ public class Language {
 
     public static String ERROR_MESSAGE = "Error in language-system, please contact an administrator!";
 
-    private String prefix;
+    private final String prefix;
     private final String fallBackLanguage = Language.ENGLISH;
     private String activeLanguage;
     private HashMap<String, HashMap<String, String>> languagesAndKeysAndTexts;
@@ -54,6 +54,8 @@ public class Language {
         registerText("command.world.remove.success", "§7Du hast §9{0} §7aus der Welt §9{1} §7entfernt.", "§7You've removed §9{0} §7from the world called §9{1}§7.");
         registerText("command.world.setowner.success", "§7Du hast den Owner der Welt §9{0} §7auf §9{1} §7gesetzt.", "§7You've set the owner of the world §9{0} §7to §9{1}§7.");
         registerText("command.world.setowner.notallowed", "§7Du hast in dieser Welt keinen Zugriff auf das Setzen des Welten-Owners.", "§7You don't have admission in this world to set the world owner.");
+        registerText("command.world.save.started", "System wird gespeichert...", "System is saving...");
+        registerText("command.world.save.finished", "System wurde gespeichert. Dauer: §9{0}ms", "System saved. Took §9{0}ms");
 
 
         registerText("inventory.general.pages.next", "§bNächste Seite", "§bNext page");
@@ -101,8 +103,8 @@ public class Language {
         registerText("inventory.world.item.info.desc.5", "§7Generator: §b{0}", "§7Generator: §b{0}");
         registerText("inventory.world.item.info.desc.6", "§7Kategorie: §b{0}", "§7Category: §b{0}");
         registerText("inventory.world.item.info.desc.7", "§7§oKlicke um Werte zu bearbeiten.", "§7§oClick to edit attributes.");
-        registerText("inventory.world.users.name","§bMitglieder","§bMembers");
-        registerText("inventory.world.users.desc.1", "§7§oKlicke um die Mitglieder der Welt anzuzeigen.","§7§oClick to show world's members.");
+        registerText("inventory.world.users.name", "§bMitglieder", "§bMembers");
+        registerText("inventory.world.users.desc.1", "§7§oKlicke um die Mitglieder der Welt anzuzeigen.", "§7§oClick to show world's members.");
         registerText("inventory.world.settings.name", "§bEinstellungen", "§bSettings");
         registerText("inventory.world.settings.desc.1", "§7§oKlicke um die Einstellungen zu öffnen.", "§7§oClick to open settings menu.");
 
@@ -120,13 +122,13 @@ public class Language {
         registerText("inventory.attributes.ignoration.desc.1", "§7§oStelle ein ob die Welten-Generation ignoriert werden soll.", "§7§oSet if the world generation should be ignored.");
         registerText("inventory.attributes.ignoration.desc.2", "§7§oIgnoriert: {0}", "§7§oIgnoring: {0}");
 
-        registerText("inventory.members.each.desc.1", "§7Rolle: §9{0}","§7Role: §9{0}");
-        registerText("inventory.members.each.desc.2", "§7§oKlicke um den Spieler zu bearbeiten.","§7§oClick to edit user.");
+        registerText("inventory.members.each.desc.1", "§7Rolle: §9{0}", "§7Role: §9{0}");
+        registerText("inventory.members.each.desc.2", "§7§oKlicke um den Spieler zu bearbeiten.", "§7§oClick to edit user.");
 
-        registerText("inventory.user.remove.name", "§bSpieler entfernen","§bRemove user");
-        registerText("inventory.user.remove.desc.1", "§7§oKlicke um den Spieler aus deiner Welt zu entfernen.","§7Click to remove player from your world.");
-        registerText("inventory.user.change.name", "§bRolle ändern","§bChange Role");
-        registerText("inventory.user.change.desc.1", "§7§oKlicke um die Rolle des Spielers zu ändern.","§7§oClick to change player's role.");
+        registerText("inventory.user.remove.name", "§bSpieler entfernen", "§bRemove user");
+        registerText("inventory.user.remove.desc.1", "§7§oKlicke um den Spieler aus deiner Welt zu entfernen.", "§7Click to remove player from your world.");
+        registerText("inventory.user.change.name", "§bRolle ändern", "§bChange Role");
+        registerText("inventory.user.change.desc.1", "§7§oKlicke um die Rolle des Spielers zu ändern.", "§7§oClick to change player's role.");
 
         registerText("inventory.roles.addrole.name", "§bRolle hinzufügen", "§bAdd role");
         registerText("inventory.roles.addrole.desc.1", "§7§oKlicke um eine Rolle hinzuzufügen.", "§7§oClick to add role.");
@@ -134,8 +136,8 @@ public class Language {
         registerText("inventory.roles.addrole.desc.3", "§7§oDie neue Rolle wird dieselben Zugriffe wie die Visitor/Default Gruppe haben.", "§7§oThe new role will have the same admissions like the visitor/default group.");
         registerText("inventory.roles.addrole.desc.4", "§c§oMaximal sind {0} Rollen möglich.", "§c§oThe limit for roles is {0}.");
         registerText("inventory.roles.addrole.desc.5", "§c§oRollen können nicht dieselben Namen haben.", "§c§oRoles can not have the same names.");
-        registerText("inventory.roles.resetroles.name", "§bRollen zurücksetzen","§bReset roles");
-        registerText("inventory.roles.resetroles.desc.1","§7§oKlicke um Rollen auf Standart zurückzusetzen.","§7§oClick to reset roles to default.");
+        registerText("inventory.roles.resetroles.name", "§bRollen zurücksetzen", "§bReset roles");
+        registerText("inventory.roles.resetroles.desc.1", "§7§oKlicke um Rollen auf Standart zurückzusetzen.", "§7§oClick to reset roles to default.");
 
         registerText("inventory.role.each.desc.1", "§7Zugriff: {0}", "§7Admission: {0}");
         registerText("inventory.role.each.desc.2", "§7§oKlicke um Zugriff zu ändern.", "§7§oClick to change admission.");
@@ -146,7 +148,7 @@ public class Language {
         registerText("settings.blockphysics.desc", "§7§oStelle ein ob Block-Physics aktiv sind.", "§7§oSet if Block-Physics are enabled.");
         registerText("settings.blockphysics.on", "§a§lAktiv", "§a§lActive");
         registerText("settings.blockphysics.off", "§c§lInaktiv", "§c§lInactive");
-        registerText("settings.leafdecay.desc", "§7§oStelle ein ob Leaf-Decay aktiv ist." ,"§7§oSet if Leaf-Decay is enabled.");
+        registerText("settings.leafdecay.desc", "§7§oStelle ein ob Leaf-Decay aktiv ist.", "§7§oSet if Leaf-Decay is enabled.");
         registerText("settings.leafdecay.on", "§a§lAktiv", "§a§lActive");
         registerText("settings.leafdecay.off", "§c§lInaktiv", "§c§lInactive");
         registerText("settings.randomtickspeed.desc", "§7§oStelle die Geweschwindigkeit des RandomTickSpeeds ein.", "§7§oSet the speed of the randomtickspeed.");
@@ -157,7 +159,7 @@ public class Language {
         registerText("settings.randomtickspeed.ultra", "§3§lUltra", "§3§lUltra");
         registerText("settings.randomtickspeed.highspeed", "§6§lHochgeschwindigkeit", "§6§lHighspeed");
         registerText("settings.randomtickspeed.overkill", "§9§lOverkill", "§9§lOverkill");
-        registerText("settings.redstone.desc", "§7§oStelle ein ob Redstone aktiv ist." ,"§7§oSet if Redstone is enabled.");
+        registerText("settings.redstone.desc", "§7§oStelle ein ob Redstone aktiv ist.", "§7§oSet if Redstone is enabled.");
         registerText("settings.redstone.on", "§a§lAktiv", "§a§lActive");
         registerText("settings.redstone.off", "§c§lInaktiv", "§c§lInactive");
         registerText("settings.size.desc", "§7§oStelle ein wie groß die Welt ist.", "§7§oSet how big the world is.");
@@ -175,7 +177,7 @@ public class Language {
         registerText("settings.time.night", "§d§lNacht", "§d§lNight");
         registerText("settings.time.midnight", "§e§lMitternacht", "§e§lMidnight");
         registerText("settings.time.running", "§3§lZyklus", "§3§lCycle");
-        registerText("settings.unloading.desc", "§7§oStelle ein ob die Welt entladen wird, wenn sie leer ist." ,"§7§oSet if the world is going to be unloaded when emtpy.");
+        registerText("settings.unloading.desc", "§7§oStelle ein ob die Welt entladen wird, wenn sie leer ist.", "§7§oSet if the world is going to be unloaded when emtpy.");
         registerText("settings.unloading.on", "§a§lAktiv", "§a§lActive");
         registerText("settings.unloading.off", "§c§lInaktiv", "§c§lInactive");
         registerText("settings.weather.desc", "§7§oStelle das Wetter in der Welt ein.", "§7§oSet the weather of the world.");
@@ -250,7 +252,7 @@ public class Language {
         return this.languagesAndKeysAndTexts.get(language);
     }
 
-    public void unload() {
+    public void save() {
         WorldManagement.get().getSaveSystem().saveMessages(this.languagesAndKeysAndTexts);
     }
 

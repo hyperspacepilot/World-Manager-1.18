@@ -54,9 +54,6 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                             invHelper.worldInventory(player, serverWorld, null);
                             return;
                         }
-                        if (args[0].equalsIgnoreCase("help")) {
-                            sendSyntax(player, label, null);
-                        }
                         sendSyntax(player, label, null);
                     }
                     if (args.length >= 2) {
@@ -109,6 +106,20 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                     }
                                     return;
                                 }
+                            }
+                            if (args[1].equalsIgnoreCase("save")) {
+                                perm = "worldmanager.command.world.save";
+                                if (player.hasPermission(perm)) {
+                                    lang.send(player, "command.world.save.started");
+                                    long current = System.currentTimeMillis();
+                                    WorldManagement.get().getCacheSystem().save();
+                                    WorldManagement.get().getLanguage().save();
+                                    WorldManagement.get().getConfiguration().save();
+                                    lang.send(player, "command.world.save.finished", (System.currentTimeMillis() - current));
+                                } else {
+                                    lang.send(player, "general.permission.lacking", perm);
+                                }
+                                return;
                             }
                             sendSyntax(player, label, args[0]);
                             return;
@@ -196,6 +207,7 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
             player.sendMessage(Messages.SYNTAX(label, "admin create", "Create a world.", "name", "generator", "ignoreGeneration"));
             player.sendMessage(Messages.SYNTAX(label, "admin loadedworlds", "Shows all the worlds, which are currently loaded."));
             player.sendMessage(Messages.SYNTAX(label, "admin delete", "Removes a world from the system.", "worldname"));
+            player.sendMessage(Messages.SYNTAX(label, "admin save", "Saves the system."));
         }
         player.sendMessage(Messages.SYNTAX(label, "remove", "Remove a player from a world.", "player"));
         player.sendMessage(Messages.SYNTAX(label, "add", "Add a player to a world.", "player", "role"));
@@ -213,8 +225,11 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
             if (sender.hasPermission("worldmanager.admin")) {
                 list.add("admin");
             }
-            list.add("info");
             list.add("help");
+            list.add("info");
+            list.add("add");
+            list.add("remove");
+            list.add("setowner");
             for (String s : cache.getServerWorlds().keySet()) {
                 list.add(s);
             }
@@ -223,6 +238,8 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
             if (args[0].equalsIgnoreCase("admin")) {
                 list.add("create");
                 list.add("loadedworlds");
+                list.add("delete");
+                list.add("save");
             }
             if (args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("remove")) {
                 for (ServerUser user : cache.getServerUsers()) {
@@ -231,17 +248,17 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
             }
         }
         if (args.length == 3) {
-            if (args[0].equalsIgnoreCase("admin") && args[1].equalsIgnoreCase("create")) {
-                if (sender.hasPermission("worldmanager.admin")) {
-                    list.add("worldname");
+            if (args[0].equalsIgnoreCase("admin")) {
+                if (args[1].equalsIgnoreCase("create")) {
+                    if (sender.hasPermission("worldmanager.command.world.create")) {
+                        list.add("worldname");
+                    }
                 }
-            }
-        }
-        if (args.length == 4) {
-            if (args[0].equalsIgnoreCase("admin") && args[1].equalsIgnoreCase("create")) {
-                if (sender.hasPermission("worldmanager.admin")) {
-                    for (GeneratorType generatorType : GeneratorType.values()) {
-                        list.add(generatorType.name());
+                if (args[1].equalsIgnoreCase("delete")) {
+                    if (sender.hasPermission("worldmanager.command.world.delete")) {
+                        for (String s : cache.getServerWorlds().keySet()) {
+                            list.add(s);
+                        }
                     }
                 }
             }
@@ -257,11 +274,25 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                 }
             }
         }
+        if (args.length == 4) {
+            if (args[0].equalsIgnoreCase("admin")) {
+                if (args[1].equalsIgnoreCase("create")) {
+                    if (sender.hasPermission("worldmanager.command.world.create")) {
+                        for (GeneratorType generatorType : GeneratorType.values()) {
+                            list.add(generatorType.name());
+                        }
+                    }
+                }
+            }
+
+        }
         if (args.length == 5) {
-            if (args[0].equalsIgnoreCase("admin") && args[1].equalsIgnoreCase("create")) {
-                if (sender.hasPermission("worldmanager.admin")) {
-                    list.add("true");
-                    list.add("false");
+            if (args[0].equalsIgnoreCase("admin")) {
+                if (args[1].equalsIgnoreCase("create")) {
+                    if (sender.hasPermission("worldmanager.command.world.create")) {
+                        list.add("true");
+                        list.add("false");
+                    }
                 }
             }
         }

@@ -62,15 +62,17 @@ public class ConfigBase {
 
     @SneakyThrows
     public void load() {
-        this.datas = this.gson.fromJson(new FileReader(this.file), typeToken());
+        try (FileReader reader = new FileReader(this.file)) {
+            this.datas = this.gson.fromJson(reader, typeToken());
+        }
     }
 
     @SneakyThrows
     public void save() {
-        FileWriter writer = new FileWriter(this.file.getAbsolutePath());
-        gson.toJson(datas, typeToken(), writer);
-        writer.flush();
-        writer.close();
+        try (FileWriter writer = new FileWriter(this.file.getAbsolutePath())) {
+            gson.toJson(datas, typeToken(), writer);
+            writer.flush();
+        }
     }
 
     public Type typeToken() {

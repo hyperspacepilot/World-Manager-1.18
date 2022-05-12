@@ -52,7 +52,7 @@ public class WorldManagement extends JavaPlugin {
     @Override
     public void onDisable() {
         this.cacheSystem.save();
-        this.language.unload();
+        this.language.save();
         this.configuration.save();
     }
 

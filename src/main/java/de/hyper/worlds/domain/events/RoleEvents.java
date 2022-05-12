@@ -107,10 +107,12 @@ public class RoleEvents implements Listener {
         Player player = event.getPlayer();
         World world = event.getPlayer().getWorld();
         ServerWorld serverWorld = cache.getServerWorld(world.getName());
-        if (serverWorld.isAllowed(player, "worldedit")) {
-            fawe.setWEA(player, true);
-        } else {
-            fawe.setWEA(player, false);
+        if (serverWorld != null) {
+            if (serverWorld.isAllowed(player, "worldedit")) {
+                fawe.setWEA(player, true);
+            } else {
+                fawe.setWEA(player, false);
+            }
         }
     }
 

@@ -212,7 +212,7 @@ public class Inventories {
                 @Override
                 public void onClick(InventoryAction event) {
                     if (serverWorld.isAllowed(player, "enter")) {
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(WorldManagement.get(), () -> {
+                        performance.sync(() -> {
                             if (!WorldManagement.get().getCacheSystem().isLoadedWorld(serverWorld.getWorldName())) {
                                 serverWorld.load();
                             }

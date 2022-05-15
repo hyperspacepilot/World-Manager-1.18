@@ -78,8 +78,10 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                     }
                                     ServerWorld serverWorld = WorldManagement.get().getLoadHelper().createNewServerWorld(worldName, player, generatorType, ignoreGeneration);
                                     WorldManagement.get().getPerformance().sync(() -> {
-                                        Duett<World, Long> result = serverWorld.load();
-                                        lang.send(player, "command.world.createdworld", worldName, result.getValue2());
+                                        if (cache.isLoadedWorld(serverWorld.getWorldName())) {
+                                            Duett<World, Long> result = serverWorld.load();
+                                            lang.send(player, "command.world.createdworld", worldName, result.getValue2());
+                                        }
                                         teleport(player, serverWorld.getSpawnLocation());
                                     });
                                 } else {
@@ -105,6 +107,28 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                         lang.send(player, "general.permission.lacking", perm);
                                     }
                                     return;
+                                }
+                            }
+                            if (args[1].equalsIgnoreCase("rename")) {
+                                perm = "worldmanager.command.world.rename";
+                                if (player.hasPermission(perm)) {
+                                    if (args.length == 4) {
+                                        String oldName = args[2];
+                                        String newName = args[3];
+                                        ServerWorld serverWorld = cache.getServerWorld(oldName);
+                                        if (serverWorld != null) {
+                                            if (serverWorld.rename(newName)) {
+                                                lang.send(player, "command.world.rename.success", oldName, newName);
+                                            } else {
+                                                lang.send(player, "command.world.rename.failed", oldName, newName);
+                                            }
+                                        } else {
+                                            lang.send(player, "general.worldnotregistered", oldName);
+                                        }
+                                        return;
+                                    }
+                                } else {
+                                    lang.send(player, "general.permission.lacking", perm);
                                 }
                             }
                             if (args[1].equalsIgnoreCase("save")) {
@@ -207,6 +231,7 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
             player.sendMessage(Messages.SYNTAX(label, "admin create", "Create a world.", "name", "generator", "ignoreGeneration"));
             player.sendMessage(Messages.SYNTAX(label, "admin loadedworlds", "Shows all the worlds, which are currently loaded."));
             player.sendMessage(Messages.SYNTAX(label, "admin delete", "Removes a world from the system.", "worldname"));
+            player.sendMessage(Messages.SYNTAX(label, "admin rename", "Saves the system.", "oldName", "newName"));
             player.sendMessage(Messages.SYNTAX(label, "admin save", "Saves the system."));
         }
         player.sendMessage(Messages.SYNTAX(label, "remove", "Remove a player from a world.", "player"));
@@ -239,6 +264,7 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                 list.add("create");
                 list.add("loadedworlds");
                 list.add("delete");
+                list.add("rename");
                 list.add("save");
             }
             if (args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("remove")) {
@@ -258,6 +284,13 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                     if (sender.hasPermission("worldmanager.command.world.delete")) {
                         for (String s : cache.getServerWorlds().keySet()) {
                             list.add(s);
+                        }
+                    }
+                }
+                if (args[1].equalsIgnoreCase("rename")) {
+                    if (sender.hasPermission("worldmanager.command.world.create")) {
+                        for (ServerWorld serverWorld : cache.getAllServerWorlds()) {
+                            list.add(serverWorld.getWorldName());
                         }
                     }
                 }
@@ -281,6 +314,11 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                         for (GeneratorType generatorType : GeneratorType.values()) {
                             list.add(generatorType.name());
                         }
+                    }
+                }
+                if (args[1].equalsIgnoreCase("rename")) {
+                    if (sender.hasPermission("worldmanager.command.world.rename")) {
+                        list.add("newName");
                     }
                 }
             }

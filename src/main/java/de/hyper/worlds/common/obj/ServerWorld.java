@@ -12,6 +12,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,9 +27,11 @@ public class ServerWorld {
      */
 
     private final UUID uniqueID;
-    private final String worldName;
-    @Setter private UUID ownerUUID;
-    @Setter private boolean ignoreGeneration;
+    // Not finished yet.
+    private final WorldHistory history;
+    private String worldName;
+    @Setter
+    private UUID ownerUUID;
     @Setter
     private sLocation spawnLocation;
     @Setter
@@ -43,9 +47,8 @@ public class ServerWorld {
     private final ArrayList<WorldRole> roles;
     private WorldRole defaultRole;
     private final ArrayList<WorldSetting> settings;
-
-    // Not finished yet.
-    private WorldHistory history;
+    @Setter
+    private boolean ignoreGeneration;
 
     public ServerWorld(UUID uniqueID, String worldName, UUID ownerUUID, boolean ignoreGeneration, long seed, GeneratorType generatorType, CategoryType categoryType) {
         this.uniqueID = uniqueID;
@@ -79,6 +82,31 @@ public class ServerWorld {
         this.spawnLocation = new sLocation(world.getSpawnLocation());
         long took = (System.currentTimeMillis() - started);
         return new Duett<>(world, took);
+    }
+
+    public boolean rename(String newName) {
+        if (this.getBukkitWorld().getPlayerCount() > 0) {
+            return false;
+        }
+        String oldName = this.worldName;
+        WorldManagement.get().getPerformance().unloadWorld(this);
+        File oldFolder = getWorldFolder();
+        String parent = oldFolder.getParent();
+        if (!oldFolder.exists()) {
+            return false;
+        }
+        File dir = new File(oldFolder.toString());
+        if (oldFolder.isDirectory()) {
+            String newDir = Paths.get(parent, newName).toString();
+            dir.renameTo(new File(newDir));
+        }
+        this.worldName = newName;
+        WorldManagement.get().getCacheSystem().reput(oldName, newName, this);
+        return true;
+    }
+
+    private File getWorldFolder() {
+        return getBukkitWorld().getWorldFolder();
     }
 
     public boolean isAllowedToSee(Player player) {

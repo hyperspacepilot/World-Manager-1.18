@@ -26,6 +26,19 @@ public class Performance {
         Bukkit.getScheduler().scheduleSyncDelayedTask(WorldManagement.get(), run);
     }
 
+
+    public void unloadWorld(ServerWorld serverWorld) {
+        unloadWorld(serverWorld.getBukkitWorld());
+    }
+
+    public void unloadWorld(World world) {
+        if (world.getPlayers().isEmpty()) {
+            sync(() -> {
+                Bukkit.unloadWorld(world, true);
+            });
+        }
+    }
+
     public void checkAndUnloadAllUnloadWorlds() {
         async(() -> {
             for (World world : Bukkit.getWorlds()) {

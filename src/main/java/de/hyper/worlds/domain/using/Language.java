@@ -56,7 +56,8 @@ public class Language {
         registerText("command.world.setowner.notallowed", "§7Du hast in dieser Welt keinen Zugriff auf das Setzen des Welten-Owners.", "§7You don't have admission in this world to set the world owner.");
         registerText("command.world.save.started", "System wird gespeichert...", "System is saving...");
         registerText("command.world.save.finished", "System wurde gespeichert. Dauer: §9{0}ms", "System saved. Took §9{0}ms");
-
+        registerText("command.world.rename.success", "Du hast die Welt §9{0} §7zu §9{1} §7umbenannt.", "You've changed the name of the world §9{0} §7to §9{1}§7.");
+        registerText("command.world.rename.failed", "Du kannst die Welt §9{0} §7nicht umbennen. Es dürfen keine Spieler in der Welt sein.", "You can't change the name of the world §9{0}§7. There have to be no players in it.");
 
         registerText("inventory.general.pages.next", "§bNächste Seite", "§bNext page");
         registerText("inventory.general.pages.last", "§bVorherige Seite", "§bLast page");

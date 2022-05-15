@@ -42,6 +42,11 @@ public class CacheSystem {
         save();
     }
 
+    public void reput(String oldName, String newName, ServerWorld serverWorld) {
+        serverWorlds.remove(oldName, serverWorld);
+        serverWorlds.put(newName, serverWorld);
+    }
+
     public void remove(ServerWorld serverWorld) {
         serverWorlds.remove(serverWorld.getWorldName(), serverWorld);
     }

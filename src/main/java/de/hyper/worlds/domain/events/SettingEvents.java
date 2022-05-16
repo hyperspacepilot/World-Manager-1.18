@@ -275,7 +275,7 @@ public class SettingEvents implements Listener {
         World world = event.getBlock().getWorld();
         ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
         if (serverWorld != null) {
-            WorldSetting setting = serverWorld.getWorldSetting(SettingType.LEAF_DECAY);
+            WorldSetting setting = serverWorld.getWorldSetting(SettingType.REDSTONE);
             StatePart part = setting.getState().getActive();
             boolean value = Converter.getBoolean(part.getValue());
             if (!value) {

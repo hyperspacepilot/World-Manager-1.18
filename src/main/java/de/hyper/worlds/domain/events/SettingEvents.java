@@ -147,7 +147,7 @@ public class SettingEvents implements Listener {
 
     @EventHandler
     public void onSpawnerSpawn(SpawnerSpawnEvent event) {
-        if (event.getEntity() instanceof Animals ||event.getEntity() instanceof Mob) {
+        if (event.getEntity() instanceof Animals || event.getEntity() instanceof Mob) {
             World world = event.getEntity().getWorld();
             ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
             if (serverWorld != null) {
@@ -161,7 +161,7 @@ public class SettingEvents implements Listener {
 
     @EventHandler
     public void onCreateSpawn(CreatureSpawnEvent event) {
-        if (event.getEntity() instanceof Animals ||event.getEntity() instanceof Mob) {
+        if (event.getEntity() instanceof Animals || event.getEntity() instanceof Mob) {
             World world = event.getEntity().getWorld();
             ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
             if (serverWorld != null) {
@@ -175,7 +175,7 @@ public class SettingEvents implements Listener {
 
     @EventHandler
     public void onEntityDropItem(EntityDropItemEvent event) {
-        if (event.getEntity() instanceof Animals ||event.getEntity() instanceof Mob) {
+        if (event.getEntity() instanceof Animals || event.getEntity() instanceof Mob) {
             World world = event.getEntity().getWorld();
             ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
             if (serverWorld != null) {

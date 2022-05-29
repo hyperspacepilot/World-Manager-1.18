@@ -78,10 +78,8 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                     }
                                     ServerWorld serverWorld = WorldManagement.get().getLoadHelper().createNewServerWorld(worldName, player, generatorType, ignoreGeneration);
                                     WorldManagement.get().getPerformance().sync(() -> {
-                                        if (cache.isLoadedWorld(serverWorld.getWorldName())) {
-                                            Duett<World, Long> result = serverWorld.load();
-                                            lang.send(player, "command.world.createdworld", worldName, result.getValue2());
-                                        }
+                                        Duett<World, Long> result = serverWorld.load();
+                                        lang.send(player, "command.world.createdworld", worldName, result.getValue2());
                                         teleport(player, serverWorld.getSpawnLocation());
                                     });
                                 } else {

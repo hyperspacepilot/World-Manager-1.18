@@ -15,11 +15,11 @@ public enum Difficulty {
     NORMAL(2, "normal", org.bukkit.Difficulty.NORMAL),
     HARD(3, "hard", org.bukkit.Difficulty.HARD);
 
-    private int id;
-    private String lKey;
-    private org.bukkit.Difficulty dif;
+    private final int id;
+    private final String lKey;
+    private final org.bukkit.Difficulty dif;
 
-    private Difficulty(int id, String lKey, org.bukkit.Difficulty dif) {
+    Difficulty(int id, String lKey, org.bukkit.Difficulty dif) {
         this.id = id;
         this.lKey = lKey;
         this.dif = dif;
@@ -41,29 +41,10 @@ public enum Difficulty {
     }
 
     public Difficulty next() {
-        int order = this.ordinal();
-        int newSpot = 0;
-        Difficulty result = this;
-        if (order == values().length - 1)
-            newSpot = 0;
-        else
-            newSpot = order + 1;
-        for (Difficulty val : values())
-            if (val.ordinal() == newSpot)
-                result = val;
-        return result;
+        return values()[(this.ordinal() + 1) % values().length];
     }
+
     public Difficulty last() {
-        int order = this.ordinal();
-        int newSpot = 0;
-        Difficulty result = this;
-        if (order == 0)
-            newSpot = values().length - 1;
-        else
-            newSpot = order - 1;
-        for (Difficulty val : values())
-            if (val.ordinal() == newSpot)
-                result = val;
-        return result;
+        return values()[(this.ordinal() - 1 + values().length) % values().length];
     }
 }

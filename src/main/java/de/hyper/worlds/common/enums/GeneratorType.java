@@ -11,17 +11,18 @@ import org.bukkit.WorldType;
 
 public enum GeneratorType {
     @SerializedName("gen-normal") NORMAL("Normal", FilterGeneratorType.NORMAL),
-    @SerializedName("gen-large")LARGE_BIOMES("Large Biomes", FilterGeneratorType.LARGE_BIOMES),
-    @SerializedName("gen-flat")FLAT("Flat", FilterGeneratorType.FLAT),
-    @SerializedName("gen-void")VOID("Void", FilterGeneratorType.VOID),
-    @SerializedName("gen-end")END("End", FilterGeneratorType.END),
-    @SerializedName("gen-nether")NETHER("Nether", FilterGeneratorType.NETHER),
-    @SerializedName("gen-ocean")OCEAN("Ocean", FilterGeneratorType.OCEAN);
+    @SerializedName("gen-large") LARGE_BIOMES("Large Biomes", FilterGeneratorType.LARGE_BIOMES),
+    @SerializedName("gen-flat") FLAT("Flat", FilterGeneratorType.FLAT),
+    @SerializedName("gen-void") VOID("Void", FilterGeneratorType.VOID),
+    @SerializedName("gen-end") END("End", FilterGeneratorType.END),
+    @SerializedName("gen-nether") NETHER("Nether", FilterGeneratorType.NETHER),
+    @SerializedName("gen-ocean") OCEAN("Ocean", FilterGeneratorType.OCEAN);
 
-    private String name;
-    @Getter private FilterGeneratorType filter;
+    private final String name;
+    @Getter
+    private final FilterGeneratorType filter;
 
-    private GeneratorType(String name, FilterGeneratorType filter) {
+    GeneratorType(String name, FilterGeneratorType filter) {
         this.name = name;
         this.filter = filter;
     }
@@ -68,35 +69,16 @@ public enum GeneratorType {
         GeneratorType generatorType = GeneratorType.FLAT;
         try {
             generatorType = GeneratorType.valueOf(s.toUpperCase());
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return generatorType;
     }
 
     public GeneratorType last() {
-        int order = this.ordinal();
-        int newSpot = 0;
-        GeneratorType result = this;
-        if (order == 0)
-            newSpot = values().length - 1;
-        else
-            newSpot = order - 1;
-        for (GeneratorType val : values())
-            if (val.ordinal() == newSpot)
-                result = val;
-        return result;
+        return values()[(this.ordinal() - 1 + values().length) % values().length];
     }
 
     public GeneratorType next() {
-        int order = this.ordinal();
-        int newSpot = 0;
-        GeneratorType result = this;
-        if (order == values().length - 1)
-            newSpot = 0;
-        else
-            newSpot = order + 1;
-        for (GeneratorType val : values())
-            if (val.ordinal() == newSpot)
-                result = val;
-        return result;
+        return values()[(this.ordinal() + 1) % values().length];
     }
 }

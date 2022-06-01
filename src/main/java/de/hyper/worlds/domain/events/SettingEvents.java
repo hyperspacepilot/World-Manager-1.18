@@ -344,14 +344,16 @@ public class SettingEvents implements Listener {
 
     @EventHandler
     public void onWeatherChange(WeatherChangeEvent event) {
-        World world = event.getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
-        if (serverWorld != null) {
-            WorldSetting setting = serverWorld.getWorldSetting(SettingType.WEATHER);
-            StatePart part = setting.getState().getActive();
-            String value = part.getValue();
-            if (!value.equals("running")) {
-                event.setCancelled(true);
+        if (event.getCause().equals(WeatherChangeEvent.Cause.NATURAL)) {
+            World world = event.getWorld();
+            ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+            if (serverWorld != null) {
+                WorldSetting setting = serverWorld.getWorldSetting(SettingType.WEATHER);
+                StatePart part = setting.getState().getActive();
+                String value = part.getValue();
+                if (!value.equals("running")) {
+                    event.setCancelled(true);
+                }
             }
         }
     }

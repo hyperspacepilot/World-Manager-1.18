@@ -5,6 +5,7 @@ import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.CacheSystem;
 import de.hyper.worlds.domain.using.FaweAPI;
 import de.hyper.worlds.domain.using.Performance;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -108,11 +109,13 @@ public class RoleEvents implements Listener {
         World world = event.getPlayer().getWorld();
         ServerWorld serverWorld = cache.getServerWorld(world.getName());
         if (serverWorld != null) {
-            if (serverWorld.isAllowed(player, "worldedit")) {
-                fawe.setWEA(player, true);
-            } else {
-                fawe.setWEA(player, false);
-            }
+            Bukkit.getScheduler().scheduleSyncDelayedTask(WorldManagement.getInstance(), () -> {
+                if (serverWorld.isAllowed(player, "worldedit")) {
+                    fawe.setWEA(player, true);
+                } else {
+                    fawe.setWEA(player, false);
+                }
+            }, 60L);
         }
     }
 
@@ -126,11 +129,14 @@ public class RoleEvents implements Listener {
                 player.teleport(event.getFrom().getSpawnLocation());
                 return;
             }
-            if (serverWorld.isAllowed(player, "worldedit")) {
-                fawe.setWEA(player, true);
-            } else {
-                fawe.setWEA(player, false);
-            }
+            Bukkit.getScheduler().scheduleSyncDelayedTask(WorldManagement.getInstance(), () -> {
+                if (serverWorld.isAllowed(player, "worldedit")) {
+                    fawe.setWEA(player, true);
+                } else {
+                    fawe.setWEA(player, false);
+                }
+            }, 60L);
+
         }
     }
 }

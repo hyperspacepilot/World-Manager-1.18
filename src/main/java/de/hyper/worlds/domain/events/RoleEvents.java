@@ -130,6 +130,7 @@ public class RoleEvents implements Listener {
                 return;
             }
             Bukkit.getScheduler().scheduleSyncDelayedTask(WorldManagement.getInstance(), () -> {
+
                 if (serverWorld.isAllowed(player, "worldedit")) {
                     fawe.setWEA(player, true);
                 } else {

@@ -5,7 +5,6 @@ import com.sk89q.worldedit.extension.platform.Actor;
 import de.hyper.worlds.domain.WorldManagement;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

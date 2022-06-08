@@ -1,14 +1,9 @@
 package de.hyper.worlds.common.obj;
 
-import com.google.gson.Gson;
 import de.hyper.worlds.domain.WorldManagement;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.Reader;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -22,6 +17,12 @@ public class ServerUser {
     public ServerUser(UUID uuid) {
         this.uuid = uuid;
         this.name = WorldManagement.get().getName(uuid);
+        this.worldRoles = new HashMap<>();
+    }
+
+    public ServerUser(UUID uuid, String name) {
+        this.uuid = uuid;
+        this.name = name;
         this.worldRoles = new HashMap<>();
     }
 

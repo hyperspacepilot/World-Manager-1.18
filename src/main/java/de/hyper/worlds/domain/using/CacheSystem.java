@@ -136,4 +136,15 @@ public class CacheSystem {
         this.serverUsers.add(newUser);
         return newUser;
     }
+
+    public ServerUser getServerUser(UUID uuid, String name) {
+        for (ServerUser serverUser : this.serverUsers) {
+            if (serverUser.getUuid().equals(uuid)) {
+                return serverUser;
+            }
+        }
+        ServerUser newUser = new ServerUser(uuid, name);
+        this.serverUsers.add(newUser);
+        return newUser;
+    }
 }

@@ -12,7 +12,7 @@ public class JoinEvents implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        ServerUser user = WorldManagement.get().getCacheSystem().getServerUser(player.getUniqueId());
+        ServerUser user = WorldManagement.get().getCacheSystem().getServerUser(player.getUniqueId(), player.getName());
         user.update(player);
     }
 }

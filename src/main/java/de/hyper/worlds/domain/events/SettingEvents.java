@@ -363,7 +363,7 @@ public class SettingEvents implements Listener {
         World world = event.getSourceBlock().getWorld();
         ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
         if (serverWorld != null) {
-            if (event.getSourceBlock().getType() != Material.CHEST) {
+            if (event.getSourceBlock().getType() != Material.CHEST && event.getSourceBlock().getType() != Material.COMMAND_BLOCK && event.getSourceBlock().getType() != Material.CHAIN_COMMAND_BLOCK && event.getSourceBlock().getType() != Material.REPEATING_COMMAND_BLOCK) {
                 WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_PHYSICS);
                 StatePart part = setting.getState().getActive();
                 boolean value = Converter.getBoolean(part.getValue());

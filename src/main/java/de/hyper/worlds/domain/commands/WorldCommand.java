@@ -1,10 +1,7 @@
 package de.hyper.worlds.domain.commands;
 
 import de.hyper.worlds.common.enums.GeneratorType;
-import de.hyper.worlds.common.obj.Duett;
-import de.hyper.worlds.common.obj.ServerUser;
-import de.hyper.worlds.common.obj.ServerWorld;
-import de.hyper.worlds.common.obj.WorldRole;
+import de.hyper.worlds.common.obj.*;
 import de.hyper.worlds.common.util.Converter;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.CacheSystem;
@@ -49,10 +46,22 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                             sendSyntax(player, label, null);
                             return;
                         }
+                        if (args[0].equalsIgnoreCase("setspawn")) {
+                            ServerWorld serverWorld = cache.getServerWorld(player.getWorld());
+                            if (serverWorld != null) {
+                                if (serverWorld.isAllowed(player, "setspawn")) {
+                                    serverWorld.setSpawnLocation(new sLocation(player.getLocation()));
+                                    serverWorld.getBukkitWorld().setSpawnLocation(player.getLocation());
+                                    lang.send(player, "command.world.setspawn.success");
+                                    return;
+                                }
+                            }
+                            lang.send(player, "command.world.setspawn.failed");
+                            return;
+                        }
                         if (cache.existsServerWorld(args[0])) {
                             ServerWorld serverWorld = cache.getServerWorld(args[0]);
                             invHelper.worldInventory(player, serverWorld, null);
-                            return;
                         }
                         sendSyntax(player, label, null);
                     }
@@ -236,6 +245,7 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
         player.sendMessage(Messages.SYNTAX(label, "add", "Add a player to a world.", "player", "role"));
         player.sendMessage(Messages.SYNTAX(label, "setowner", "Set the new owner of the world.", "player"));
         player.sendMessage(Messages.SYNTAX(label, "info", "Opens the inventory of the world you're standing in."));
+        player.sendMessage(Messages.SYNTAX(label, "setspawn", "Set the new spawnpoint of the current world."));
         player.sendMessage(Messages.SYNTAX(label, null, "Opens the inventory of specific world.", "world"));
     }
 
@@ -253,6 +263,7 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
             list.add("add");
             list.add("remove");
             list.add("setowner");
+            list.add("setspawn");
             for (String s : cache.getServerWorlds().keySet()) {
                 list.add(s);
             }

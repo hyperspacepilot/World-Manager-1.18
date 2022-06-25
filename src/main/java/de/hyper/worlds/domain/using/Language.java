@@ -58,6 +58,8 @@ public class Language {
         registerText("command.world.save.finished", "System wurde gespeichert. Dauer: §9{0}ms", "System saved. Took §9{0}ms");
         registerText("command.world.rename.success", "Du hast die Welt §9{0} §7zu §9{1} §7umbenannt.", "You've changed the name of the world §9{0} §7to §9{1}§7.");
         registerText("command.world.rename.failed", "Du kannst die Welt §9{0} §7nicht umbennen. Es dürfen keine Spieler in der Welt sein.", "You can't change the name of the world §9{0}§7. There have to be no players in it.");
+        registerText("command.world.setspawn.success", "§7Der Spawn-Punkt der Welt wurde §aerfolgreich §7umgesetzt.", "§7The spawnpoint of the world was changed §asuccessfully§7.");
+        registerText("command.world.setspawn.failed", "§7Du kannst in dieser Welt den Spawn-Punkt §cnicht §7umsetzen.", "§7You §ccan't §7change the spawnpoint of this world.");
 
         registerText("inventory.general.pages.next", "§bNächste Seite", "§bNext page");
         registerText("inventory.general.pages.last", "§bVorherige Seite", "§bLast page");

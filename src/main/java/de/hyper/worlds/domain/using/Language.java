@@ -61,6 +61,8 @@ public class Language {
         registerText("command.world.setspawn.success", "§7Der Spawn-Punkt der Welt wurde §aerfolgreich §7umgesetzt.", "§7The spawnpoint of the world was changed §asuccessfully§7.");
         registerText("command.world.setspawn.failed", "§7Du kannst in dieser Welt den Spawn-Punkt §cnicht §7umsetzen.", "§7You §ccan't §7change the spawnpoint of this world.");
 
+        registerText("inventory.world.item.info.cannotseeseed", "§cNicht sichtbar", "§cNot visible");
+
         registerText("inventory.general.pages.next", "§bNächste Seite", "§bNext page");
         registerText("inventory.general.pages.last", "§bVorherige Seite", "§bLast page");
         registerText("inventory.general.back", "§bVorheriges Menü", "§bLast menu");

@@ -125,7 +125,8 @@ public class LoadHelper {
                 admission("Change Block-Fertilize Setting", "settings.blockfertilize.change", false),
                 admission("Change Block-Burn Setting", "settings.blockburn.change", false),
                 admission("Change GameMode Setting", "settings.gamemode.change", false),
-                admission("Change Difficulty", "attributes.difficulty.change", false)));
+                admission("Change Difficulty", "attributes.difficulty.change", false),
+                admission("See World-Seed", "seeseed", false)));
     }
 
     public WorldRole cloneOfDefaultRole(String name) {
@@ -170,7 +171,8 @@ public class LoadHelper {
                 admission("Change Block-Fertilize Setting", "settings.blockfertilize.change", false),
                 admission("Change Block-Burn Setting", "settings.blockburn.change", false),
                 admission("Change GameMode Setting", "settings.gamemode.change", false),
-                admission("Change Difficulty", "attributes.difficulty.change", false))));
+                admission("Change Difficulty", "attributes.difficulty.change", false),
+                admission("See World-Seed", "seeseed", false))));
 
         defaultRoles.add(new WorldRole(createSaveUUID(), "Admin", toList(new ArrayList<RoleAdmission>(),
                 admission("Enter World", "enter", true),
@@ -206,6 +208,7 @@ public class LoadHelper {
                 admission("Change Block-Fertilize Setting", "settings.blockfertilize.change", true),
                 admission("Change Block-Burn Setting", "settings.blockburn.change", true),
                 admission("Change GameMode Setting", "settings.gamemode.change", true),
-                admission("Change Difficulty", "attributes.difficulty.change", true))));
+                admission("Change Difficulty", "attributes.difficulty.change", true),
+                admission("See World-Seed", "seeseed", false))));
     }
 }

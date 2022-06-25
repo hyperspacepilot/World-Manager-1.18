@@ -232,7 +232,7 @@ public class Inventories {
                             setLore(
                                     lang.getText("inventory.world.item.info.desc.1", serverWorld.getWorldName()),
                                     lang.getText("inventory.world.item.info.desc.2", cache.getServerUser(serverWorld.getOwnerUUID()).getName()),
-                                    lang.getText("inventory.world.item.info.desc.3", serverWorld.getRealSeedOfBukkitWorld()),
+                                    lang.getText("inventory.world.item.info.desc.3", ((serverWorld.isAllowed(player, "seeseed") ? serverWorld.getRealSeedOfBukkitWorld() : lang.getText("inventory.world.item.info.cannotseeseed")))),
                                     lang.getText("inventory.world.item.info.desc.4", lang.getText("inventory.attributes.difficulty.desc." + serverWorld.getDifficulty().getLKey())),
                                     lang.getText("inventory.world.item.info.desc.5", serverWorld.getGeneratorType().getName()),
                                     lang.getText("inventory.world.item.info.desc.6", serverWorld.getCategoryType().getLabel()), " ",

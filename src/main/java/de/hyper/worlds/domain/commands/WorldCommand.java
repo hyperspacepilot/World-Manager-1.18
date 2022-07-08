@@ -62,8 +62,10 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                         if (cache.existsServerWorld(args[0])) {
                             ServerWorld serverWorld = cache.getServerWorld(args[0]);
                             invHelper.worldInventory(player, serverWorld, null);
+                            return;
                         }
                         sendSyntax(player, label, null);
+                        return;
                     }
                     if (args.length >= 2) {
                         String subCMD = args[0];
@@ -216,6 +218,7 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                             }
                         }
                         sendSyntax(player, label, subCMD);
+                        return;
                     }
                 } else {
                     lang.send(player, "general.permission.lacking", perm);

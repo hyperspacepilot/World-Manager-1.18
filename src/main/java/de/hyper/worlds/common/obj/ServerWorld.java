@@ -55,7 +55,7 @@ public class ServerWorld {
         this.worldName = worldName;
         this.ownerUUID = ownerUUID;
         this.ignoreGeneration = ignoreGeneration;
-        this.spawnLocation = null;
+        this.spawnLocation = new sLocation(worldName, 0.0, 60.5, 0.0, 0.0f, 0.0f);
         this.seed = seed;
         this.difficulty = Difficulty.PEACEFUL;
         this.realSeed = 0;
@@ -72,14 +72,20 @@ public class ServerWorld {
         if (!this.isIgnoreGeneration()) {
             world = generatorType.create(this.worldName, this.seed);
         } else {
-            world = Bukkit.getWorld(this.worldName);
+            for (World w : Bukkit.getWorlds()) {
+                if (w.getName().equals(this.worldName)) {
+                    world = w;
+                }
+            }
         }
         if (this.roles.isEmpty() && this.defaultRole == null) {
             resetRoles();
         }
-        this.realSeed = world.getSeed();
-        world.setDifficulty(this.difficulty.getDif());
-        this.spawnLocation = new sLocation(world.getSpawnLocation());
+        if (world != null) {
+            this.realSeed = world.getSeed();
+            world.setDifficulty(this.difficulty.getDif());
+            this.spawnLocation = new sLocation(world.getSpawnLocation());
+        }
         long took = (System.currentTimeMillis() - started);
         return new Duett<>(world, took);
     }

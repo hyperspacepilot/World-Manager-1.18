@@ -1,9 +1,9 @@
 package de.hyper.worlds.common.enums;
 
 import com.google.gson.annotations.SerializedName;
-import de.hyper.worlds.common.obj.generators.FlatChunkGenerator;
-import de.hyper.worlds.common.obj.generators.OceanChunkGenerator;
-import de.hyper.worlds.common.obj.generators.VoidChunkGenerator;
+import de.hyper.worlds.common.obj.world.generators.FlatChunkGenerator;
+import de.hyper.worlds.common.obj.world.generators.OceanChunkGenerator;
+import de.hyper.worlds.common.obj.world.generators.VoidChunkGenerator;
 import lombok.Getter;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;

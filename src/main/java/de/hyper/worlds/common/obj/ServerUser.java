@@ -1,5 +1,7 @@
 package de.hyper.worlds.common.obj;
 
+import de.hyper.worlds.common.obj.world.ServerWorld;
+import de.hyper.worlds.common.obj.world.role.WorldRole;
 import de.hyper.worlds.domain.WorldManagement;
 import lombok.Getter;
 import org.bukkit.entity.Player;

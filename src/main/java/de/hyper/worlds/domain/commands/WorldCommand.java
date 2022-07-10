@@ -1,7 +1,11 @@
 package de.hyper.worlds.domain.commands;
 
 import de.hyper.worlds.common.enums.GeneratorType;
-import de.hyper.worlds.common.obj.*;
+import de.hyper.worlds.common.obj.Duett;
+import de.hyper.worlds.common.obj.ServerUser;
+import de.hyper.worlds.common.obj.world.ServerWorld;
+import de.hyper.worlds.common.obj.world.role.WorldRole;
+import de.hyper.worlds.common.obj.world.sLocation;
 import de.hyper.worlds.common.util.Converter;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.CacheSystem;
@@ -140,6 +144,19 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                     lang.send(player, "general.permission.lacking", perm);
                                 }
                             }
+                            if (args[1].equalsIgnoreCase("reload")) {
+                                perm = "worldmanager.command.world.reload";
+                                if (player.hasPermission(perm)) {
+                                    long started = System.currentTimeMillis();
+                                    WorldManagement.get().getConfiguration().load();
+                                    WorldManagement.get().getLanguage().load(WorldManagement.get().getConfiguration().getData("language").getDataValueAsString());
+                                    WorldManagement.get().getCacheSystem().save();
+                                    lang.send(player, "command.world.reload.success", (System.currentTimeMillis() - started));
+                                    return;
+                                } else {
+                                    lang.send(player, "general.permission.lacking", perm);
+                                }
+                            }
                             if (args[1].equalsIgnoreCase("save")) {
                                 perm = "worldmanager.command.world.save";
                                 if (player.hasPermission(perm)) {
@@ -242,6 +259,7 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
             player.sendMessage(Messages.SYNTAX(label, "admin loadedworlds", "Shows all the worlds, which are currently loaded."));
             player.sendMessage(Messages.SYNTAX(label, "admin delete", "Removes a world from the system.", "worldname"));
             player.sendMessage(Messages.SYNTAX(label, "admin rename", "Saves the system.", "oldName", "newName"));
+            player.sendMessage(Messages.SYNTAX(label, "admin reload", "Reloads the system."));
             player.sendMessage(Messages.SYNTAX(label, "admin save", "Saves the system."));
         }
         player.sendMessage(Messages.SYNTAX(label, "remove", "Remove a player from a world.", "player"));
@@ -273,11 +291,14 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
         }
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase("admin")) {
-                list.add("create");
-                list.add("loadedworlds");
-                list.add("delete");
-                list.add("rename");
-                list.add("save");
+                if (sender.hasPermission("worldmanager.admin")) {
+                    list.add("create");
+                    list.add("loadedworlds");
+                    list.add("delete");
+                    list.add("rename");
+                    list.add("reload");
+                    list.add("save");
+                }
             }
             if (args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("remove")) {
                 for (ServerUser user : cache.getServerUsers()) {

@@ -2,11 +2,11 @@ package de.hyper.worlds.domain.using;
 
 import de.hyper.worlds.common.enums.CategoryType;
 import de.hyper.worlds.common.enums.GeneratorType;
-import de.hyper.worlds.common.obj.RoleAdmission;
-import de.hyper.worlds.common.obj.ServerWorld;
-import de.hyper.worlds.common.obj.WorldRole;
-import de.hyper.worlds.common.obj.WorldSetting;
-import de.hyper.worlds.common.obj.settings.*;
+import de.hyper.worlds.common.obj.world.ServerWorld;
+import de.hyper.worlds.common.obj.world.role.RoleAdmission;
+import de.hyper.worlds.common.obj.world.role.WorldRole;
+import de.hyper.worlds.common.obj.world.setting.WorldSetting;
+import de.hyper.worlds.common.obj.world.setting.settings.*;
 import de.hyper.worlds.domain.WorldManagement;
 import lombok.SneakyThrows;
 import org.bukkit.entity.Player;
@@ -126,9 +126,9 @@ public class LoadHelper {
                 admission("Change Block-Burn Setting", "settings.blockburn.change", false),
                 admission("Change GameMode Setting", "settings.gamemode.change", false),
                 admission("Change Difficulty", "attributes.difficulty.change", false),
+                admission("Edit History", "edithistory", false),
                 admission("See World-Seed", "seeseed", false)));
     }
-
     public WorldRole cloneOfDefaultRole(String name) {
         WorldRole role = getDefaultRole();
         role.setUniqueID(createSaveUUID());
@@ -172,6 +172,7 @@ public class LoadHelper {
                 admission("Change Block-Burn Setting", "settings.blockburn.change", false),
                 admission("Change GameMode Setting", "settings.gamemode.change", false),
                 admission("Change Difficulty", "attributes.difficulty.change", false),
+                admission("Edit History", "edithistory", false),
                 admission("See World-Seed", "seeseed", false))));
 
         defaultRoles.add(new WorldRole(createSaveUUID(), "Admin", toList(new ArrayList<RoleAdmission>(),
@@ -209,6 +210,7 @@ public class LoadHelper {
                 admission("Change Block-Burn Setting", "settings.blockburn.change", true),
                 admission("Change GameMode Setting", "settings.gamemode.change", true),
                 admission("Change Difficulty", "attributes.difficulty.change", true),
+                admission("Edit History", "edithistory", true),
                 admission("See World-Seed", "seeseed", false))));
     }
 }

@@ -1,6 +1,7 @@
 package de.hyper.worlds.domain;
 
 import de.hyper.worlds.domain.commands.WorldCommand;
+import de.hyper.worlds.domain.events.HistoryEvents;
 import de.hyper.worlds.domain.events.JoinEvents;
 import de.hyper.worlds.domain.events.RoleEvents;
 import de.hyper.worlds.domain.events.SettingEvents;
@@ -46,6 +47,9 @@ public class WorldManagement extends JavaPlugin {
         pluginManager.registerEvents(new RoleEvents(), this);
         pluginManager.registerEvents(new JoinEvents(), this);
         pluginManager.registerEvents(new SettingEvents(), this);
+        if (this.configuration.getData("history-use").getDataValueAsBoolean()) {
+            pluginManager.registerEvents(new HistoryEvents(), this);
+        }
     }
 
     @Override
@@ -66,7 +70,7 @@ public class WorldManagement extends JavaPlugin {
 
     public String getName(UUID uniqueID) {
         for (OfflinePlayer offPlayer : Bukkit.getOfflinePlayers()) {
-            if (offPlayer.getUniqueId().toString().equals(uniqueID)) {
+            if (offPlayer.getUniqueId().toString().equals(uniqueID.toString())) {
                 return offPlayer.getName();
             }
         }

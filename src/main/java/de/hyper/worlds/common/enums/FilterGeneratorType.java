@@ -30,7 +30,7 @@ public enum FilterGeneratorType {
 
     public HDBSkulls getItemStack() {
         if (this.equals(ALL)) {
-            return HDBSkulls.YELLOW_A;
+            return HDBSkulls.STONE_A;
         } else {
             return HDBSkulls.GRASS_BLOCK;
         }

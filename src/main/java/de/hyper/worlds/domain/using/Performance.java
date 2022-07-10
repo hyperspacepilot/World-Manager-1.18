@@ -1,7 +1,7 @@
 package de.hyper.worlds.domain.using;
 
 import de.hyper.worlds.common.enums.SettingType;
-import de.hyper.worlds.common.obj.ServerWorld;
+import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.common.util.Converter;
 import de.hyper.worlds.domain.WorldManagement;
 import org.bukkit.Bukkit;

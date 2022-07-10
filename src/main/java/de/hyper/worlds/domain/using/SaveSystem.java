@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import de.hyper.worlds.common.obj.ServerUser;
-import de.hyper.worlds.common.obj.ServerWorld;
+import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.domain.WorldManagement;
 import lombok.SneakyThrows;
 

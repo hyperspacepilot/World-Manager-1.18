@@ -16,12 +16,17 @@ public class Language {
 
     public static String ERROR_MESSAGE = "Error in language-system, please contact an administrator!";
 
-    private final String prefix;
+    private String prefix;
     private final String fallBackLanguage = Language.ENGLISH;
     private String activeLanguage;
     private HashMap<String, HashMap<String, String>> languagesAndKeysAndTexts;
 
     public Language(String language) {
+        load(language);
+        setup();
+    }
+
+    public void load(String language) {
         this.languagesAndKeysAndTexts = WorldManagement.get().getSaveSystem().getMessages();
         this.prefix = WorldManagement.get().getConfiguration().getData("prefix").getDataValueAsString();
         if (this.languagesAndKeysAndTexts == null) {
@@ -33,7 +38,6 @@ public class Language {
             this.activeLanguage = this.fallBackLanguage;
         }
         this.activeLanguage = language;
-        setup();
     }
 
     public void setup() {
@@ -60,6 +64,7 @@ public class Language {
         registerText("command.world.rename.failed", "Du kannst die Welt §9{0} §7nicht umbennen. Es dürfen keine Spieler in der Welt sein.", "You can't change the name of the world §9{0}§7. There have to be no players in it.");
         registerText("command.world.setspawn.success", "§7Der Spawn-Punkt der Welt wurde §aerfolgreich §7umgesetzt.", "§7The spawnpoint of the world was changed §asuccessfully§7.");
         registerText("command.world.setspawn.failed", "§7Du kannst in dieser Welt den Spawn-Punkt §cnicht §7umsetzen.", "§7You §ccan't §7change the spawnpoint of this world.");
+        registerText("command.world.reload.success", "§7Das System wurde neugeladen. Dauer: §9{0}ms", "§7System reloaded. Took: §9{0}ms");
 
         registerText("inventory.world.item.info.cannotseeseed", "§cNicht sichtbar", "§cNot visible");
 
@@ -112,6 +117,8 @@ public class Language {
         registerText("inventory.world.users.desc.1", "§7§oKlicke um die Mitglieder der Welt anzuzeigen.", "§7§oClick to show world's members.");
         registerText("inventory.world.settings.name", "§bEinstellungen", "§bSettings");
         registerText("inventory.world.settings.desc.1", "§7§oKlicke um die Einstellungen zu öffnen.", "§7§oClick to open settings menu.");
+        registerText("inventory.world.history.name", "§bHistory", "§bHistory");
+        registerText("inventory.world.history.desc.1", "§7§oKlicke um die History der Welt zu sehen.", "§7§oClick to view world history.");
 
         registerText("inventory.attributes.difficulty.name", "§bSchwierigkeit", "§bDifficulty");
         registerText("inventory.attributes.difficulty.desc.1", "§7§oStelle auf welcher Schwierigkeit die Welt sein soll.", "§7§oSet the difficulty the world shall have.");
@@ -236,6 +243,19 @@ public class Language {
         registerText("settings.general.leftclick", "§7§oNutze Linksklick um den nächsten Modus zu wählen.", "§7§oUse leftclick to switch to the next mode.");
         registerText("settings.general.rightclick", "§7§oNutze Rechtsklick um den vorherigen Modus zu wählen.", "§7§oUse rightclick to switch to the last mode.");
         registerText("settings.general.adminsetting", "§c§oKann nur von Administratoren verändert werden.", "§c§oCan only be changed by administrators.");
+
+        registerText("history.recordtype.block.place", "§7Block platziert: §b{0}", "§7Block placed: §b{0}");
+        registerText("history.recordtype.block.break", "§7Block zerstört: §b{0}", "§7Block breaked: §b{0}");
+        registerText("history.recordtype.role.delete", "§7Rolle gelöscht: §b{0}", "§7Role deleted: §b{0}");
+        registerText("history.recordtype.role.add", "§7Rolle hinzugefügt: §b{0}", "§7Role added: §b{0}");
+        registerText("history.recordtype.role.admission", "§7Rollen-Zugriff verändert: §b{0}", "§7Role-Admission changed: §b{0}");
+        registerText("history.recordtype.setting", "§7Einstellung verändert: §b{0}", "§7Setting changed: §b{0}");
+        registerText("history.change.display.timestamp", "§7Wann: §b{0}", "§7When: §b{0}");
+        registerText("history.change.display.editor", "§7Wer: §b{0}", "§7Who: §b{0}");
+        registerText("history.change.display.where", "§7Wo: §b{0}", "§7Where: §b{0}");
+        registerText("history.change.display.info.1", "§7§oDrücke §9Q §7§oum diese Aktion rückgängig zu machen.", "§7§oPress §9Q §7to undo this action.");
+        registerText("history.change.display.info.2", "§7§oDrücke §9Shift + Linksklick §7§oum diese Aktion rückgängig zu machen.", "§7§oPress §9Shift + Leftclick §7to undo this action.");
+
 
         WorldManagement.get().getSaveSystem().saveMessages(this.languagesAndKeysAndTexts);
     }

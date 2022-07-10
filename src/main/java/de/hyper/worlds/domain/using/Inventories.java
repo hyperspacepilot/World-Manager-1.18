@@ -2,7 +2,17 @@ package de.hyper.worlds.domain.using;
 
 import de.hyper.worlds.common.enums.FilterCategoryType;
 import de.hyper.worlds.common.enums.FilterGeneratorType;
-import de.hyper.worlds.common.obj.*;
+import de.hyper.worlds.common.enums.SortDirection;
+import de.hyper.worlds.common.obj.ServerUser;
+import de.hyper.worlds.common.obj.world.ServerWorld;
+import de.hyper.worlds.common.obj.world.ServerWorldSettingChangedEvent;
+import de.hyper.worlds.common.obj.world.WorldFilter;
+import de.hyper.worlds.common.obj.world.history.HistoryDisplay;
+import de.hyper.worlds.common.obj.world.history.HistoryRecord;
+import de.hyper.worlds.common.obj.world.history.WorldHistory;
+import de.hyper.worlds.common.obj.world.role.RoleAdmission;
+import de.hyper.worlds.common.obj.world.role.WorldRole;
+import de.hyper.worlds.common.obj.world.setting.WorldSetting;
 import de.hyper.worlds.common.util.items.GlassPane;
 import de.hyper.worlds.common.util.items.HDBSkulls;
 import de.hyper.worlds.common.util.items.ItemBuilder;
@@ -21,6 +31,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -256,8 +267,19 @@ public class Inventories {
                     usersInventory(player, serverWorld, null, 0);
                 }
             }, new ItemBuilder(HDBSkulls.MINER_NOTCH).setDisplayName(lang.getText("inventory.world.users.name")).setLore(lang.getText("inventory.world.users.desc.1")).getItem());
-            if (minv == null)
+            inv.setSlot(5, 4, new Button() {
+                @Override
+                public void onClick(InventoryAction event) {
+                    historyInventory(serverWorld, player, null, 0);
+                }
+            }, new ItemBuilder(HDBSkulls.CLOCK).setDisplayName(lang.getText("inventory.world.history.name")).setLore(lang.getText("inventory.world.history.desc.1")).getItem());
+
+            if (minv == null) {
                 inv.setPlayer(player);
+            }
+            performance.async(() -> {
+                serverWorld.getHistory().cleanUp();
+            });
         });
     }
 
@@ -629,6 +651,73 @@ public class Inventories {
                             }
                         }
                     }, new ItemBuilder(admission.getMaterial()).setDisplayName("§b" + admission.getDisplay()).setLore("§7Key: §b" + admission.getKey(), lang.getText("inventory.role.each.desc.1", admission.isAllowed()), lang.getText("inventory.role.each.desc.2")).hideAttributes().getItem());
+                    slot++;
+                    if (slot > 8) {
+                        slot = 0;
+                        row++;
+                    }
+                } else
+                    break;
+            }
+            if (minv == null)
+                inv.setPlayer(player);
+        });
+    }
+
+    private void historyInventory(ServerWorld serverWorld, Player player, Minventorry minv, int page) {
+        performance.async(() -> {
+            WorldHistory history = serverWorld.getHistory();
+            List<HistoryRecord> list = history.sort(SortDirection.DOWN, null);
+            double maxPage = (list.size() / 45);
+            Minventorry inv = minv == null ? new Minventorry("History", 6) : minv;
+            inv.setDesign(new BottomDesign(GlassPane.C7, null));
+            inv.setSlot(6, 0, new LastPageButton(page) {
+                @Override
+                public void lastPage() {
+                    historyInventory(serverWorld, player, minv, page - 1);
+                }
+            }, new ItemBuilder(HDBSkulls.OAK_WOOD_ARROW_LEFT).setDisplayName(lang.getText("inventory.general.pages.last")).getItem());
+            inv.setSlot(6, 8, new NextPageButton(page, maxPage) {
+                @Override
+                public void nextPage() {
+                    historyInventory(serverWorld, player, minv, page + 1);
+                }
+            }, new ItemBuilder(HDBSkulls.OAK_WOOD_ARROW_RIGHT).setDisplayName(lang.getText("inventory.general.pages.next")).getItem());
+
+            inv.setSlot(6, 6, new Button() {
+                @Override
+                public void onClick(InventoryAction event) {
+                    worldInventory(player, serverWorld, null);
+                }
+            }, new ItemBuilder(Material.IRON_DOOR).setDisplayName(lang.getText("inventory.general.back")).setLore(lang.getText("inventory.general.back.desc")).getItem());
+
+            for (int b = 0; b != 45; b++) {
+                inv.setSlot(b, new NoButton(), null);
+            }
+            int slot = 0;
+            int row = 1;
+            for (int a = 0; a != 45; a++) {
+                int get = a + (page * 45);
+                if (get < list.size()) {
+                    HistoryRecord record = list.get(get);
+                    HistoryDisplay display = record.getHistoryDisplay(serverWorld, record);
+                    inv.setSlot(row, slot, new Button() {
+                        @Override
+                        public void onClick(InventoryAction event) {
+                            if (serverWorld.isAllowed(player, "edithistory")) {
+                                if (event.equals(InventoryAction.DROP_ONE_SLOT)) {
+                                    record.undo(serverWorld);
+                                    history.remove(record);
+                                    historyInventory(serverWorld, player, inv, page);
+                                } else if (event.equals(InventoryAction.MOVE_TO_OTHER_INVENTORY)) {
+                                    performance.sync(() -> {
+                                        player.closeInventory(InventoryCloseEvent.Reason.TELEPORT);
+                                        player.teleport(record.getLocation().getLocation().add(0.5, 0.5, 0.5));
+                                    });
+                                }
+                            }
+                        }
+                    }, new ItemBuilder(record.getRecordType().getHdbSkull()).setDisplayName(display.getTitle()).setLore(display.getLores()).getItem());
                     slot++;
                     if (slot > 8) {
                         slot = 0;

@@ -2,7 +2,7 @@ package de.hyper.worlds.domain.using;
 
 import de.hyper.worlds.common.enums.CategoryType;
 import de.hyper.worlds.common.obj.ServerUser;
-import de.hyper.worlds.common.obj.ServerWorld;
+import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.domain.WorldManagement;
 import lombok.Getter;
 import org.bukkit.Bukkit;

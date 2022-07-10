@@ -1,6 +1,6 @@
 package de.hyper.worlds.domain.events;
 
-import de.hyper.worlds.common.obj.ServerWorld;
+import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.CacheSystem;
 import de.hyper.worlds.domain.using.FaweAPI;

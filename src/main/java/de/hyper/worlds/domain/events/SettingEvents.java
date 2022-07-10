@@ -1,10 +1,10 @@
 package de.hyper.worlds.domain.events;
 
 import de.hyper.worlds.common.enums.SettingType;
-import de.hyper.worlds.common.obj.ServerWorld;
-import de.hyper.worlds.common.obj.ServerWorldSettingChangedEvent;
-import de.hyper.worlds.common.obj.StatePart;
-import de.hyper.worlds.common.obj.WorldSetting;
+import de.hyper.worlds.common.obj.world.ServerWorld;
+import de.hyper.worlds.common.obj.world.ServerWorldSettingChangedEvent;
+import de.hyper.worlds.common.obj.world.setting.StatePart;
+import de.hyper.worlds.common.obj.world.setting.WorldSetting;
 import de.hyper.worlds.common.util.Converter;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Performance;

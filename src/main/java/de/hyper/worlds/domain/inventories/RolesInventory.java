@@ -103,13 +103,13 @@ public class RolesInventory extends Inventory {
 
     @Override
     public Inventory cleanInventory() {
-        int slot = 0;
+        int slot = 2;
         int row = 2;
         for (int i = 1; i <= 18; i++) {
             registerButton(row, slot, new NoButton(), null);
             slot++;
-            if (slot > 8) {
-                slot = 0;
+            if (slot > 7) {
+                slot = 2;
                 row++;
             }
         }

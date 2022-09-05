@@ -1,11 +1,14 @@
 package de.hyper.worlds.domain;
 
+import de.hyper.worlds.common.obj.Dependency;
+import de.hyper.worlds.common.util.inventory.InventoryManager;
 import de.hyper.worlds.domain.commands.WorldCommand;
-import de.hyper.worlds.domain.events.HistoryEvents;
 import de.hyper.worlds.domain.events.JoinEvents;
 import de.hyper.worlds.domain.events.RoleEvents;
 import de.hyper.worlds.domain.events.SettingEvents;
 import de.hyper.worlds.domain.using.*;
+import de.hyper.worlds.domain.using.apis.CoreProtectAPI;
+import de.hyper.worlds.domain.using.apis.FaweAPI;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -20,13 +23,15 @@ public class WorldManagement extends JavaPlugin {
     private int maxRoles = 18;
     private Performance performance;
     private SaveSystem saveSystem;
-    private CacheSystem cacheSystem;
+    private Cache cache;
     private LoadHelper loadHelper;
-    private Inventories inventories;
     private Language language;
-    private FaweAPI fawe;
     private Config configuration;
     private PluginManager pluginManager = Bukkit.getPluginManager();
+    private InventoryManager inventoryManager;
+    private DependencyManager dependencyManager;
+    private FaweAPI fawe;
+    private CoreProtectAPI coreProtectAPI;
 
     @Override
     public void onLoad() {
@@ -38,23 +43,24 @@ public class WorldManagement extends JavaPlugin {
         this.performance = new Performance();
         this.saveSystem = new SaveSystem();
         this.configuration = new Config();
-        this.cacheSystem = new CacheSystem();
+        this.cache = new Cache();
         this.loadHelper = new LoadHelper();
+        this.language = new Language(configuration.getData("language").asString());
+        this.inventoryManager = new InventoryManager(this, "WIS");
+        this.dependencyManager = new DependencyManager(
+                new Dependency("com.fastasyncworldedit.bukkit.FaweBukkit"),
+                new Dependency("net.coreprotect.CoreProtect"));
         this.fawe = new FaweAPI();
-        this.language = new Language(configuration.getData("language").getDataValueAsString());
-        this.inventories = new Inventories(this);
+        this.coreProtectAPI = new CoreProtectAPI();
         this.getCommand("world").setExecutor(new WorldCommand());
         pluginManager.registerEvents(new RoleEvents(), this);
         pluginManager.registerEvents(new JoinEvents(), this);
         pluginManager.registerEvents(new SettingEvents(), this);
-        if (this.configuration.getData("history-use").getDataValueAsBoolean()) {
-            pluginManager.registerEvents(new HistoryEvents(), this);
-        }
     }
 
     @Override
     public void onDisable() {
-        this.cacheSystem.save();
+        this.cache.save();
         this.language.save();
         this.configuration.save();
     }

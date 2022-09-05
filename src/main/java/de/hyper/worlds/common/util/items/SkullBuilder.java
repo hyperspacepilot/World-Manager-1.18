@@ -1,12 +1,12 @@
 package de.hyper.worlds.common.util.items;
 
-import com.destroystokyo.paper.profile.PlayerProfile;
-import com.destroystokyo.paper.profile.ProfileProperty;
-import org.bukkit.Bukkit;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
 import java.util.UUID;
 
 public class SkullBuilder {
@@ -24,9 +24,16 @@ public class SkullBuilder {
 		if (skullValue.isEmpty())
 			return head;
 		SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-		PlayerProfile playerProfile = Bukkit.createProfile(UUID.randomUUID(), "");
-		playerProfile.getProperties().add(new ProfileProperty("textures", skullValue));
-		headMeta.setPlayerProfile(playerProfile);
+		GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "");
+		gameProfile.getProperties().put("textures", new Property("textures", skullValue));
+		Field profileField = null;
+		try {
+			profileField = headMeta.getClass().getDeclaredField("profile");
+			profileField.setAccessible(true);
+			profileField.set(headMeta, gameProfile);
+		} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e1) {
+			e1.printStackTrace();
+		}
 		head.setItemMeta(headMeta);
 		return head;
 	}

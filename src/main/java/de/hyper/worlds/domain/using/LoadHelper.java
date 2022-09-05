@@ -54,8 +54,15 @@ public class LoadHelper {
     }
 
     public ServerWorld createNewServerWorld(String name, Player player, GeneratorType generatorType, boolean ignoreGeneration) {
-        ServerWorld serverWorld = new ServerWorld(createSaveUUID(), name, player.getUniqueId(), ignoreGeneration, -1, generatorType, CategoryType.OTHER);
-        WorldManagement.get().getCacheSystem().addServerWorld(serverWorld);
+        ServerWorld serverWorld = new ServerWorld(
+                createSaveUUID(),
+                name,
+                player.getUniqueId(),
+                ignoreGeneration,
+                -1,
+                generatorType,
+                CategoryType.OTHER);
+        WorldManagement.get().getCache().addServerWorld(serverWorld);
         return serverWorld;
     }
 
@@ -126,7 +133,7 @@ public class LoadHelper {
                 admission("Change Block-Burn Setting", "settings.blockburn.change", false),
                 admission("Change GameMode Setting", "settings.gamemode.change", false),
                 admission("Change Difficulty", "attributes.difficulty.change", false),
-                admission("Edit History", "edithistory", false),
+                admission("Rollback Player History", "rollback", false),
                 admission("See World-Seed", "seeseed", false)));
     }
     public WorldRole cloneOfDefaultRole(String name) {
@@ -172,7 +179,7 @@ public class LoadHelper {
                 admission("Change Block-Burn Setting", "settings.blockburn.change", false),
                 admission("Change GameMode Setting", "settings.gamemode.change", false),
                 admission("Change Difficulty", "attributes.difficulty.change", false),
-                admission("Edit History", "edithistory", false),
+                admission("Rollback Player History", "rollback", false),
                 admission("See World-Seed", "seeseed", false))));
 
         defaultRoles.add(new WorldRole(createSaveUUID(), "Admin", toList(new ArrayList<RoleAdmission>(),
@@ -210,7 +217,7 @@ public class LoadHelper {
                 admission("Change Block-Burn Setting", "settings.blockburn.change", true),
                 admission("Change GameMode Setting", "settings.gamemode.change", true),
                 admission("Change Difficulty", "attributes.difficulty.change", true),
-                admission("Edit History", "edithistory", true),
+                admission("Rollback Player History", "rollback", false),
                 admission("See World-Seed", "seeseed", false))));
     }
 }

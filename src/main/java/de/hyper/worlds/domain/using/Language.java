@@ -14,7 +14,13 @@ public class Language {
     public static String ENGLISH = "english";
     public static String GERMAN = "german";
 
-    public static String ERROR_MESSAGE = "Error in language-system, please contact an administrator!";
+    public static String ERROR_MESSAGE() {
+        return "§c§oError in language-system, please contact an administrator!";
+    }
+
+    public static String ERROR_MESSAGE(String key) {
+        return "§c§o" + key + " not available";
+    }
 
     private String prefix;
     private final String fallBackLanguage = Language.ENGLISH;
@@ -83,7 +89,7 @@ public class Language {
 
         registerText("inventory.filter.name.name", "§bNamensfilterung", "§bName filter");
         registerText("inventory.filter.name.desc.1", "§7§oKlicke um einen Filter nach Namen zu setzen.", "§7§oClick to set filter for name.");
-        registerText("inventory.filter.name.desc.2", "§7§oAktueller Namensfilter: {0}", "§7§oCurrent name filter: {0}");
+        registerText("inventory.filter.name.desc.2", "§7§oAktueller Namensfilter: §b{0}", "§7§oCurrent name filter: {0}");
         registerText("inventory.filter.subinv.cat.each.name", "§b{0}", "§b{0}");
         registerText("inventory.filter.subinv.cat.each.desc.1", "§7§oKlicke um nach {0} zu filtern.", "§7§oClick to filter for {0}.");
         registerText("inventory.filter.category.name", "§bWähle eine Kategorie", "§bChoose a category");
@@ -155,6 +161,63 @@ public class Language {
         registerText("inventory.role.each.desc.2", "§7§oKlicke um Zugriff zu ändern.", "§7§oClick to change admission.");
         registerText("inventory.role.delete.name", "§bRolle löschen", "§bDelete role");
         registerText("inventory.role.delete.desc.1", "§7§oKlicke um Rolle zu löschen.", "§7§oClick to delete role.");
+
+        registerText("inventory.history.user.desc.1", "§7Nutze LINKSKLICK um die History des Users zu sehen.", "§7Use LEFTCLICK to see the user's history.");
+        registerText("inventory.history.user.desc.2", "§7Nutze RECHTSKLICK um einen RollBack auf den User auszuführen.", "§7Use RIGHTCLICK to perform an rollback on the user.");
+
+        registerText("inventory.playerhistory.parseresult.desc.1", "§7Art§8: §b{0}", "§7Kind§8: §b{0}");
+        registerText("inventory.playerhistory.parseresult.desc.2", "§7Ort§8: §b{0}", "§7Location§8: §b{0}");
+        registerText("inventory.playerhistory.parseresult.desc.3.1", "§7Datum§8: §b{0} §7bis §b{1}", "§7Datum§8: §b{0} §7to §b{1}");
+        registerText("inventory.playerhistory.parseresult.desc.3.2", "§7Datum§8: §b{0}", "§7Datum§8: §b{0}");
+        registerText("inventory.playerhistory.parseresult.desc.4", "§7Differenz zu Jetzt§8: §b{0}", "§7Difference to now§8: §b{0}");
+        registerText("inventory.playerhistory.parseresult.desc.info.1", "§7§oLinksklick um dich zum Ort zu teleportieren.", "§7§oLeftclick to teleport to location.");
+        registerText("inventory.playerhistory.parseresult.desc.info.2", "§7§oRechtsklick zum zurücksetzen.", "§7§oRightclick for restore.");
+
+        registerText("coreprotect.action.break", "Abgebaut", "Breaked");
+        registerText("coreprotect.action.place", "Platziert", "Placed");
+        registerText("coreprotect.action.click", "Angeklickt", "Clicked");
+        registerText("coreprotect.action.unknown", "Unbekannt", "Unknown");
+        registerText("coreprotect.action.login", "Eingeloggt", "Login");
+        registerText("coreprotect.action.logout", "Ausgeloggt", "Logout");
+        registerText("coreprotect.action.kill", "Getötet", "Killed");
+
+
+        registerText("rollback.fiveminutes", "5 Minuten", "5 minutes");
+        registerText("rollback.tenminutes", "10 Minuten", "10 minuten");
+        registerText("rollback.twentyminutes", "20 Minuten", "20 minutes");
+        registerText("rollback.thirtyminutes", "30 Minuten", "30 minutes");
+        registerText("rollback.sixtyminutes", "60 Minuten", "60 minutes");
+        registerText("rollback.nintyminutes", "90 Minuten", "90 minutes");
+        registerText("rollback.twohours", "2 Stunden", "2 hours");
+        registerText("rollback.threehours", "3 Stunden", "3 hours");
+        registerText("rollback.sixhours", "6 Stunden", "6 hours");
+        registerText("rollback.twelvehours", "12 Stunden", "12 hours");
+        registerText("rollback.eightteenhours", "18 Stunden", "18 hours");
+        registerText("rollback.twentyfourhours", "24 Stunden", "24 hours");
+        registerText("rollback.thirtysixhours", "36 Stunden", "36 hours");
+        registerText("rollback.twodays", "2 Tage", "2 days");
+        registerText("rollback.threedays", "3 Tage", "3 days");
+        registerText("rollback.oneweek", "1 Woche", "1 week");
+        registerText("rollback.twoweeks", "2 Wochen", "2 weeks");
+        registerText("rollback.threeweeks", "3 Wochen", "3 weeks");
+        registerText("rollback.fourweeks", "4 Wochen", "4 weeks");
+
+        registerText("inventory.rollback.templatetime.name", "§bLänge des Rollbacks", "§bDuration of rollback");
+        registerText("inventory.rollback.templatetime.desc.1.1", "§7Gib an, wie weit die Aktionen des Spielers", "§7Set how far the players actions");
+        registerText("inventory.rollback.templatetime.desc.1.2", "  §7zurückgesetzt werden sollen.", "  §7should be rolled back.");
+        registerText("inventory.rollback.templatetime.desc.2", "§7Aktuelle Länge: §b{0}", "§7Current duration: §b{0}");
+        registerText("inventory.rollback.templatetime.desc.3", "§7Nutze LINKSKLICK um den nächsten Wert auszuwählen.", "§7Use LEFTCLICK to select the next value.");
+        registerText("inventory.rollback.templatetime.desc.4", "§7Nutze RECHTSKLICK um den vorherigen Wert auszuwählen.", "§7Use RIGHTCLICK to select the last value.");
+        registerText("inventory.rollback.templatetime.desc.5.1", "§7Nutze SHIFT und LINKSKLICK um einen eigenen Wert anzugeben", "§7Use SHIFT and LEFTCLICK to give your own value");
+        registerText("inventory.rollback.templatetime.desc.5.2", "  §7(z.B.: §7§o1w 2d 3h 4m 30s§7).", "  §7(e.g.: §7§o1w 2d 3h 4m 30s§7).");
+        registerText("inventory.rollback.confirm.name", "§bBestätigen", "§bConfirm");
+        registerText("inventory.rollback.confirm.desc.1", "§7§oKlicke um deinen Rollback des Users §b§o{0} §7§ozu bestätigen.", "§7§oClick to confirm your rollback of the player §b§o{0}§7§o.");
+        registerText("inventory.rollback.changetime.minus.oneday", "§b -1 Tag", "§b -1 day");
+        registerText("inventory.rollback.changetime.minus.onehour", "§b -1 Stunde", "§b -1 hour");
+        registerText("inventory.rollback.changetime.minus.fiveminutes", "§b -5 Minuten", "§b -5 minutes");
+        registerText("inventory.rollback.changetime.plus.fiveminutes", "§b +5 Minuten", "§b +5 minutes");
+        registerText("inventory.rollback.changetime.plus.onehour", "§b +1 Stunde", "§b +1 hour");
+        registerText("inventory.rollback.changetime.plus.oneday", "§b +1 Tag", " §b +1 day");
 
 
         registerText("settings.blockphysics.desc", "§7§oStelle ein ob Block-Physics aktiv sind.", "§7§oSet if Block-Physics are enabled.");
@@ -262,7 +325,7 @@ public class Language {
 
     public String getText(String key, Object... values) {
         if (!getLanguage(this.activeLanguage).containsKey(key)) {
-            return ERROR_MESSAGE;
+            return key.isEmpty() ? ERROR_MESSAGE() : ERROR_MESSAGE(key);
         }
         String text = getLanguage(this.activeLanguage).get(key);
         int i = 0;

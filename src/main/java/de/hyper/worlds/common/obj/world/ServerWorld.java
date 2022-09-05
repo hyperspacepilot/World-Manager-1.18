@@ -6,7 +6,6 @@ import de.hyper.worlds.common.enums.GeneratorType;
 import de.hyper.worlds.common.enums.SettingType;
 import de.hyper.worlds.common.obj.Duett;
 import de.hyper.worlds.common.obj.ServerUser;
-import de.hyper.worlds.common.obj.world.history.WorldHistory;
 import de.hyper.worlds.common.obj.world.role.WorldRole;
 import de.hyper.worlds.common.obj.world.setting.WorldSetting;
 import de.hyper.worlds.domain.WorldManagement;
@@ -27,8 +26,6 @@ import java.util.UUID;
 public class ServerWorld {
 
     private final UUID uniqueID;
-    @Setter
-    private WorldHistory history;
     private String worldName;
     @Setter
     private UUID ownerUUID;
@@ -50,7 +47,8 @@ public class ServerWorld {
     @Setter
     private boolean ignoreGeneration;
 
-    public ServerWorld(UUID uniqueID, String worldName, UUID ownerUUID, boolean ignoreGeneration, long seed, GeneratorType generatorType, CategoryType categoryType) {
+    public ServerWorld(UUID uniqueID, String worldName, UUID ownerUUID, boolean ignoreGeneration, long seed,
+                       GeneratorType generatorType, CategoryType categoryType) {
         this.uniqueID = uniqueID;
         this.worldName = worldName;
         this.ownerUUID = ownerUUID;
@@ -63,7 +61,6 @@ public class ServerWorld {
         this.categoryType = categoryType;
         this.roles = new ArrayList<>();
         this.settings = WorldManagement.get().getLoadHelper().getDefaultWorldSettings();
-        this.history = new WorldHistory();
     }
 
     public Duett<World, Long> load() {
@@ -91,7 +88,7 @@ public class ServerWorld {
     }
 
     public boolean rename(String newName) {
-        if (this.getBukkitWorld().getPlayerCount() > 0) {
+        if (this.getBukkitWorld().getPlayers().size() > 0) {
             return false;
         }
         String oldName = this.worldName;
@@ -107,7 +104,7 @@ public class ServerWorld {
             dir.renameTo(new File(newDir));
         }
         this.worldName = newName;
-        WorldManagement.get().getCacheSystem().reput(oldName, newName, this);
+        WorldManagement.get().getCache().reput(oldName, newName, this);
         return true;
     }
 
@@ -133,7 +130,7 @@ public class ServerWorld {
     }
 
     public List<ServerUser> getMembers() {
-        return WorldManagement.get().getCacheSystem().getUsersOfWorld(this);
+        return WorldManagement.get().getCache().getUsersOfWorld(this);
     }
 
     public boolean isAllowed(Player player, String admissionKey) {
@@ -155,7 +152,7 @@ public class ServerWorld {
 
     public void deleteRole(WorldRole role) {
         if (this.roles.contains(role)) {
-            WorldManagement.get().getCacheSystem().removeRole(this.uniqueID, role.getUniqueID());
+            WorldManagement.get().getCache().removeRole(this.uniqueID, role.getUniqueID());
             this.roles.remove(role);
         }
     }
@@ -194,7 +191,7 @@ public class ServerWorld {
     }
 
     public WorldRole getRoleOfHolder(UUID uuid) {
-        ServerUser serverUser = WorldManagement.get().getCacheSystem().getServerUser(uuid);
+        ServerUser serverUser = WorldManagement.get().getCache().getServerUser(uuid);
         return serverUser.getWorldRole(this);
     }
 

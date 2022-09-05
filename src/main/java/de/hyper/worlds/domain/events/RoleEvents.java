@@ -2,9 +2,9 @@ package de.hyper.worlds.domain.events;
 
 import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.domain.WorldManagement;
-import de.hyper.worlds.domain.using.CacheSystem;
-import de.hyper.worlds.domain.using.FaweAPI;
+import de.hyper.worlds.domain.using.Cache;
 import de.hyper.worlds.domain.using.Performance;
+import de.hyper.worlds.domain.using.apis.FaweAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -18,11 +18,11 @@ import org.bukkit.event.player.*;
 public class RoleEvents implements Listener {
 
     Performance performance = WorldManagement.getInstance().getPerformance();
-    CacheSystem cache = WorldManagement.getInstance().getCacheSystem();
+    Cache cache = WorldManagement.getInstance().getCache();
     FaweAPI fawe = WorldManagement.get().getFawe();
 
     @EventHandler
-    public void onPlayerHarvestBlock(PlayerFishEvent event) {
+    public void onPlayerFish(PlayerFishEvent event) {
         ServerWorld serverWorld = cache.getServerWorld(event.getPlayer().getWorld().getName());
         if (serverWorld != null) {
             if (!serverWorld.isAllowed(event.getPlayer(), "fish")) {

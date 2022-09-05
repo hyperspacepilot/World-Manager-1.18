@@ -10,7 +10,8 @@ public class VoidChunkGenerator extends ChunkGenerator {
 
     @NotNull
     @Override
-    public ChunkData generateChunkData(@NotNull World world, @NotNull Random random, int x, int z, @NotNull ChunkGenerator.BiomeGrid biome) {
+    public ChunkData generateChunkData(@NotNull World world, @NotNull Random random, int x, int z,
+                                       @NotNull ChunkGenerator.BiomeGrid biome) {
         return createChunkData(world);
     }
 }

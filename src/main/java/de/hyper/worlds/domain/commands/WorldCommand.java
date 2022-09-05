@@ -8,8 +8,10 @@ import de.hyper.worlds.common.obj.world.role.WorldRole;
 import de.hyper.worlds.common.obj.world.sLocation;
 import de.hyper.worlds.common.util.Converter;
 import de.hyper.worlds.domain.WorldManagement;
-import de.hyper.worlds.domain.using.CacheSystem;
-import de.hyper.worlds.domain.using.Inventories;
+import de.hyper.worlds.domain.inventories.LoadedWorldsInventory;
+import de.hyper.worlds.domain.inventories.MainInventory;
+import de.hyper.worlds.domain.inventories.ServerWorldInventory;
+import de.hyper.worlds.domain.using.Cache;
 import de.hyper.worlds.domain.using.Language;
 import de.hyper.worlds.domain.using.Messages;
 import org.bukkit.Bukkit;
@@ -27,8 +29,7 @@ import java.util.List;
 public class WorldCommand implements CommandExecutor, TabExecutor {
 
     Language lang = WorldManagement.get().getLanguage();
-    Inventories invHelper = WorldManagement.get().getInventories();
-    CacheSystem cache = WorldManagement.get().getCacheSystem();
+    Cache cache = WorldManagement.get().getCache();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -38,12 +39,14 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                 String perm = "worldmanager.command.world";
                 if (player.hasPermission(perm)) {
                     if (args.length == 0) {
-                        WorldManagement.get().getInventories().mainInventory(player, null);
+                        MainInventory mainInventory = new MainInventory();
+                        mainInventory.open(player).fillInventory();
                         return;
                     }
                     if (args.length == 1) {
                         if (args[0].equalsIgnoreCase("info")) {
-                            invHelper.worldInventory(player, cache.getServerWorld(player.getWorld().getName()), null);
+                            ServerWorldInventory serverWorldInventory = new ServerWorldInventory(cache.getServerWorld(player.getWorld()));
+                            serverWorldInventory.open(player).fillInventory();
                             return;
                         }
                         if (args[0].equalsIgnoreCase("help")) {
@@ -64,8 +67,8 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                             return;
                         }
                         if (cache.existsServerWorld(args[0])) {
-                            ServerWorld serverWorld = cache.getServerWorld(args[0]);
-                            invHelper.worldInventory(player, serverWorld, null);
+                            ServerWorldInventory serverWorldInventory = new ServerWorldInventory(cache.getServerWorld(args[0]));
+                            serverWorldInventory.open(player).fillInventory();
                             return;
                         }
                         sendSyntax(player, label, null);
@@ -91,7 +94,11 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                     if (args.length >= 5) {
                                         ignoreGeneration = Converter.getBoolean(args[4]);
                                     }
-                                    ServerWorld serverWorld = WorldManagement.get().getLoadHelper().createNewServerWorld(worldName, player, generatorType, ignoreGeneration);
+                                    ServerWorld serverWorld = WorldManagement.get().getLoadHelper().createNewServerWorld(
+                                            worldName,
+                                            player,
+                                            generatorType,
+                                            ignoreGeneration);
                                     WorldManagement.get().getPerformance().sync(() -> {
                                         Duett<World, Long> result = serverWorld.load();
                                         lang.send(player, "command.world.createdworld", worldName, result.getValue2());
@@ -103,7 +110,8 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                 return;
                             }
                             if (args[1].equalsIgnoreCase("loadedworlds")) {
-                                invHelper.loadedWorlds(player, null);
+                                LoadedWorldsInventory loadedWorldsInventory = new LoadedWorldsInventory();
+                                loadedWorldsInventory.open(player).fillInventory();
                                 return;
                             }
                             if (args[1].equalsIgnoreCase("delete")) {
@@ -149,8 +157,10 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                 if (player.hasPermission(perm)) {
                                     long started = System.currentTimeMillis();
                                     WorldManagement.get().getConfiguration().load();
-                                    WorldManagement.get().getLanguage().load(WorldManagement.get().getConfiguration().getData("language").getDataValueAsString());
-                                    WorldManagement.get().getCacheSystem().save();
+                                    WorldManagement.get().getLanguage().load(
+                                            WorldManagement.get().getConfiguration()
+                                                    .getData("language").getDataValueAsString());
+                                    WorldManagement.get().getCache().save();
                                     lang.send(player, "command.world.reload.success", (System.currentTimeMillis() - started));
                                     return;
                                 } else {
@@ -162,7 +172,7 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                 if (player.hasPermission(perm)) {
                                     lang.send(player, "command.world.save.started");
                                     long current = System.currentTimeMillis();
-                                    WorldManagement.get().getCacheSystem().save();
+                                    WorldManagement.get().getCache().save();
                                     WorldManagement.get().getLanguage().save();
                                     WorldManagement.get().getConfiguration().save();
                                     lang.send(player, "command.world.save.finished", (System.currentTimeMillis() - current));
@@ -183,7 +193,11 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                         if (world.existsRoleWithName(args[2])) {
                                             WorldRole role = world.getRole(args[2]);
                                             user.put(world, role);
-                                            lang.send(player, "command.world.add.success", args[1], world.getWorldName(), role.getName());
+                                            lang.send(player,
+                                                    "command.world.add.success",
+                                                    args[1],
+                                                    world.getWorldName(),
+                                                    role.getName());
                                         } else {
                                             lang.send(player, "command.world.add.noroleexisting", args[2]);
                                         }

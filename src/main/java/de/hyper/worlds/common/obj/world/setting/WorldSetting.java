@@ -3,14 +3,16 @@ package de.hyper.worlds.common.obj.world.setting;
 import de.hyper.worlds.common.enums.SettingType;
 import de.hyper.worlds.common.util.items.ItemBuilder;
 import de.hyper.worlds.domain.WorldManagement;
-import lombok.AllArgsConstructor;
+import de.hyper.worlds.domain.using.Language;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.ItemStack;
 
-@AllArgsConstructor @Getter
+@Getter
 public class WorldSetting {
+
+    Language lang = WorldManagement.get().getLanguage();
 
     private SettingType type;
     private SettingState state;
@@ -19,27 +21,37 @@ public class WorldSetting {
     private Material material;
     private boolean adminSetting;
 
+    public WorldSetting(SettingType type, SettingState state, String name, String descKey,
+                        Material material, boolean adminSetting) {
+        this.type = type;
+        this.state = state;
+        this.name = name;
+        this.descKey = descKey;
+        this.material = material;
+        this.adminSetting = adminSetting;
+    }
+
     public void change(InventoryAction action) {
         state.change(action);
     }
 
     public String[] buildItemLore() {
         String[] result = new String[state.getStateParts().length + (adminSetting ? 7 : 5)];
-        result[0] = WorldManagement.get().getLanguage().getText(this.descKey);
+        result[0] = lang.getText(this.descKey);
         result[1] = " ";
         int a = 2;
         int b = 0;
         for (StatePart statePart : state.getStateParts()) {
-            result[a] = (b == state.getActiveAsInt() ? "§7➙ " : "    ") + (WorldManagement.get().getLanguage().getText(statePart.getNameKey()));
+            result[a] = (b == state.getActiveAsInt() ? "§7➙ " : "    ") + (lang.getText(statePart.getNameKey()));
             a++;
             b++;
         }
         result[a++] = "  ";
-        result[a++] = WorldManagement.get().getLanguage().getText("settings.general.leftclick");
-        result[a++] = WorldManagement.get().getLanguage().getText("settings.general.rightclick");
+        result[a++] = lang.getText("settings.general.leftclick");
+        result[a++] = lang.getText("settings.general.rightclick");
         if (adminSetting) {
             result[a++] = "   ";
-            result[a++] = WorldManagement.get().getLanguage().getText("settings.general.adminsetting");
+            result[a++] = lang.getText("settings.general.adminsetting");
         }
         return result;
     }

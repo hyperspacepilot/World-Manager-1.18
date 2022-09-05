@@ -32,12 +32,18 @@ public enum Difficulty {
         r[1] = " ";
         int a = 2;
         for (Difficulty d : values()) {
-            r[a++] = ((d.equals(this)) ? "§7➙ " : "    ") + lang.getText("inventory.attributes.difficulty.desc." + d.getLKey());
+            r[a++] = ((d.equals(this)) ? "§7➙ " : "    ") +
+                    lang.getText("inventory.attributes.difficulty.desc." + d.getLKey());
         }
         r[a++] = "  ";
         r[a++] = lang.getText("inventory.attributes.difficulty.desc.2");
         r[a] = lang.getText("inventory.attributes.difficulty.desc.3");
-        return new ItemBuilder(Material.FLINT_AND_STEEL).setDisplayName(lang.getText("inventory.attributes.difficulty.name")).setLore(r).hideAttributes().getItem();
+        return new ItemBuilder(Material.FLINT_AND_STEEL)
+                .setDisplayName(
+                        lang.getText("inventory.attributes.difficulty.name"))
+                .setLore(r)
+                .hideAttributes()
+                .getItem();
     }
 
     public Difficulty next() {

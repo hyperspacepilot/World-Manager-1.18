@@ -42,7 +42,16 @@ public class WorldRole implements Cloneable {
     }
 
     public ItemStack buildDisplayItem() {
-        return new ItemBuilder(HDBSkulls.BACKPACK_BROWN).setDisplayName("§b" + name).setLore(WorldManagement.get().getLanguage().getText("inventory.items.worldrole.display")).getItem();
+        return buildDisplayItem(true);
+    }
+
+    public ItemStack buildDisplayItem(boolean forEditing) {
+        ItemBuilder itemBuilder = new ItemBuilder(HDBSkulls.BACKPACK_BROWN);
+        itemBuilder.setDisplayName("§b" + name);
+        if (forEditing) {
+            itemBuilder.setLore(WorldManagement.get().getLanguage().getText("inventory.items.worldrole.display"));
+        }
+        return itemBuilder.hideAttributes().getItem();
     }
 
     @Override
@@ -51,7 +60,10 @@ public class WorldRole implements Cloneable {
             WorldRole clone = (WorldRole) super.clone();
             clone.uniqueID = this.uniqueID;
             clone.name = this.name;
-            clone.admissions = (ArrayList<RoleAdmission>) WorldManagement.get().getLoadHelper().cloneOf(this.admissions, RoleAdmission.class, new ArrayList<RoleAdmission>());
+            clone.admissions = (ArrayList<RoleAdmission>) WorldManagement.get().getLoadHelper().cloneOf(
+                    this.admissions,
+                    RoleAdmission.class,
+                    new ArrayList<RoleAdmission>());
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();

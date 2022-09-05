@@ -31,7 +31,7 @@ public class SettingEvents implements Listener {
         performance.checkAndUnloadAllUnloadWorlds();
         Player player = event.getPlayer();
         World world = event.getPlayer().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             if (!player.hasPermission("worldmanager.admin.bypass.settings.gamemode")) {
                 WorldSetting setting = serverWorld.getWorldSetting(SettingType.GAMEMODE);
@@ -48,7 +48,7 @@ public class SettingEvents implements Listener {
     public void onPlayerGameModeChange(PlayerGameModeChangeEvent event) {
         Player player = event.getPlayer();
         World world = event.getPlayer().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             if (!player.hasPermission("worldmanager.admin.bypass.settings.gamemode")) {
                 WorldSetting setting = serverWorld.getWorldSetting(SettingType.GAMEMODE);
@@ -64,7 +64,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onBlockBurn(BlockBurnEvent event) {
         World world = event.getBlock().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_BURN);
             StatePart part = setting.getState().getActive();
@@ -76,7 +76,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onBlockFertilize(BlockFertilizeEvent event) {
         World world = event.getBlock().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_FERTILIZE);
             StatePart part = setting.getState().getActive();
@@ -88,7 +88,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onBlockGrow(BlockGrowEvent event) {
         World world = event.getBlock().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_GROW);
             StatePart part = setting.getState().getActive();
@@ -100,7 +100,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onBlockFromTo(BlockFromToEvent event) {
         World world = event.getBlock().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_FROM_TO);
             StatePart part = setting.getState().getActive();
@@ -112,7 +112,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onBlockForm(BlockFormEvent event) {
         World world = event.getBlock().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_FORM);
             StatePart part = setting.getState().getActive();
@@ -124,7 +124,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onEntityBlockForm(EntityBlockFormEvent event) {
         World world = event.getBlock().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.ENTITY_BLOCK_FORM);
             StatePart part = setting.getState().getActive();
@@ -136,7 +136,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onBlockSpread(BlockSpreadEvent event) {
         World world = event.getBlock().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_SPREAD);
             StatePart part = setting.getState().getActive();
@@ -149,7 +149,7 @@ public class SettingEvents implements Listener {
     public void onSpawnerSpawn(SpawnerSpawnEvent event) {
         if (event.getEntity() instanceof Animals || event.getEntity() instanceof Mob) {
             World world = event.getEntity().getWorld();
-            ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+            ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
             if (serverWorld != null) {
                 WorldSetting setting = serverWorld.getWorldSetting(SettingType.MOB_SPAWNING);
                 StatePart part = setting.getState().getActive();
@@ -163,7 +163,7 @@ public class SettingEvents implements Listener {
     public void onCreateSpawn(CreatureSpawnEvent event) {
         if (event.getEntity() instanceof Animals || event.getEntity() instanceof Mob) {
             World world = event.getEntity().getWorld();
-            ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+            ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
             if (serverWorld != null) {
                 WorldSetting setting = serverWorld.getWorldSetting(SettingType.MOB_SPAWNING);
                 StatePart part = setting.getState().getActive();
@@ -177,7 +177,7 @@ public class SettingEvents implements Listener {
     public void onEntityDropItem(EntityDropItemEvent event) {
         if (event.getEntity() instanceof Animals || event.getEntity() instanceof Mob) {
             World world = event.getEntity().getWorld();
-            ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+            ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
             if (serverWorld != null) {
                 WorldSetting setting = serverWorld.getWorldSetting(SettingType.MOB_DROPS);
                 StatePart part = setting.getState().getActive();
@@ -190,7 +190,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
         World world = event.getEntity().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.HUNGER);
             StatePart part = setting.getState().getActive();
@@ -203,7 +203,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onEntityPotionEffect(EntityPotionEffectEvent event) {
         World world = event.getEntity().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.POTION);
             StatePart part = setting.getState().getActive();
@@ -215,7 +215,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onPotionSplash(PotionSplashEvent event) {
         World world = event.getEntity().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.POTION);
             StatePart part = setting.getState().getActive();
@@ -227,7 +227,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onLingeringPotionSplash(LingeringPotionSplashEvent event) {
         World world = event.getEntity().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.POTION);
             StatePart part = setting.getState().getActive();
@@ -249,7 +249,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event) {
         World world = event.getBlock().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.EXPLOSION);
             StatePart part = setting.getState().getActive();
@@ -261,7 +261,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
         World world = event.getEntity().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.EXPLOSION);
             StatePart part = setting.getState().getActive();
@@ -273,7 +273,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onRedstone(BlockRedstoneEvent event) {
         World world = event.getBlock().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.REDSTONE);
             StatePart part = setting.getState().getActive();
@@ -287,7 +287,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onLeavesDecay(LeavesDecayEvent event) {
         World world = event.getBlock().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.LEAF_DECAY);
             StatePart part = setting.getState().getActive();
@@ -344,16 +344,14 @@ public class SettingEvents implements Listener {
 
     @EventHandler
     public void onWeatherChange(WeatherChangeEvent event) {
-        if (event.getCause().equals(WeatherChangeEvent.Cause.NATURAL)) {
-            World world = event.getWorld();
-            ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
-            if (serverWorld != null) {
-                WorldSetting setting = serverWorld.getWorldSetting(SettingType.WEATHER);
-                StatePart part = setting.getState().getActive();
-                String value = part.getValue();
-                if (!value.equals("running")) {
-                    event.setCancelled(true);
-                }
+        World world = event.getWorld();
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
+        if (serverWorld != null) {
+            WorldSetting setting = serverWorld.getWorldSetting(SettingType.WEATHER);
+            StatePart part = setting.getState().getActive();
+            String value = part.getValue();
+            if (!value.equals("running")) {
+                event.setCancelled(true);
             }
         }
     }
@@ -361,9 +359,12 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onBlockPhysics(BlockPhysicsEvent event) {
         World world = event.getSourceBlock().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
-            if (event.getSourceBlock().getType() != Material.CHEST && event.getSourceBlock().getType() != Material.COMMAND_BLOCK && event.getSourceBlock().getType() != Material.CHAIN_COMMAND_BLOCK && event.getSourceBlock().getType() != Material.REPEATING_COMMAND_BLOCK) {
+            if (event.getSourceBlock().getType() != Material.CHEST
+                    && event.getSourceBlock().getType() != Material.COMMAND_BLOCK
+                    && event.getSourceBlock().getType() != Material.CHAIN_COMMAND_BLOCK
+                    && event.getSourceBlock().getType() != Material.REPEATING_COMMAND_BLOCK) {
                 WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_PHYSICS);
                 StatePart part = setting.getState().getActive();
                 boolean value = Converter.getBoolean(part.getValue());
@@ -375,7 +376,7 @@ public class SettingEvents implements Listener {
     @EventHandler
     public void onEntityChangeBlock(EntityChangeBlockEvent event) {
         World world = event.getBlock().getWorld();
-        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
             WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_PHYSICS);
             StatePart part = setting.getState().getActive();

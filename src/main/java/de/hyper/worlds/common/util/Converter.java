@@ -19,10 +19,6 @@ public class Converter {
 		return Integer.parseInt(new String(sb).length() > 0 ? new String(sb) : "0");
 	}
 
-	public void g() {
-
-	}
-
 	public static Long getPositiveLong(String string) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < string.length(); i++) {
@@ -79,6 +75,15 @@ public class Converter {
 		for (int i = 0; i < string.length(); i++) {
 			if (numbers.contains(string.charAt(i)) || (string.charAt(i) == '.' && !sb.toString().contains("."))
 					|| string.charAt(i) == '-')
+				sb.append(string.charAt(i));
+		}
+		return Double.parseDouble(new String(sb).length() > 0 ? new String(sb) : "0");
+	}
+
+	public static Double getPositiveDouble(String string) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < string.length(); i++) {
+			if (numbers.contains(string.charAt(i)) || (string.charAt(i) == '.' && !sb.toString().contains(".")))
 				sb.append(string.charAt(i));
 		}
 		return Double.parseDouble(new String(sb).length() > 0 ? new String(sb) : "0");

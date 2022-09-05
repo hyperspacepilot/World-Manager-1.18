@@ -11,7 +11,8 @@ public class OceanChunkGenerator extends ChunkGenerator {
 
     @NotNull
     @Override
-    public ChunkData generateChunkData(@NotNull World world, @NotNull Random random, int x, int z, @NotNull ChunkGenerator.BiomeGrid biome) {
+    public ChunkData generateChunkData(@NotNull World world, @NotNull Random random, int x, int z,
+                                       @NotNull ChunkGenerator.BiomeGrid biome) {
         ChunkData chunk = createChunkData(world);
         for (int X = 0; X < 16; X++) {
             for (int Z = 0; Z < 16; Z++) {

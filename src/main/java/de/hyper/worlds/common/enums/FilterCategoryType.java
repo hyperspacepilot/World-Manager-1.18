@@ -1,7 +1,6 @@
 package de.hyper.worlds.common.enums;
 
 import de.hyper.worlds.common.util.items.HDBSkulls;
-import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ public enum FilterCategoryType {
         }
     }
 
-    public static List<FilterCategoryType> list() {
+    public static List<FilterCategoryType> asList() {
         List<FilterCategoryType> list = new ArrayList<>();
         for (FilterCategoryType f : FilterCategoryType.values()) {
             list.add(f);

@@ -22,8 +22,23 @@ public class GlassPane {
 			C13 = get(Material.GREEN_STAINED_GLASS_PANE),
 			C14 = get(Material.RED_STAINED_GLASS_PANE),
 			C15 = get(Material.BLACK_STAINED_GLASS_PANE);
-	public static final ItemStack WHITE = C0, ORANGE = C1, MAGENTA = C2, LIGHT_BLUE = C3, YELLOW = C4, LIME = C5, PINK = C6, GRAY = C7, LIGHT_GRAY = C8, CYAN = C9, PURPLE = C10, BLUE = C11, BROWN = C12, GREEN = C13, RED = C14, BLACK = C15;
-	
+	public static final ItemStack WHITE = C0,
+			ORANGE = C1,
+			MAGENTA = C2,
+			LIGHT_BLUE = C3,
+			YELLOW = C4,
+			LIME = C5,
+			PINK = C6,
+			GRAY = C7,
+			LIGHT_GRAY = C8,
+			CYAN = C9,
+			PURPLE = C10,
+			BLUE = C11,
+			BROWN = C12,
+			GREEN = C13,
+			RED = C14,
+			BLACK = C15;
+
 	private static final ItemStack get(Material mat) {
 		ItemStack is = new ItemStack(mat, 1);
 		ItemMeta im = is.getItemMeta();

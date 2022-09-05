@@ -29,15 +29,18 @@ public class WorldFilter {
         List<ServerWorld> list = new ArrayList<>();
         original.forEach(world -> {
             boolean similarName = false;
-            if (name.equals("#all") || world.getWorldName().toLowerCase().contains(name.toLowerCase())) {
+            if (name.equals("#all")
+                    || world.getWorldName().toLowerCase().contains(name.toLowerCase())) {
                 similarName = true;
             }
             boolean similarCategory = false;
-            if (categoryType.equals(FilterCategoryType.ALL) || world.getCategoryType().getFilter().equals(categoryType)) {
+            if (categoryType.equals(FilterCategoryType.ALL)
+                    || world.getCategoryType().getFilter().equals(categoryType)) {
                 similarCategory = true;
             }
             boolean similarGenerator = false;
-            if (generatorType.equals(FilterGeneratorType.ALL) || world.getGeneratorType().getFilter().equals(generatorType)) {
+            if (generatorType.equals(FilterGeneratorType.ALL)
+                    || world.getGeneratorType().getFilter().equals(generatorType)) {
                 similarGenerator = true;
             }
             if (similarName && similarCategory && similarGenerator) {

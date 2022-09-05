@@ -24,6 +24,7 @@ public enum FilterGeneratorType {
         this.label = label;
     }
 
+
     public String getLabel() {
         return label + "-Worlds";
     }
@@ -44,7 +45,7 @@ public enum FilterGeneratorType {
         }
     }
 
-    public static List<FilterGeneratorType> list() {
+    public static List<FilterGeneratorType> asList() {
         List<FilterGeneratorType> list = new ArrayList<>();
         for (FilterGeneratorType f : FilterGeneratorType.values()) {
             list.add(f);

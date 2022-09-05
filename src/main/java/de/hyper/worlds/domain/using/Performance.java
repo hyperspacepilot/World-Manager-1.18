@@ -43,8 +43,8 @@ public class Performance {
         async(() -> {
             for (World world : Bukkit.getWorlds()) {
                 if (world.getPlayers().isEmpty()) {
-                    if (WorldManagement.get().getCacheSystem().existsServerWorld(world.getName())) {
-                        ServerWorld serverWorld = WorldManagement.get().getCacheSystem().getServerWorld(world.getName());
+                    if (WorldManagement.get().getCache().existsServerWorld(world.getName())) {
+                        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
                         if (Converter.getBoolean(serverWorld.getWorldSetting(SettingType.UNLOADING).getState().getActive().getValue())) {
                             if (!serverWorld.isIgnoreGeneration()) {
                                 sync(() -> {

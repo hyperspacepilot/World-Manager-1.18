@@ -61,7 +61,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setAmont(int amount) {
+    public ItemBuilder setAmount(int amount) {
         item.setAmount(amount);
         return this;
     }

@@ -14,4 +14,12 @@ public enum SortDirection {
     private SortDirection(Comparator comparator) {
         this.comparator = comparator;
     }
+
+    public SortDirection next() {
+        return values()[(this.ordinal() + 1) % values().length];
+    }
+
+    public SortDirection last() {
+        return values()[(this.ordinal() - 1 + values().length) % values().length];
+    }
 }

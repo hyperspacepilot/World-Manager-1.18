@@ -104,6 +104,8 @@ public class Language {
         registerText("inventory.listed.each.desc.1", "§7§oKlicke um das Menü dieser Welt zu öffnen.", "§7§oClick to open the menu of this world.");
         registerText("inventory.listed.notavailable.name", "§4Nicht erreichbar", "§4Not available");
         registerText("inventory.listed.notavailable.desc.1", "§c§oDiese Welt ist nicht für dich erreichbar.", "§c§oThis world is not available for you.");
+        registerText("inventory.listed.sortdirection.up", "§bSortierung: Aufwärts", "§bSort-Order: Up");
+        registerText("inventory.listed.sortdirection.down", "§bSort-Order: Abwärts", "§bSort-Order: Down");
 
         registerText("inventory.items.worldrole.display", "§7§oKlicke um Rolle zu bearbeiten.", "§7§oClick to edit role.");
 

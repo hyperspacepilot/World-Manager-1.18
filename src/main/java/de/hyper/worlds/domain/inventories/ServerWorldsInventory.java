@@ -1,8 +1,11 @@
 package de.hyper.worlds.domain.inventories;
 
+import de.hyper.worlds.common.enums.SortDirection;
+import de.hyper.worlds.common.obj.ServerWorldComparator;
 import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.common.util.inventory.InfinityInventory;
 import de.hyper.worlds.common.util.inventory.Inventory;
+import de.hyper.worlds.common.util.inventory.buttons.Button;
 import de.hyper.worlds.common.util.inventory.buttons.NoButton;
 import de.hyper.worlds.common.util.inventory.buttons.OpenInventoryButton;
 import de.hyper.worlds.common.util.inventory.designs.BottomLineBackGroundDesign;
@@ -12,6 +15,7 @@ import de.hyper.worlds.common.util.items.ItemBuilder;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Language;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryAction;
 
 import java.util.List;
 
@@ -19,23 +23,35 @@ public class ServerWorldsInventory extends InfinityInventory<ServerWorld> {
 
     Language lang = WorldManagement.get().getLanguage();
 
+    protected SortDirection sortDirection;
+
     public ServerWorldsInventory(List<ServerWorld> list) {
         super("Worlds", 6, true);
         this.setDesign(new BottomLineBackGroundDesign(this.getRows(), null, GlassPane.C7));
+        this.sortDirection = SortDirection.UP;
         this.list = list;
+        this.list.sort(new ServerWorldComparator(sortDirection));
         this.currentPage = 0;
         this.maxPage = list.size() / 45;
     }
 
     @Override
     public Inventory fillInventory() {
-        registerButton(6, 4, new OpenInventoryButton(new MainInventory(), player),
+        registerButton(6, 0, new OpenInventoryButton(new MainInventory(), player),
                 new ItemBuilder(Material.IRON_DOOR)
                         .setDisplayName(
                                 lang.getText("inventory.general.back"))
                         .setLore(
                                 lang.getText("inventory.general.back.desc"))
                         .getItem());
+        registerButton(6, 4, new Button() {
+            @Override
+            public void onClick(InventoryAction inventoryAction) {
+                sortDirection = sortDirection.next();
+                list.sort(new ServerWorldComparator(sortDirection));
+                cleanInventory().fillInventory();
+            }
+        }, new ItemBuilder((this.sortDirection == SortDirection.UP ? HDBSkulls.OAK_WOOD_ARROW_UP : HDBSkulls.OAK_WOOD_ARROW_DOWN)).setDisplayName(lang.getText("inventory.listed.sortdirection.up")).getItem());
         if (currentPage > 0) {
             registerLastPageButton(6, 0,
                     new ItemBuilder(HDBSkulls.OAK_WOOD_ARROW_LEFT)

@@ -185,7 +185,7 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                             return;
                         }
                         if (subCMD.equalsIgnoreCase("add")) {
-                            if (args.length == 2) {
+                            if (args.length == 3) {
                                 ServerUser user = cache.getServerUser(args[1]);
                                 ServerWorld world = cache.getServerWorld(player.getWorld().getName());
                                 if (world != null) {

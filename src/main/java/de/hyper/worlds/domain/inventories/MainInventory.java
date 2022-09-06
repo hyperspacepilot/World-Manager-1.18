@@ -29,14 +29,16 @@ public class MainInventory extends Inventory {
                         .setLore(
                                 lang.getText("inventory.main.all.desc.1"))
                         .getItem());
-        registerButton(3, 4,
-                new OpenInventoryButton(new ServerWorldInventory(WorldManagement.get().getCache().getServerWorld(player.getWorld())), player),
-                new ItemBuilder(HDBSkulls.OAK_WOOD_ARROW_DOWN)
-                        .setDisplayName(
-                                lang.getText("inventory.main.current.name"))
-                        .setLore(
-                                lang.getText("inventory.main.current.desc.1"))
-                        .getItem());
+        if (WorldManagement.get().getCache().existsServerWorld(player.getWorld().getName())) {
+            registerButton(3, 4,
+                    new OpenInventoryButton(new ServerWorldInventory(WorldManagement.get().getCache().getServerWorld(player.getWorld())), player),
+                    new ItemBuilder(HDBSkulls.OAK_WOOD_ARROW_DOWN)
+                            .setDisplayName(
+                                    lang.getText("inventory.main.current.name"))
+                            .setLore(
+                                    lang.getText("inventory.main.current.desc.1"))
+                            .getItem());
+        }
         registerButton(3, 6,
                 new OpenInventoryButton(new FilterInventory(), player),
                 new ItemBuilder(Material.SPYGLASS)

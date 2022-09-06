@@ -51,7 +51,7 @@ public class ServerWorldsInventory extends InfinityInventory<ServerWorld> {
                 list.sort(new ServerWorldComparator(sortDirection));
                 cleanInventory().fillInventory();
             }
-        }, new ItemBuilder((this.sortDirection == SortDirection.UP ? HDBSkulls.OAK_WOOD_ARROW_UP : HDBSkulls.OAK_WOOD_ARROW_DOWN)).setDisplayName(lang.getText("inventory.listed.sortdirection.up")).getItem());
+        }, new ItemBuilder((this.sortDirection == SortDirection.UP ? HDBSkulls.OAK_WOOD_ARROW_UP : HDBSkulls.OAK_WOOD_ARROW_DOWN)).setDisplayName((this.sortDirection == SortDirection.UP ? lang.getText("inventory.listed.sortdirection.up") : lang.getText("inventory.listed.sortdirection.down"))).getItem());
         if (currentPage > 0) {
             registerLastPageButton(6, 0,
                     new ItemBuilder(HDBSkulls.OAK_WOOD_ARROW_LEFT)

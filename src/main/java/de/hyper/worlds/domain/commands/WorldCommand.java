@@ -207,6 +207,7 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                 } else {
                                     lang.send(player, "general.worldnotregistered", player.getWorld().getName());
                                 }
+
                                 return;
                             }
                         }

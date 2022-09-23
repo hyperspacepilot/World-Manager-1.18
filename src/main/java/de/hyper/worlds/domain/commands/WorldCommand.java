@@ -1,7 +1,7 @@
 package de.hyper.worlds.domain.commands;
 
 import de.hyper.worlds.common.enums.GeneratorType;
-import de.hyper.worlds.common.obj.Duett;
+import de.hyper.worlds.common.obj.Duple;
 import de.hyper.worlds.common.obj.ServerUser;
 import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.common.obj.world.role.WorldRole;
@@ -14,6 +14,8 @@ import de.hyper.worlds.domain.inventories.ServerWorldInventory;
 import de.hyper.worlds.domain.using.Cache;
 import de.hyper.worlds.domain.using.Language;
 import de.hyper.worlds.domain.using.Messages;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -99,11 +101,18 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                             player,
                                             generatorType,
                                             ignoreGeneration);
-                                    WorldManagement.get().getPerformance().sync(() -> {
-                                        Duett<World, Long> result = serverWorld.load();
-                                        lang.send(player, "command.world.createdworld", worldName, result.getValue2());
-                                        teleport(player, serverWorld.getSpawnLocation());
+                                    Runnable run = new Thread(() -> {
+                                        lang.send(player, "command.world.creatingworld", worldName);
+                                        Duple<World, Long> result = serverWorld.load();
+                                        TextComponent textComponent = new TextComponent(lang.getText("command.world.finishedcreating.teleport"));
+                                        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/world teleport " + worldName));
+                                        player.spigot().sendMessage(new TextComponent(TextComponent.fromLegacyText(lang.getPrefix())), new TextComponent(TextComponent.fromLegacyText(lang.getText("command.world.finishedcreating", worldName, result.getValue2()))), textComponent);
                                     });
+                                    //try {
+                                    //    WorldManagement.get().getPerformance().async(run);
+                                    //} catch (Exception e) {
+                                    WorldManagement.get().getPerformance().sync(run);
+                                    //}
                                 } else {
                                     lang.send(player, "general.permission.lacking", perm);
                                 }
@@ -179,6 +188,20 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                 } else {
                                     lang.send(player, "general.permission.lacking", perm);
                                 }
+                                return;
+                            }
+                            sendSyntax(player, label, args[0]);
+                            return;
+                        }
+                        if (subCMD.equalsIgnoreCase("teleport")) {
+                            String worldName = args[1];
+                            World world = Bukkit.getWorld(worldName);
+                            if (world != null) {
+                                Location spawnLocation = world.getSpawnLocation();
+                                if (cache.existsServerWorld(worldName)) {
+                                    spawnLocation = cache.getServerWorld(world).getSpawnLocation();
+                                }
+                                teleport(player, spawnLocation);
                                 return;
                             }
                             sendSyntax(player, label, args[0]);

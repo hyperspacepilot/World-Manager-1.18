@@ -2,6 +2,7 @@ package de.hyper.worlds.domain.using;
 
 import de.hyper.worlds.common.enums.CategoryType;
 import de.hyper.worlds.common.enums.GeneratorType;
+import de.hyper.worlds.common.obj.world.PlayerUseWorldChatEvent;
 import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.common.obj.world.role.RoleAdmission;
 import de.hyper.worlds.common.obj.world.role.WorldRole;
@@ -9,6 +10,9 @@ import de.hyper.worlds.common.obj.world.setting.WorldSetting;
 import de.hyper.worlds.common.obj.world.setting.settings.*;
 import de.hyper.worlds.domain.WorldManagement;
 import lombok.SneakyThrows;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Method;
@@ -50,6 +54,9 @@ public class LoadHelper {
         list.add(new BlockFertilizeSetting());
         list.add(new BlockBurnSetting());
         list.add(new GameModeSetting());
+        if (WorldManagement.get().getConfiguration().getData("enableable-world-chats").asBoolean()) {
+            list.add(new WorldChatSetting());
+        }
         return list;
     }
 
@@ -68,6 +75,17 @@ public class LoadHelper {
 
     public List<WorldRole> cloneOfDefaultRoles() {
         return cloneOf(defaultRoles, WorldRole.class, new ArrayList<WorldRole>());
+    }
+
+    public BaseComponent getDefaultMessageComponentForWorldChat(PlayerUseWorldChatEvent playerUseWorldChatEvent) {
+        TextComponent worldInfoComponent = new TextComponent(playerUseWorldChatEvent.getServerWorld().getWorldName());
+        worldInfoComponent.setColor(ChatColor.AQUA);
+        TextComponent partsSplitComponent = new TextComponent(" ┃ ");
+        partsSplitComponent.setColor(ChatColor.DARK_GRAY);
+        TextComponent playerDisplayNameComponent = new TextComponent(playerUseWorldChatEvent.getSenderPlayer().getName());
+        playerDisplayNameComponent.setColor(ChatColor.BLUE);
+        TextComponent messageComponent = new TextComponent(TextComponent.fromLegacyText(playerUseWorldChatEvent.getMessage().replace("&", "§"), ChatColor.GRAY));
+        return new TextComponent(worldInfoComponent, partsSplitComponent, playerDisplayNameComponent, partsSplitComponent.duplicate(), messageComponent);
     }
 
     @SneakyThrows
@@ -136,6 +154,7 @@ public class LoadHelper {
                 admission("Rollback Player History", "rollback", false),
                 admission("See World-Seed", "seeseed", false)));
     }
+
     public WorldRole cloneOfDefaultRole(String name) {
         WorldRole role = getDefaultRole();
         role.setUniqueID(createSaveUUID());

@@ -22,5 +22,6 @@ public enum SettingType {
     BLOCK_GROW,
     BLOCK_FERTILIZE,
     BLOCK_BURN,
-    GAMEMODE;
+    GAMEMODE,
+    WORLDCHAT;
 }

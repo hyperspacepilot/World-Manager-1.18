@@ -25,6 +25,10 @@ public class Config extends ConfigBase {
                 "history-idle-time",
                 259200000,
                 "Define the time a history record will be stored and deleted after it (given in milliseconds).");
+        register(
+                "enableable-world-chats",
+                true,
+                "Define if world-chats are enableable on the server. You can use the PlayerUseWorldChatEvent to use your own specific chat design.");
         save();
     }
 }

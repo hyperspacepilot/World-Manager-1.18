@@ -1,6 +1,7 @@
 package de.hyper.worlds.domain.events;
 
 import de.hyper.worlds.common.enums.SettingType;
+import de.hyper.worlds.common.obj.world.PlayerUseWorldChatEvent;
 import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.common.obj.world.ServerWorldSettingChangedEvent;
 import de.hyper.worlds.common.obj.world.setting.StatePart;
@@ -8,6 +9,7 @@ import de.hyper.worlds.common.obj.world.setting.WorldSetting;
 import de.hyper.worlds.common.util.Converter;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Performance;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.*;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Mob;
@@ -16,10 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerGameModeChangeEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class SettingEvents implements Listener {
@@ -382,6 +381,41 @@ public class SettingEvents implements Listener {
             StatePart part = setting.getState().getActive();
             boolean value = Converter.getBoolean(part.getValue());
             event.setCancelled(!value);
+        }
+    }
+
+    @EventHandler
+    public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
+        if (WorldManagement.get().getConfiguration().getData("enableable-world-chats").asBoolean()) {
+            Player player = event.getPlayer();
+            World world = player.getWorld();
+            ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
+            if (serverWorld != null) {
+                WorldSetting setting = serverWorld.getWorldSetting(SettingType.WORLDCHAT);
+                StatePart part = setting.getState().getActive();
+                boolean value = Converter.getBoolean(part.getValue());
+                event.setCancelled(value);
+                if (value) {
+                    performance.sync(() -> {
+                        String message = event.getMessage();
+                        PlayerUseWorldChatEvent eventToCall = new PlayerUseWorldChatEvent(player, WorldManagement.get().getCache().getServerUser(player.getUniqueId()), serverWorld, message);
+                        Bukkit.getPluginManager().callEvent(eventToCall);
+                        if (!eventToCall.isCancelled()) {
+                            BaseComponent baseComponent;
+                            if (eventToCall.getMessageAsComponent() != null) {
+                                baseComponent = eventToCall.getMessageAsComponent();
+                            } else {
+                                baseComponent = WorldManagement.get().getLoadHelper().getDefaultMessageComponentForWorldChat(eventToCall);
+                            }
+                            for (Player players : Bukkit.getOnlinePlayers()) {
+                                if (players.getWorld().equals(world)) {
+                                    players.spigot().sendMessage(baseComponent);
+                                }
+                            }
+                        }
+                    });
+                }
+            }
         }
     }
 }

@@ -8,23 +8,32 @@ import lombok.Getter;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.generator.ChunkGenerator;
 
+@Getter
 public enum GeneratorType {
-    @SerializedName("gen-normal") NORMAL("Normal", FilterGeneratorType.NORMAL),
-    @SerializedName("gen-large") LARGE_BIOMES("Large Biomes", FilterGeneratorType.LARGE_BIOMES),
-    @SerializedName("gen-flat") FLAT("Flat", FilterGeneratorType.FLAT),
-    @SerializedName("gen-void") VOID("Void", FilterGeneratorType.VOID),
-    @SerializedName("gen-end") END("End", FilterGeneratorType.END),
-    @SerializedName("gen-nether") NETHER("Nether", FilterGeneratorType.NETHER),
-    @SerializedName("gen-ocean") OCEAN("Ocean", FilterGeneratorType.OCEAN);
+    @SerializedName("gen-normal") NORMAL("Normal", FilterGeneratorType.NORMAL, null, WorldType.NORMAL, World.Environment.NORMAL, true),
+    @SerializedName("gen-large") LARGE_BIOMES("Large Biomes", FilterGeneratorType.LARGE_BIOMES, null, WorldType.LARGE_BIOMES, World.Environment.NORMAL, true),
+    @SerializedName("gen-flat") FLAT("Flat", FilterGeneratorType.FLAT, new FlatChunkGenerator(), null, World.Environment.NORMAL, false),
+    @SerializedName("gen-void") VOID("Void", FilterGeneratorType.VOID, new VoidChunkGenerator(), null, World.Environment.NORMAL, false),
+    @SerializedName("gen-end") END("End", FilterGeneratorType.END, null, null, World.Environment.THE_END, true),
+    @SerializedName("gen-nether") NETHER("Nether", FilterGeneratorType.NETHER, null, null, World.Environment.NETHER, true),
+    @SerializedName("gen-ocean") OCEAN("Ocean", FilterGeneratorType.OCEAN, new OceanChunkGenerator(), null, World.Environment.NORMAL, false);
 
     private final String name;
-    @Getter
     private final FilterGeneratorType filter;
+    private ChunkGenerator chunkGenerator;
+    private WorldType worldType;
+    private World.Environment environment;
+    private boolean generateStructures;
 
-    GeneratorType(String name, FilterGeneratorType filter) {
+    GeneratorType(String name, FilterGeneratorType filter, ChunkGenerator chunkGenerator, WorldType worldType, World.Environment environment, boolean generateStructures) {
         this.name = name;
         this.filter = filter;
+        this.chunkGenerator = chunkGenerator;
+        this.worldType = worldType;
+        this.environment = environment;
+        this.generateStructures = generateStructures;
     }
 
     public World create(String worldName, long seed) {

@@ -4,8 +4,9 @@ import de.hyper.worlds.common.enums.CategoryType;
 import de.hyper.worlds.common.enums.Difficulty;
 import de.hyper.worlds.common.enums.GeneratorType;
 import de.hyper.worlds.common.enums.SettingType;
-import de.hyper.worlds.common.obj.Duett;
+import de.hyper.worlds.common.obj.Duple;
 import de.hyper.worlds.common.obj.ServerUser;
+import de.hyper.worlds.common.obj.WorldCreator;
 import de.hyper.worlds.common.obj.world.role.WorldRole;
 import de.hyper.worlds.common.obj.world.setting.WorldSetting;
 import de.hyper.worlds.domain.WorldManagement;
@@ -63,11 +64,15 @@ public class ServerWorld {
         this.settings = WorldManagement.get().getLoadHelper().getDefaultWorldSettings();
     }
 
-    public Duett<World, Long> load() {
+    public Duple<World, Long> load() {
         long started = System.currentTimeMillis();
         World world = null;
         if (!this.isIgnoreGeneration()) {
+            /*
             world = generatorType.create(this.worldName, this.seed);
+             */
+            WorldCreator worldCreator = new WorldCreator(this.generatorType, this.worldName, this.seed);
+            world = worldCreator.create();
         } else {
             for (World w : Bukkit.getWorlds()) {
                 if (w.getName().equals(this.worldName)) {
@@ -84,7 +89,7 @@ public class ServerWorld {
             this.spawnLocation = new sLocation(world.getSpawnLocation());
         }
         long took = (System.currentTimeMillis() - started);
-        return new Duett<>(world, took);
+        return new Duple<>(world, took);
     }
 
     public boolean rename(String newName) {

@@ -55,6 +55,9 @@ public class Language {
 
 
         registerText("command.world.createdworld", "§7Welt §9{0} §7erstellt und geladen, dauerte §9{1}ms§7.", "§7World §9{0} §7created and loaded, took §9{1}ms§7.");
+        registerText("command.world.creatingworld", "§7Welt §9{0} §7wird erstellt, dies kann ein bisschen dauern.", "§7Creating world §9{0} §7, this might take a while.");
+        registerText("command.world.finishedcreating", "§7Welt §9{0} §7erstellt und geladen, dauerte §9{1}ms§7.", "§7World §9{0} §7created and loaded, took §9{1}ms§7.");
+        registerText("command.world.finishedcreating.teleport", " §8[§b§lTeleportieren§8]", " §8[§b§lTeleport§8]");
         registerText("command.world.alreadyexisting", "§7Es gibt bereits eine Welt namens §9{0}§7.", "§7There's already a world called §9{0}§7.");
         registerText("command.world.add.notallowed", "§7Du hast in dieser Welt keinen Zugriff auf das Hinzufügen von Spielern.", "§7You don't have admission in this world to add players.");
         registerText("command.world.add.noroleexisting", "§7In dieser Welt gibt es keine Rolle namens §9{0}§7.", "§7There's no role in this world called §9{0}§7.");
@@ -304,6 +307,9 @@ public class Language {
         registerText("settings.gamemode.creative", "§e§lCreative", "§e§lCreative");
         registerText("settings.gamemode.spectator", "§5§lZuschauer", "§5§lSpectator");
         registerText("settings.gamemode.adventure", "§c§lAbenteuer", "§c§lAventure");
+        registerText("settings.worldchat.desc", "§7§oStelle ein ob der World-Chat aktiv ist.", "§7§oSet if the worldchat is enabled.");
+        registerText("settings.worldchat.on", "§a§lAn", "§a§lOn");
+        registerText("settings.worldchat.off", "§c§lAus", "§c§lOff");
 
         registerText("settings.general.leftclick", "§7§oNutze Linksklick um den nächsten Modus zu wählen.", "§7§oUse leftclick to switch to the next mode.");
         registerText("settings.general.rightclick", "§7§oNutze Rechtsklick um den vorherigen Modus zu wählen.", "§7§oUse rightclick to switch to the last mode.");

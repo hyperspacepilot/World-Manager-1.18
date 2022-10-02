@@ -73,6 +73,19 @@ public class LoadHelper {
         return serverWorld;
     }
 
+    public ServerWorld createNewServerWorld(String name, Player player, GeneratorType generatorType, boolean ignoreGeneration, long seed) {
+        ServerWorld serverWorld = new ServerWorld(
+                createSaveUUID(),
+                name,
+                player.getUniqueId(),
+                ignoreGeneration,
+                seed,
+                generatorType,
+                CategoryType.OTHER);
+        WorldManagement.get().getCache().addServerWorld(serverWorld);
+        return serverWorld;
+    }
+
     public List<WorldRole> cloneOfDefaultRoles() {
         return cloneOf(defaultRoles, WorldRole.class, new ArrayList<WorldRole>());
     }

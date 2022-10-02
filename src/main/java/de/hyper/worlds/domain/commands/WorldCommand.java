@@ -96,11 +96,15 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                     if (args.length >= 5) {
                                         ignoreGeneration = Converter.getBoolean(args[4]);
                                     }
+                                    long seed = -1;
+                                    if (args.length >= 6) {
+                                        seed = Converter.getLong(args[5]);
+                                    }
                                     ServerWorld serverWorld = WorldManagement.get().getLoadHelper().createNewServerWorld(
                                             worldName,
                                             player,
                                             generatorType,
-                                            ignoreGeneration);
+                                            ignoreGeneration, seed);
                                     Runnable run = new Thread(() -> {
                                         lang.send(player, "command.world.creatingworld", worldName);
                                         Duple<World, Long> result = serverWorld.load();
@@ -401,6 +405,15 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                     if (sender.hasPermission("worldmanager.command.world.create")) {
                         list.add("true");
                         list.add("false");
+                    }
+                }
+            }
+        }
+        if (args.length == 6) {
+            if (args[0].equalsIgnoreCase("admin")) {
+                if (args[1].equalsIgnoreCase("create")) {
+                    if (sender.hasPermission("worldmanager.command.world.create")) {
+                        list.add("seed");
                     }
                 }
             }

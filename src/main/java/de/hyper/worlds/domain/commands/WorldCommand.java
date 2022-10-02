@@ -332,16 +332,6 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
             }
         }
         if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("admin")) {
-                if (sender.hasPermission("worldmanager.admin")) {
-                    list.add("create");
-                    list.add("loadedworlds");
-                    list.add("delete");
-                    list.add("rename");
-                    list.add("reload");
-                    list.add("save");
-                }
-            }
             if (args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("remove")) {
                 for (ServerUser user : cache.getServerUsers()) {
                     list.add(user.getName());
@@ -349,27 +339,6 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
             }
         }
         if (args.length == 3) {
-            if (args[0].equalsIgnoreCase("admin")) {
-                if (args[1].equalsIgnoreCase("create")) {
-                    if (sender.hasPermission("worldmanager.command.world.create")) {
-                        list.add("worldname");
-                    }
-                }
-                if (args[1].equalsIgnoreCase("delete")) {
-                    if (sender.hasPermission("worldmanager.command.world.delete")) {
-                        for (String s : cache.getServerWorlds().keySet()) {
-                            list.add(s);
-                        }
-                    }
-                }
-                if (args[1].equalsIgnoreCase("rename")) {
-                    if (sender.hasPermission("worldmanager.command.world.create")) {
-                        for (ServerWorld serverWorld : cache.getAllServerWorlds()) {
-                            list.add(serverWorld.getWorldName());
-                        }
-                    }
-                }
-            }
             if (args[0].equalsIgnoreCase("add")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -382,38 +351,66 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                 }
             }
         }
-        if (args.length == 4) {
+        if (args.length >= 2 && args.length <= 6) {
             if (args[0].equalsIgnoreCase("admin")) {
-                if (args[1].equalsIgnoreCase("create")) {
-                    if (sender.hasPermission("worldmanager.command.world.create")) {
-                        for (GeneratorType generatorType : GeneratorType.values()) {
-                            list.add(generatorType.name());
+                if (sender.hasPermission("worldmanager.admin")) {
+                    if (args.length == 2) {
+                        list.add("create");
+                        list.add("loadedworlds");
+                        list.add("delete");
+                        list.add("rename");
+                        list.add("reload");
+                        list.add("save");
+                    } else if (args.length == 3) {
+                        switch (args[1].toLowerCase()) {
+                            case "create":
+                                if (sender.hasPermission("worldmanager.command.world.create")) {
+                                    list.add("worldname");
+                                }
+                                break;
+                            case "delete":
+                                if (sender.hasPermission("worldmanager.command.world.delete")) {
+                                    for (String s : cache.getServerWorlds().keySet()) {
+                                        list.add(s);
+                                    }
+                                }
+                                break;
+                            case "rename":
+                                if (sender.hasPermission("worldmanager.command.world.rename")) {
+                                    for (String s : cache.getServerWorlds().keySet()) {
+                                        list.add(s);
+                                    }
+                                }
+                                break;
                         }
-                    }
-                }
-                if (args[1].equalsIgnoreCase("rename")) {
-                    if (sender.hasPermission("worldmanager.command.world.rename")) {
-                        list.add("newName");
-                    }
-                }
-            }
-
-        }
-        if (args.length == 5) {
-            if (args[0].equalsIgnoreCase("admin")) {
-                if (args[1].equalsIgnoreCase("create")) {
-                    if (sender.hasPermission("worldmanager.command.world.create")) {
-                        list.add("true");
-                        list.add("false");
-                    }
-                }
-            }
-        }
-        if (args.length == 6) {
-            if (args[0].equalsIgnoreCase("admin")) {
-                if (args[1].equalsIgnoreCase("create")) {
-                    if (sender.hasPermission("worldmanager.command.world.create")) {
-                        list.add("seed");
+                    } else if (args.length == 4) {
+                        switch (args[1].toLowerCase()) {
+                            case "create":
+                                if (sender.hasPermission("worldmanager.command.world.create")) {
+                                    for (GeneratorType generatorType : GeneratorType.values()) {
+                                        list.add(generatorType.name());
+                                    }
+                                }
+                                break;
+                            case "rename":
+                                if (sender.hasPermission("worldmanager.command.world.rename")) {
+                                    list.add("newName");
+                                }
+                                break;
+                        }
+                    } else if (args.length == 5) {
+                        if (args[1].equalsIgnoreCase("create")) {
+                            if (sender.hasPermission("worldmanager.command.world.create")) {
+                                list.add("true");
+                                list.add("false");
+                            }
+                        }
+                    } else if (args.length == 6) {
+                        if (args[1].equalsIgnoreCase("create")) {
+                            if (sender.hasPermission("worldmanager.command.world.create")) {
+                                list.add("seed");
+                            }
+                        }
                     }
                 }
             }

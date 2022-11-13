@@ -5,6 +5,7 @@ import de.hyper.worlds.common.enums.Difficulty;
 import de.hyper.worlds.common.enums.GeneratorType;
 import de.hyper.worlds.common.enums.SettingType;
 import de.hyper.worlds.common.obj.Duple;
+import de.hyper.worlds.common.obj.InventoryData;
 import de.hyper.worlds.common.obj.ServerUser;
 import de.hyper.worlds.common.obj.WorldCreator;
 import de.hyper.worlds.common.obj.world.role.WorldRole;
@@ -68,9 +69,6 @@ public class ServerWorld {
         long started = System.currentTimeMillis();
         World world = null;
         if (!this.isIgnoreGeneration()) {
-            /*
-            world = generatorType.create(this.worldName, this.seed);
-             */
             WorldCreator worldCreator = new WorldCreator(this.generatorType, this.worldName, this.seed);
             world = worldCreator.create();
         } else {
@@ -88,8 +86,17 @@ public class ServerWorld {
             world.setDifficulty(this.difficulty.getDif());
             this.spawnLocation = new sLocation(world.getSpawnLocation());
         }
+        for (WorldSetting setting : WorldManagement.get().getLoadHelper().getDefaultWorldSettings()) {
+            if (!hasSettingType(setting)) {
+                this.settings.add(setting);
+            }
+        }
         long took = (System.currentTimeMillis() - started);
         return new Duple<>(world, took);
+    }
+
+    public boolean hasSettingType(WorldSetting worldSettingToProve) {
+        return (this.getWorldSetting(worldSettingToProve.getType()) != null);
     }
 
     public boolean rename(String newName) {
@@ -210,5 +217,13 @@ public class ServerWorld {
 
     public boolean isOwner(UUID uuid) {
         return this.ownerUUID.equals(uuid);
+    }
+
+    public ArrayList<InventoryData> getInventoriesFromServerUser(ServerUser serverUser) {
+        return WorldManagement.get().getCache().getInventoriesFromPlayerAndWorld(this, serverUser);
+    }
+
+    public ArrayList<InventoryData> getInventoriesFromPlayer(Player player) {
+        return WorldManagement.get().getCache().getInventoriesFromPlayerAndWorld(this, player);
     }
 }

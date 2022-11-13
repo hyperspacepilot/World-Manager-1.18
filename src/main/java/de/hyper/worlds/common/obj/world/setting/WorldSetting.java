@@ -3,7 +3,6 @@ package de.hyper.worlds.common.obj.world.setting;
 import de.hyper.worlds.common.enums.SettingType;
 import de.hyper.worlds.common.util.items.ItemBuilder;
 import de.hyper.worlds.domain.WorldManagement;
-import de.hyper.worlds.domain.using.Language;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryAction;
@@ -11,8 +10,6 @@ import org.bukkit.inventory.ItemStack;
 
 @Getter
 public class WorldSetting {
-
-    Language lang = WorldManagement.get().getLanguage();
 
     private SettingType type;
     private SettingState state;

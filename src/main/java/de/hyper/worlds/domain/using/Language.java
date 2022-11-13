@@ -310,6 +310,9 @@ public class Language {
         registerText("settings.worldchat.desc", "§7§oStelle ein ob der World-Chat aktiv ist.", "§7§oSet if the worldchat is enabled.");
         registerText("settings.worldchat.on", "§a§lAn", "§a§lOn");
         registerText("settings.worldchat.off", "§c§lAus", "§c§lOff");
+        registerText("settings.worldinventories.desc", "§7§oStelle ein, ob dein Inventar in dieser Welt gespeichert wird.", "§7§oSet if your inventory will be saved in this world.");
+        registerText("settings.worldinventories.off", "§c§lAus", "§c§lOff");
+        registerText("settings.worldinventories.on", "§a§lAn", "§a§lOn");
 
         registerText("settings.general.leftclick", "§7§oNutze Linksklick um den nächsten Modus zu wählen.", "§7§oUse leftclick to switch to the next mode.");
         registerText("settings.general.rightclick", "§7§oNutze Rechtsklick um den vorherigen Modus zu wählen.", "§7§oUse rightclick to switch to the last mode.");

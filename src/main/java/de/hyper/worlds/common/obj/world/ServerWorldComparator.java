@@ -1,7 +1,6 @@
-package de.hyper.worlds.common.obj;
+package de.hyper.worlds.common.obj.world;
 
 import de.hyper.worlds.common.enums.SortDirection;
-import de.hyper.worlds.common.obj.world.ServerWorld;
 import lombok.AllArgsConstructor;
 
 import java.util.Comparator;

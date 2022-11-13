@@ -3,7 +3,6 @@ package de.hyper.worlds.domain.events;
 import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Cache;
-import de.hyper.worlds.domain.using.Performance;
 import de.hyper.worlds.domain.using.apis.FaweAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -17,7 +16,6 @@ import org.bukkit.event.player.*;
 
 public class RoleEvents implements Listener {
 
-    Performance performance = WorldManagement.getInstance().getPerformance();
     Cache cache = WorldManagement.getInstance().getCache();
     FaweAPI fawe = WorldManagement.get().getFawe();
 

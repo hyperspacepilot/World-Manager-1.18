@@ -1,14 +1,17 @@
 package de.hyper.worlds.domain.using;
 
 import de.hyper.worlds.common.enums.CategoryType;
+import de.hyper.worlds.common.obj.InventoryData;
 import de.hyper.worlds.common.obj.ServerUser;
 import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.domain.WorldManagement;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +23,7 @@ public class Cache {
 
     private CopyOnWriteArrayList<ServerUser> serverUsers;
     private ConcurrentHashMap<String, ServerWorld> serverWorlds;
+    private ConcurrentHashMap<String, HashMap<String, ArrayList<InventoryData>>> worldPlayerInventories;
 
     public Cache() {
         load();
@@ -28,6 +32,7 @@ public class Cache {
     public void save() {
         WorldManagement.get().getSaveSystem().saveWorlds(this.serverWorlds);
         WorldManagement.get().getSaveSystem().saveUsers(this.serverUsers);
+        WorldManagement.get().getSaveSystem().saveWorldPlayerInventories(this.worldPlayerInventories);
     }
 
     public void load() {
@@ -38,6 +43,10 @@ public class Cache {
         this.serverUsers = WorldManagement.get().getSaveSystem().getUsers();
         if (this.serverUsers == null) {
             this.serverUsers = new CopyOnWriteArrayList<>();
+        }
+        this.worldPlayerInventories = WorldManagement.get().getSaveSystem().getWorldPlayerInventories();
+        if (this.worldPlayerInventories == null) {
+            this.worldPlayerInventories = new ConcurrentHashMap<>();
         }
         save();
     }
@@ -53,6 +62,18 @@ public class Cache {
 
     public List<ServerWorld> getAllServerWorlds() {
         return this.serverWorlds.values().stream().collect(Collectors.toList());
+    }
+
+    public HashMap<String, ArrayList<InventoryData>> getInventoriesFromWorld(ServerWorld serverWorld) {
+        return this.worldPlayerInventories.get(serverWorld.getUniqueID().toString());
+    }
+
+    public ArrayList<InventoryData> getInventoriesFromPlayerAndWorld(ServerWorld serverWorld, ServerUser serverUser) {
+        return this.worldPlayerInventories.get(serverWorld.getUniqueID().toString()).get(serverUser.getUuid().toString());
+    }
+
+    public ArrayList<InventoryData> getInventoriesFromPlayerAndWorld(ServerWorld serverWorld, Player player) {
+        return this.worldPlayerInventories.get(serverWorld.getUniqueID().toString()).get(player.getUniqueId().toString());
     }
 
     public List<ServerWorld> getServerWorldsBySimilarName(String name) {

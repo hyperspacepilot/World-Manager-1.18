@@ -29,6 +29,10 @@ public class Config extends ConfigBase {
                 "enableable-world-chats",
                 true,
                 "Define if world-chats are enableable on the server. You can use the PlayerUseWorldChatEvent to use your own specific chat design.");
+        register(
+                "world-inventories",
+                true,
+                "Define if inventories for each world should be saved and retrievable.");
         save();
     }
 }

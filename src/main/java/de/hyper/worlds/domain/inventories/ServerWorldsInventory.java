@@ -1,8 +1,8 @@
 package de.hyper.worlds.domain.inventories;
 
 import de.hyper.worlds.common.enums.SortDirection;
-import de.hyper.worlds.common.obj.ServerWorldComparator;
 import de.hyper.worlds.common.obj.world.ServerWorld;
+import de.hyper.worlds.common.obj.world.ServerWorldComparator;
 import de.hyper.worlds.common.util.inventory.InfinityInventory;
 import de.hyper.worlds.common.util.inventory.Inventory;
 import de.hyper.worlds.common.util.inventory.buttons.Button;

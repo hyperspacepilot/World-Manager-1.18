@@ -11,6 +11,8 @@ import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Performance;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -360,11 +362,13 @@ public class SettingEvents implements Listener {
         World world = event.getSourceBlock().getWorld();
         ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
         if (serverWorld != null) {
-            if (event.getSourceBlock().getType() != Material.CHEST
-                    && event.getSourceBlock().getType() != Material.COMMAND_BLOCK
-                    && event.getSourceBlock().getType() != Material.CHAIN_COMMAND_BLOCK
-                    && event.getSourceBlock().getType() != Material.REPEATING_COMMAND_BLOCK) {
-                WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_PHYSICS);
+            Block block = event.getSourceBlock();
+            if (block.getType() != Material.CHEST
+                    && block.getType() != Material.COMMAND_BLOCK
+                    && block.getType() != Material.CHAIN_COMMAND_BLOCK
+                    && block.getType() != Material.REPEATING_COMMAND_BLOCK) {
+                SettingType settingType = block instanceof Powerable ? SettingType.REDSTONE : SettingType.BLOCK_PHYSICS;
+                WorldSetting setting = serverWorld.getWorldSetting(settingType);
                 StatePart part = setting.getState().getActive();
                 boolean value = Converter.getBoolean(part.getValue());
                 event.setCancelled(!value);

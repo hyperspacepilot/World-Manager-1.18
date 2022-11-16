@@ -1,6 +1,9 @@
 package de.hyper.worlds.domain;
 
+import de.hyper.worlds.common.enums.SettingType;
 import de.hyper.worlds.common.obj.Dependency;
+import de.hyper.worlds.common.obj.world.ServerWorld;
+import de.hyper.worlds.common.util.Converter;
 import de.hyper.worlds.common.util.inventory.InventoryManager;
 import de.hyper.worlds.domain.commands.WorldCommand;
 import de.hyper.worlds.domain.events.JoinEvents;
@@ -56,6 +59,11 @@ public class WorldManagement extends JavaPlugin {
         pluginManager.registerEvents(new RoleEvents(), this);
         pluginManager.registerEvents(new JoinEvents(), this);
         pluginManager.registerEvents(new SettingEvents(), this);
+        for (ServerWorld serverWorld : this.cache.getAllServerWorlds()) {
+            if ((Converter.getBoolean(serverWorld.getWorldSetting(SettingType.UNLOADING).getState().getActive().getValue()))) {
+                serverWorld.load();
+            }
+        }
     }
 
     @Override

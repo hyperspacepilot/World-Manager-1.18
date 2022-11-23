@@ -59,12 +59,14 @@ public class WorldManagement extends JavaPlugin {
         pluginManager.registerEvents(new RoleEvents(), this);
         pluginManager.registerEvents(new JoinEvents(), this);
         pluginManager.registerEvents(new SettingEvents(), this);
-        for (ServerWorld serverWorld : this.cache.getAllServerWorlds()) {
-            if ((Converter.getBoolean(serverWorld.getWorldSetting(SettingType.UNLOADING).getState().getActive().getValue()))) {
-                serverWorld.load();
+        performance.async(() -> performance.sync(() -> {
+            for (ServerWorld serverWorld : this.cache.getAllServerWorlds()) {
+                if (!Converter.getBoolean(serverWorld.getWorldSetting(SettingType.UNLOADING).getState().getActive().getValue())) {
+                    serverWorld.load();
+                }
+                serverWorld.importMissingSettings();
             }
-            serverWorld.importMissingSettings();
-        }
+        }));
     }
 
     @Override

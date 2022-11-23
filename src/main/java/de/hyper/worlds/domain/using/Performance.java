@@ -39,21 +39,19 @@ public class Performance {
     }
 
     public void checkAndUnloadAllUnloadWorlds() {
-        async(() -> {
+        async(() -> sync(() -> {
             for (World world : Bukkit.getWorlds()) {
                 if (world.getPlayers().isEmpty()) {
                     if (WorldManagement.get().getCache().existsServerWorld(world.getName())) {
                         ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
                         if (Converter.getBoolean(serverWorld.getWorldSetting(SettingType.UNLOADING).getState().getActive().getValue())) {
                             if (!serverWorld.isIgnoreGeneration()) {
-                                sync(() -> {
-                                    Bukkit.unloadWorld(world, true);
-                                });
+                                Bukkit.unloadWorld(world, true);
                             }
                         }
                     }
                 }
             }
-        });
+        }));
     }
 }

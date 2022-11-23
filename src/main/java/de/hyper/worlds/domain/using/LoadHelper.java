@@ -54,6 +54,7 @@ public class LoadHelper {
         list.add(new BlockFertilizeSetting());
         list.add(new BlockBurnSetting());
         list.add(new GameModeSetting());
+        list.add(new BlockFadeSetting());
         if (WorldManagement.get().getConfiguration().getData("enableable-world-chats").asBoolean()) {
             list.add(new WorldChatSetting());
         }

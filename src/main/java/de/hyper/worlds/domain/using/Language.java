@@ -313,6 +313,9 @@ public class Language {
         registerText("settings.worldinventories.desc", "§7§oStelle ein, ob dein Inventar in dieser Welt gespeichert wird.", "§7§oSet if your inventory will be saved in this world.");
         registerText("settings.worldinventories.off", "§c§lAus", "§c§lOff");
         registerText("settings.worldinventories.on", "§a§lAn", "§a§lOn");
+        registerText("settings.blockfade.desc", "§7§oStelle ein ob Blöcke verwelken/verbleichen können.", "§7§oSet if the blocks can fade out.");
+        registerText("settings.blockfade.on", "§a§lAn", "§a§lOn");
+        registerText("settings.blockfade.off", "§c§lAus", "§c§lOff");
 
         registerText("settings.general.leftclick", "§7§oNutze Linksklick um den nächsten Modus zu wählen.", "§7§oUse leftclick to switch to the next mode.");
         registerText("settings.general.rightclick", "§7§oNutze Rechtsklick um den vorherigen Modus zu wählen.", "§7§oUse rightclick to switch to the last mode.");

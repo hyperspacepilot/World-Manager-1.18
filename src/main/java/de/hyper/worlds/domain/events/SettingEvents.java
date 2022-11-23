@@ -345,6 +345,18 @@ public class SettingEvents implements Listener {
     }
 
     @EventHandler
+    public void onBlockFade(BlockFadeEvent event) {
+        World world = event.getBlock().getWorld();
+        ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
+        if (serverWorld != null) {
+            WorldSetting setting = serverWorld.getWorldSetting(SettingType.BLOCK_FADE);
+            StatePart part = setting.getState().getActive();
+            boolean value = Converter.getBoolean(part.getValue());
+            event.setCancelled(!value);
+        }
+    }
+
+    @EventHandler
     public void onRedstone(BlockRedstoneEvent event) {
         World world = event.getBlock().getWorld();
         ServerWorld serverWorld = WorldManagement.get().getCache().getServerWorld(world.getName());
@@ -357,8 +369,6 @@ public class SettingEvents implements Listener {
             }
         }
     }
-
-
 
     @EventHandler
     public void onBlockPhysics(BlockPhysicsEvent event) {

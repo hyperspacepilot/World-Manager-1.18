@@ -24,5 +24,6 @@ public enum SettingType {
     BLOCK_BURN,
     GAMEMODE,
     WORLDCHAT,
-    WORLDINVENTORIES;
+    WORLDINVENTORIES,
+    BLOCK_FADE;
 }

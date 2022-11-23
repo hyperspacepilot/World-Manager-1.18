@@ -1,5 +1,5 @@
 name: World-Manager
-version: 2.1.1
+version: 2.2.2
 author: hyperspace_pilot
 main: de.hyper.worlds.domain.WorldManagement
 api-version: 1.18

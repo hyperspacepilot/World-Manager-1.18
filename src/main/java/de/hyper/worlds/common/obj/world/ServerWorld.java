@@ -86,13 +86,17 @@ public class ServerWorld {
             world.setDifficulty(this.difficulty.getDif());
             this.spawnLocation = new sLocation(world.getSpawnLocation());
         }
+        importMissingSettings();
+        long took = (System.currentTimeMillis() - started);
+        return new Duple<>(world, took);
+    }
+
+    public void importMissingSettings() {
         for (WorldSetting setting : WorldManagement.get().getLoadHelper().getDefaultWorldSettings()) {
             if (!hasSettingType(setting)) {
                 this.settings.add(setting);
             }
         }
-        long took = (System.currentTimeMillis() - started);
-        return new Duple<>(world, took);
     }
 
     public boolean hasSettingType(WorldSetting worldSettingToProve) {

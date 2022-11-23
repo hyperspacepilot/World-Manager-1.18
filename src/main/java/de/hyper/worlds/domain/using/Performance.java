@@ -26,7 +26,6 @@ public class Performance {
         Bukkit.getScheduler().scheduleSyncDelayedTask(WorldManagement.get(), run);
     }
 
-
     public void unloadWorld(ServerWorld serverWorld) {
         unloadWorld(serverWorld.getBukkitWorld());
     }

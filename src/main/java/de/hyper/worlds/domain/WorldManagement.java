@@ -63,6 +63,7 @@ public class WorldManagement extends JavaPlugin {
             if ((Converter.getBoolean(serverWorld.getWorldSetting(SettingType.UNLOADING).getState().getActive().getValue()))) {
                 serverWorld.load();
             }
+            serverWorld.importMissingSettings();
         }
     }
 

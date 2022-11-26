@@ -24,16 +24,7 @@ public class FaweAPI {
 
     public void setWEA(Player player, boolean allowed) {
         if (existsFAWE) {
-            if (!hasWEA.contains(player) && allowed) {
-                hasWEA.add(player);
-                getFaweActor(player).togglePermission("fawe.bypass");
-                return;
-            } else if (hasWEA.contains(player) && !allowed) {
-                hasWEA.remove(player);
-                getFaweActor(player).togglePermission("fawe.bypass");
-                return;
-            }
-            hasWEA.remove(player);
+            getFaweActor(player).setPermission("fawe.bypass", allowed);
         }
     }
 

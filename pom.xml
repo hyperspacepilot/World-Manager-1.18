@@ -19,7 +19,7 @@
         </repository>
         <repository>
             <id>coreprotect-repo</id>
-            <url>http://maven.playpro.com</url>
+            <url>https://maven.playpro.com</url>
         </repository>
     </repositories>
 

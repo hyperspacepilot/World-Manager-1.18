@@ -2,14 +2,14 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
-      <option name="id" value="papermc" />
-      <option name="name" value="paper" />
-      <option name="url" value="https://papermc.io/repo/repository/maven-public/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="citizens-repo" />
       <option name="name" value="citizens-repo" />
       <option name="url" value="https://maven.citizensnpcs.co/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="papermc" />
+      <option name="name" value="paper" />
+      <option name="url" value="https://papermc.io/repo/repository/maven-public/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
@@ -30,6 +30,11 @@
       <option name="id" value="bukkit-repo" />
       <option name="name" value="bukkit-repo" />
       <option name="url" value="http://repo.bukkit.org/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="coreprotect-repo" />
+      <option name="name" value="coreprotect-repo" />
+      <option name="url" value="https://maven.playpro.com" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />

@@ -76,6 +76,10 @@ public class Cache {
         return this.worldPlayerInventories.get(serverWorld.getUniqueID().toString()).get(player.getUniqueId().toString());
     }
 
+    public List<ServerWorld> getServerWorldsFromPlayer(Player player) {
+        return getAllServerWorlds().stream().filter(serverWorld -> serverWorld.getOwnerUUID().equals(player.getUniqueId())).collect(Collectors.toList());
+    }
+
     public List<ServerWorld> getServerWorldsBySimilarName(String name) {
         List<ServerWorld> list = new CopyOnWriteArrayList<>();
         for (ServerWorld serverWorld : this.serverWorlds.values()) {

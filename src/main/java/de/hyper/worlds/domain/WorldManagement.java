@@ -6,6 +6,7 @@ import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.common.util.Converter;
 import de.hyper.worlds.common.util.inventory.InventoryManager;
 import de.hyper.worlds.domain.commands.WorldCommand;
+import de.hyper.worlds.domain.commands.WorldConsoleCommand;
 import de.hyper.worlds.domain.events.JoinEvents;
 import de.hyper.worlds.domain.events.RoleEvents;
 import de.hyper.worlds.domain.events.SettingEvents;
@@ -56,6 +57,7 @@ public class WorldManagement extends JavaPlugin {
         this.fawe = new FaweAPI();
         this.coreProtectAPI = new CoreProtectAPI();
         this.getCommand("world").setExecutor(new WorldCommand());
+        this.getCommand("worldconsole").setExecutor(new WorldConsoleCommand());
         pluginManager.registerEvents(new RoleEvents(), this);
         pluginManager.registerEvents(new JoinEvents(), this);
         pluginManager.registerEvents(new SettingEvents(), this);

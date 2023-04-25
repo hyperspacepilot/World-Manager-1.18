@@ -12,3 +12,6 @@ commands:
       - worlds
       - welt
       - welten
+  worldconsole:
+    aliases:
+      - consoleworld

@@ -56,5 +56,10 @@
       <option name="name" value="coreprotect-repo" />
       <option name="url" value="http://maven.playpro.com" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="rosewood" />
+      <option name="name" value="rosewood" />
+      <option name="url" value="https://repo.rosewooddev.io/repository/public/" />
+    </remote-repository>
   </component>
 </project>

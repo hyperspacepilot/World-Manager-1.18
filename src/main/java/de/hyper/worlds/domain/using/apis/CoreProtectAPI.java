@@ -35,7 +35,7 @@ public class CoreProtectAPI {
 
     public List<ParseResult> getBlockActionsFromUUIDInWorld(String uuid, String worldName) {
         List<ParseResult> list = new ArrayList<>();
-        String sql = "SELECT * FROM co_block WHERE user=(SELECT rowid FROM co_user WHERE uuid='" + uuid + "') AND wid=(SELECT id FROM co_world WHERE world='" + worldName + "') AND (action=0 OR action=1) AND rolled_back=0 ORDER BY time DESC;";
+        String sql = "SELECT * FROM co_block WHERE user=(SELECT rowid FROM co_user WHERE uuid='" + uuid + "') AND wid=(SELECT id FROM co_world WHERE world='" + worldName + "') AND (action=0 OR action=1) AND rolled_back=0 ORDER BY time DESC LIMIT 250;";
         Connection connection = Database.getConnection(false, 1000);
         if (connection != null) {
             try {
@@ -83,7 +83,7 @@ public class CoreProtectAPI {
 
     public List<String> getUUIDsOfPlayersInWorld(String worldName) {
         List<String> list = new ArrayList<>();
-        String sql = "SELECT uuid FROM co_user WHERE rowid IN (SELECT DISTINCT user FROM co_block WHERE wid=(SELECT id FROM co_world WHERE world='" + worldName + "'));";
+        String sql = "SELECT uuid FROM co_user WHERE rowid IN (SELECT DISTINCT user FROM co_block WHERE wid=(SELECT id FROM co_world WHERE world='" + worldName + "')) LIMIT 25;";
         Connection connection = Database.getConnection(false, 1000);
         if (connection != null) {
             try {

@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.*;
 
@@ -43,8 +44,23 @@ public class RoleEvents implements Listener {
     public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
         ServerWorld serverWorld = cache.getServerWorld(event.getPlayer().getWorld().getName());
         if (serverWorld != null) {
-            if (!serverWorld.isAllowed(event.getPlayer(), "interact.at.entity")) {
+            boolean isAllowed = serverWorld.isAllowed(event.getPlayer(), "interact.at.entity");
+            if (!isAllowed) {
                 event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerClickEntity(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player) {
+            Player player = (Player) event.getDamager();
+            ServerWorld serverWorld = cache.getServerWorld(event.getDamager().getWorld().getName());
+            if (serverWorld != null) {
+                boolean isAllowed = serverWorld.isAllowed(player, "interact.at.entity");
+                if (!isAllowed) {
+                    event.setCancelled(true);
+                }
             }
         }
     }

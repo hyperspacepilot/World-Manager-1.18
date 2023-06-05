@@ -102,13 +102,24 @@ public class ServerWorldInventory extends Inventory {
                                 lang.getText("inventory.world.users.desc.1"))
                         .getItem());
         if (WorldManagement.get().getCoreProtectAPI().isExistsCO()) {
-            registerButton(5, 4, new OpenInventoryButton(new HistoryInventory(serverWorld), player),
+            /*registerButton(5, 4, new Button() {
+                        @Override
+                        public void onClick(InventoryAction inventoryAction) {
+                            WorldManagement.get().getPerformance().async(() -> {
+                                HistoryInventory inventory1 = new HistoryInventory(serverWorld);
+                                inventory1.open(player);
+                                inventory1.fillInventory();
+                            });
+                        }
+                    },
                     new ItemBuilder(HDBSkulls.CLOCK)
                             .setDisplayName(
                                     lang.getText("inventory.world.history.name"))
                             .setLore(
                                     lang.getText("inventory.world.history.desc.1"))
                             .getItem());
+
+             */
         }
         return this;
     }

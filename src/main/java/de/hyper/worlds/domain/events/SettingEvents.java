@@ -57,7 +57,10 @@ public class SettingEvents implements Listener {
                 StatePart part = setting.getState().getActive();
                 String value = part.getValue();
                 if (!value.equals("keep")) {
-                    player.setGameMode(GameMode.valueOf(value.toUpperCase()));
+                    GameMode gameMode = GameMode.valueOf(value.toUpperCase());
+                    if (player.getGameMode().equals(gameMode)) {
+                        player.setGameMode(gameMode);
+                    }
                 }
             }
         }

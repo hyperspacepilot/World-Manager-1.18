@@ -36,19 +36,18 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         WorldManagement.get().getPerformance().async(() -> {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
+            if (sender instanceof Player player) {
                 String perm = "worldmanager.command.world";
                 if (player.hasPermission(perm)) {
                     if (args.length == 0) {
-                        MainInventory mainInventory = new MainInventory();
-                        mainInventory.open(player).fillInventory();
+                        MainInventory mainInventory = new MainInventory(player);
+                        WorldManagement.get().getInventoryBuilder().buildInventory(mainInventory);
                         return;
                     }
                     if (args.length == 1) {
                         if (args[0].equalsIgnoreCase("info")) {
-                            ServerWorldInventory serverWorldInventory = new ServerWorldInventory(cache.getServerWorld(player.getWorld()));
-                            serverWorldInventory.open(player).fillInventory();
+                            ServerWorldInventory serverWorldInventory = new ServerWorldInventory(player, cache.getServerWorld(player.getWorld()));
+                            WorldManagement.get().getInventoryBuilder().buildInventory(serverWorldInventory);
                             return;
                         }
                         if (args[0].equalsIgnoreCase("help")) {
@@ -69,8 +68,8 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                             return;
                         }
                         if (cache.existsServerWorld(args[0])) {
-                            ServerWorldInventory serverWorldInventory = new ServerWorldInventory(cache.getServerWorld(args[0]));
-                            serverWorldInventory.open(player).fillInventory();
+                            ServerWorldInventory serverWorldInventory = new ServerWorldInventory(player, cache.getServerWorld(args[0]));
+                            WorldManagement.get().getInventoryBuilder().buildInventory(serverWorldInventory);
                             return;
                         }
                         sendSyntax(player, label, null);
@@ -123,8 +122,8 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                                 return;
                             }
                             if (args[1].equalsIgnoreCase("loadedworlds")) {
-                                LoadedWorldsInventory loadedWorldsInventory = new LoadedWorldsInventory();
-                                loadedWorldsInventory.open(player).fillInventory();
+                                LoadedWorldsInventory loadedWorldsInventory = new LoadedWorldsInventory(player);
+                                WorldManagement.get().getInventoryBuilder().buildInventory(loadedWorldsInventory);
                                 return;
                             }
                             if (args[1].equalsIgnoreCase("delete")) {
@@ -277,7 +276,6 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
                             }
                         }
                         sendSyntax(player, label, subCMD);
-                        return;
                     }
                 } else {
                     lang.send(player, "general.permission.lacking", perm);
@@ -340,8 +338,7 @@ public class WorldCommand implements CommandExecutor, TabExecutor {
         }
         if (args.length == 3) {
             if (args[0].equalsIgnoreCase("add")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
+                if (sender instanceof Player player) {
                     ServerWorld serverWorld = cache.getServerWorld(player.getWorld().getName());
                     if (serverWorld != null) {
                         for (WorldRole role : serverWorld.getRoles()) {

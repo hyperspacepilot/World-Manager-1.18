@@ -1,23 +1,24 @@
 package de.hyper.worlds.domain.inventories;
 
-import de.hyper.worlds.common.util.inventory.InfinityInventory;
-import de.hyper.worlds.common.util.inventory.Inventory;
-import de.hyper.worlds.common.util.inventory.buttons.NoButton;
-import de.hyper.worlds.common.util.inventory.designs.BottomLineBackGroundDesign;
-import de.hyper.worlds.common.util.items.GlassPane;
+import de.hyper.inventory.InfinityInventory;
+import de.hyper.inventory.Inventory;
+import de.hyper.inventory.buttons.NoButton;
+import de.hyper.inventory.designs.BottomLineBackGroundDesign;
+import de.hyper.inventory.items.GlassPane;
 import de.hyper.worlds.common.util.items.HDBSkulls;
-import de.hyper.worlds.common.util.items.ItemBuilder;
+import de.hyper.worlds.common.util.items.SkullItemData;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Language;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 public class LoadedWorldsInventory extends InfinityInventory<World> {
 
     Language lang = WorldManagement.get().getLanguage();
 
-    public LoadedWorldsInventory() {
-        super("Loaded-Worlds", 6, true);
+    public LoadedWorldsInventory(Player player) {
+        super(player, "Loaded-Worlds", 6);
         this.setDesign(new BottomLineBackGroundDesign(this.getRows(), null, GlassPane.C7));
         this.list = Bukkit.getWorlds();
         this.currentPage = 0;
@@ -27,32 +28,29 @@ public class LoadedWorldsInventory extends InfinityInventory<World> {
     @Override
     public Inventory fillInventory() {
         if (currentPage > 0) {
-            registerLastPageButton(6, 0,
-                    new ItemBuilder(HDBSkulls.OAK_WOOD_ARROW_LEFT)
+            registerLastPageButton(5, 0,
+                    new SkullItemData(HDBSkulls.OAK_WOOD_ARROW_LEFT)
                             .setDisplayName(
-                                    lang.getText("inventory.general.pages.last"))
-                            .getItem());
+                                    lang.getText("inventory.general.pages.last")));
         }
         if (currentPage < maxPage) {
-            registerNextPageButton(6, 8,
-                    new ItemBuilder(HDBSkulls.OAK_WOOD_ARROW_RIGHT)
+            registerNextPageButton(5, 8,
+                    new SkullItemData(HDBSkulls.OAK_WOOD_ARROW_RIGHT)
                             .setDisplayName(
-                                    lang.getText("inventory.general.pages.next"))
-                            .getItem());
+                                    lang.getText("inventory.general.pages.next")));
         }
-        int row = 1;
+        int row = 0;
         int slot = 0;
         for (int i = 0; i != 45; i++) {
             int get = i + (currentPage * 45);
             if (get < list.size()) {
                 World world = list.get(get);
-                registerButton(row, slot, new NoButton(),
-                        new ItemBuilder(HDBSkulls.EARTH)
+                registerButtonAndItem(row, slot, new NoButton(),
+                        new SkullItemData(HDBSkulls.EARTH)
                                 .setDisplayName("§b" + world.getName())
-                                .setLore(
+                                .addLore(
                                         "§7Seed: §b" + world.getSeed(),
-                                        "§7Players: §b" + world.getPlayers().size())
-                                .getItem());
+                                        "§7Players: §b" + world.getPlayers().size()));
                 slot++;
                 if (slot > 8) {
                     slot = 0;
@@ -64,29 +62,27 @@ public class LoadedWorldsInventory extends InfinityInventory<World> {
     }
 
     @Override
-    public Inventory cleanInventory() {
-        int row = 1;
+    public Inventory clearInventory() {
+        int row = 0;
         int slot = 0;
         for (int i = 0; i != 45; i++) {
-            registerButton(row, slot, new NoButton(), null);
+            registerButtonAndItem(row, slot, new NoButton(), null);
             slot++;
             if (slot > 8) {
                 slot = 0;
                 row++;
             }
         }
-        registerButton(6, 0, new NoButton(), GlassPane.C7);
-        registerButton(6, 8, new NoButton(), GlassPane.C7);
+        registerButtonAndItem(5, 0, new NoButton(), GlassPane.C7);
+        registerButtonAndItem(5, 8, new NoButton(), GlassPane.C7);
         return this;
     }
 
     @Override
     public void onOpen() {
-
     }
 
     @Override
     public void onClose() {
-
     }
 }

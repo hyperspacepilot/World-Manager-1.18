@@ -1,16 +1,18 @@
 package de.hyper.worlds.domain.inventories;
 
+import de.hyper.inventory.Inventory;
+import de.hyper.inventory.buttons.Button;
+import de.hyper.inventory.buttons.OpenInventoryButton;
+import de.hyper.inventory.designs.TopBottomLineBackGroundDesign;
+import de.hyper.inventory.items.GlassPane;
+import de.hyper.inventory.items.SimpleItemData;
 import de.hyper.worlds.common.obj.world.ServerWorld;
-import de.hyper.worlds.common.util.inventory.Inventory;
-import de.hyper.worlds.common.util.inventory.buttons.Button;
-import de.hyper.worlds.common.util.inventory.buttons.OpenInventoryButton;
-import de.hyper.worlds.common.util.inventory.designs.TopBottomLineBackGroundDesign;
-import de.hyper.worlds.common.util.items.GlassPane;
 import de.hyper.worlds.common.util.items.HDBSkulls;
-import de.hyper.worlds.common.util.items.ItemBuilder;
+import de.hyper.worlds.common.util.items.SkullItemData;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Language;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 
 public class AttributesInventory extends Inventory {
@@ -18,23 +20,22 @@ public class AttributesInventory extends Inventory {
     protected ServerWorld serverWorld;
     Language lang = WorldManagement.get().getLanguage();
 
-    public AttributesInventory(ServerWorld serverWorld) {
-        super("Attributes", 3, true);
+    public AttributesInventory(Player player, ServerWorld serverWorld) {
+        super(player, "Attributes", 3, false);
         this.setDesign(new TopBottomLineBackGroundDesign(this.getRows(), null, GlassPane.C7));
         this.serverWorld = serverWorld;
     }
 
     @Override
     public Inventory fillInventory() {
-        registerButton(3, 0,
-                new OpenInventoryButton(new ServerWorldInventory(serverWorld), player),
-                new ItemBuilder(Material.IRON_DOOR)
+        registerButtonAndItem(2, 0,
+                new OpenInventoryButton(WorldManagement.get().getInventoryManager(), new ServerWorldInventory(player, serverWorld), player),
+                new SimpleItemData(Material.IRON_DOOR)
                         .setDisplayName(
                                 lang.getText("inventory.general.back"))
-                        .setLore(
-                                lang.getText("inventory.general.back.desc"))
-                        .getItem());
-        registerButton(2, 2, new Button() {
+                        .addLore(
+                                lang.getText("inventory.general.back.desc")));
+        registerButtonAndItem(1, 2, new Button() {
             @Override
             public void onClick(InventoryAction inventoryAction) {
                 if (serverWorld.isAllowed(player, "attributes.difficulty.change")) {
@@ -46,8 +47,8 @@ public class AttributesInventory extends Inventory {
                     fillInventory();
                 }
             }
-        }, serverWorld.getDifficulty().buildItemStack());
-        registerButton(2, 3, new Button() {
+        }, serverWorld.getDifficulty().buildItemData());
+        registerButtonAndItem(1, 3, new Button() {
             @Override
             public void onClick(InventoryAction inventoryAction) {
                 if (player.hasPermission("worldmanager.admin.bypass.category.change")) {
@@ -59,12 +60,11 @@ public class AttributesInventory extends Inventory {
                     fillInventory();
                 }
             }
-        }, new ItemBuilder(serverWorld.getCategoryType().getItemStack())
+        }, new SkullItemData(serverWorld.getCategoryType().getItemStack())
                 .setDisplayName("§b" + serverWorld.getCategoryType().getLabel())
-                .setLore(
-                        lang.getText("inventory.attributes.category.desc.1"))
-                .getItem());
-        registerButton(2, 5, new Button() {
+                .addLore(
+                        lang.getText("inventory.attributes.category.desc.1")));
+        registerButtonAndItem(1, 5, new Button() {
             @Override
             public void onClick(InventoryAction inventoryAction) {
                 if (player.hasPermission("worldmanager.admin.bypass.generator.change")) {
@@ -76,12 +76,11 @@ public class AttributesInventory extends Inventory {
                     fillInventory();
                 }
             }
-        }, new ItemBuilder(HDBSkulls.GRASS_BLOCK)
+        }, new SkullItemData(HDBSkulls.GRASS_BLOCK)
                 .setDisplayName("§b" + serverWorld.getGeneratorType().getName())
-                .setLore(
-                        lang.getText("inventory.attributes.generator.desc.1"))
-                .getItem());
-        registerButton(2, 6, new Button() {
+                .addLore(
+                        lang.getText("inventory.attributes.generator.desc.1")));
+        registerButtonAndItem(1, 6, new Button() {
             @Override
             public void onClick(InventoryAction inventoryAction) {
                 if (player.hasPermission("worldmanager.admin.bypass.ignoration.change")) {
@@ -89,29 +88,27 @@ public class AttributesInventory extends Inventory {
                     fillInventory();
                 }
             }
-        }, new ItemBuilder(Material.REDSTONE_TORCH)
+        }, new SimpleItemData(Material.REDSTONE_TORCH)
                 .setDisplayName(
                         lang.getText("inventory.attributes.ignoration.name"))
-                .setLore(
+                .addLore(
                         lang.getText("inventory.attributes.ignoration.desc.1"),
                         lang.getText(
                                 "inventory.attributes.ignoration.desc.2",
-                                serverWorld.isIgnoreGeneration())).getItem());
+                                serverWorld.isIgnoreGeneration())));
         return this;
     }
 
     @Override
-    public Inventory cleanInventory() {
+    public Inventory clearInventory() {
         return this;
     }
 
     @Override
     public void onOpen() {
-
     }
 
     @Override
     public void onClose() {
-
     }
 }

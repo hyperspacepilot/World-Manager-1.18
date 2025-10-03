@@ -1,11 +1,12 @@
 package de.hyper.worlds.common.enums;
 
-import de.hyper.worlds.common.util.items.ItemBuilder;
+import de.hyper.inventory.items.ItemData;
+import de.hyper.inventory.items.SimpleItemData;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Language;
 import lombok.Getter;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemFlag;
 
 @Getter
 public enum Difficulty {
@@ -25,25 +26,21 @@ public enum Difficulty {
         this.dif = dif;
     }
 
-    public ItemStack buildItemStack() {
+    public ItemData buildItemData() {
         Language lang = WorldManagement.get().getLanguage();
-        String[] r = new String[5 + values().length];
-        r[0] = lang.getText("inventory.attributes.difficulty.desc.1");
-        r[1] = " ";
-        int a = 2;
+        ItemData itemData = new SimpleItemData(Material.FLINT_AND_STEEL);
+        itemData.setDisplayName(lang.getText("inventory.attributes.difficulty.name"));
+        itemData.addLore(lang.getText("inventory.attributes.difficulty.desc.1"));
+        itemData.addLore(" ");
         for (Difficulty d : values()) {
-            r[a++] = ((d.equals(this)) ? "§7➙ " : "    ") +
-                    lang.getText("inventory.attributes.difficulty.desc." + d.getLKey());
+            itemData.addLore(((d.equals(this)) ? "§7➙ " : "    ") +
+                    lang.getText("inventory.attributes.difficulty.desc." + d.getLKey()));
         }
-        r[a++] = "  ";
-        r[a++] = lang.getText("inventory.attributes.difficulty.desc.2");
-        r[a] = lang.getText("inventory.attributes.difficulty.desc.3");
-        return new ItemBuilder(Material.FLINT_AND_STEEL)
-                .setDisplayName(
-                        lang.getText("inventory.attributes.difficulty.name"))
-                .setLore(r)
-                .hideAttributes()
-                .getItem();
+        itemData.addLore(" ");
+        itemData.addLore(lang.getText("inventory.attributes.difficulty.desc.2"));
+        itemData.addLore(lang.getText("inventory.attributes.difficulty.desc.3"));
+        itemData.addItemFlags(ItemFlag.values());
+        return itemData;
     }
 
     public Difficulty next() {

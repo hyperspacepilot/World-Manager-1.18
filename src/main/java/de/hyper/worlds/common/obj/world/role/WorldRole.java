@@ -1,30 +1,33 @@
 package de.hyper.worlds.common.obj.world.role;
 
+import de.hyper.inventory.items.ItemData;
 import de.hyper.worlds.common.util.items.HDBSkulls;
-import de.hyper.worlds.common.util.items.ItemBuilder;
+import de.hyper.worlds.common.util.items.SkullItemData;
 import de.hyper.worlds.domain.WorldManagement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemFlag;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor @Getter
+@AllArgsConstructor
+@Getter
 public class WorldRole implements Cloneable {
 
-    @Setter private UUID uniqueID;
-    @Setter private String name;
+    @Setter
+    private UUID uniqueID;
+    @Setter
+    private String name;
     private ArrayList<RoleAdmission> admissions;
 
-    public WorldRole(UUID uniqueID,String name, List<RoleAdmission> admissions) {
+    public WorldRole(UUID uniqueID, String name, List<RoleAdmission> admissions) {
         this.uniqueID = uniqueID;
         this.name = name;
         this.admissions = (ArrayList<RoleAdmission>) admissions;
     }
-
 
 
     public RoleAdmission getAdmission(String admissionKey) {
@@ -38,20 +41,20 @@ public class WorldRole implements Cloneable {
 
     public boolean isAllowed(String admissionKey) {
         RoleAdmission admission = getAdmission(admissionKey);
-        return admission != null ? admission.isAllowed() : false;
+        return admission != null && admission.isAllowed();
     }
 
-    public ItemStack buildDisplayItem() {
+    public ItemData buildDisplayItem() {
         return buildDisplayItem(true);
     }
 
-    public ItemStack buildDisplayItem(boolean forEditing) {
-        ItemBuilder itemBuilder = new ItemBuilder(HDBSkulls.BACKPACK_BROWN);
+    public ItemData buildDisplayItem(boolean forEditing) {
+        ItemData itemBuilder = new SkullItemData(HDBSkulls.BACKPACK_BROWN);
         itemBuilder.setDisplayName("§b" + name);
         if (forEditing) {
-            itemBuilder.setLore(WorldManagement.get().getLanguage().getText("inventory.items.worldrole.display"));
+            itemBuilder.addLore(WorldManagement.get().getLanguage().getText("inventory.items.worldrole.display"));
         }
-        return itemBuilder.hideAttributes().getItem();
+        return itemBuilder.addItemFlags(ItemFlag.values());
     }
 
     @Override

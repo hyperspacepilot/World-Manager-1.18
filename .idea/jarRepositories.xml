@@ -22,16 +22,6 @@
       <option name="url" value="https://papermc.io/repo/repository/maven-public/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="spigot-repo" />
-      <option name="name" value="spigot-repo" />
-      <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="bukkit-repo" />
-      <option name="name" value="bukkit-repo" />
-      <option name="url" value="http://repo.bukkit.org/content/groups/public/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="coreprotect-repo" />
       <option name="name" value="coreprotect-repo" />
       <option name="url" value="https://maven.playpro.com" />
@@ -42,24 +32,49 @@
       <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="jboss.community" />
-      <option name="name" value="JBoss Community repository" />
-      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="flammenfuchs-public" />
       <option name="name" value="flammenfuchs-public" />
       <option name="url" value="https://repository.flammenfuchs.de/public" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="coreprotect-repo" />
-      <option name="name" value="coreprotect-repo" />
-      <option name="url" value="http://maven.playpro.com" />
+      <option name="id" value="papermc" />
+      <option name="name" value="papermc" />
+      <option name="url" value="https://repo.papermc.io/repository/maven-public/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="rosewood" />
       <option name="name" value="rosewood" />
       <option name="url" value="https://repo.rosewooddev.io/repository/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="spigot-repo" />
+      <option name="name" value="spigot-repo" />
+      <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="bukkit-repo" />
+      <option name="name" value="bukkit-repo" />
+      <option name="url" value="http://repo.bukkit.org/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="enginehub" />
+      <option name="name" value="enginehub" />
+      <option name="url" value="https://maven.enginehub.org/repo/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="playpro-repo" />
+      <option name="name" value="playpro-repo" />
+      <option name="url" value="https://maven.playpro.com" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="coreprotect-repo" />
+      <option name="name" value="coreprotect-repo" />
+      <option name="url" value="http://maven.playpro.com" />
     </remote-repository>
   </component>
 </project>

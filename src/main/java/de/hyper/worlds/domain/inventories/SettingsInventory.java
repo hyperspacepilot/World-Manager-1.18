@@ -1,19 +1,21 @@
 package de.hyper.worlds.domain.inventories;
 
+import de.hyper.inventory.Inventory;
+import de.hyper.inventory.InventoryManager;
+import de.hyper.inventory.buttons.Button;
+import de.hyper.inventory.buttons.OpenInventoryButton;
+import de.hyper.inventory.designs.CleanBackGroundDesign;
+import de.hyper.inventory.items.GlassPane;
+import de.hyper.inventory.items.SimpleItemData;
 import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.common.obj.world.ServerWorldSettingChangedEvent;
 import de.hyper.worlds.common.obj.world.setting.WorldSetting;
-import de.hyper.worlds.common.util.inventory.Inventory;
-import de.hyper.worlds.common.util.inventory.buttons.Button;
-import de.hyper.worlds.common.util.inventory.buttons.OpenInventoryButton;
-import de.hyper.worlds.common.util.inventory.designs.CleanBackGroundDesign;
-import de.hyper.worlds.common.util.items.GlassPane;
-import de.hyper.worlds.common.util.items.ItemBuilder;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Language;
 import de.hyper.worlds.domain.using.Performance;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 
 public class SettingsInventory extends Inventory {
@@ -21,26 +23,26 @@ public class SettingsInventory extends Inventory {
     protected ServerWorld serverWorld;
     Language lang = WorldManagement.get().getLanguage();
     Performance performance = WorldManagement.get().getPerformance();
+    InventoryManager invManager = WorldManagement.get().getInventoryManager();
 
-    public SettingsInventory(ServerWorld serverWorld) {
-        super("Settings", 6, true);
+    public SettingsInventory(Player player, ServerWorld serverWorld) {
+        super(player, "Settings", 6);
         this.setDesign(new CleanBackGroundDesign(this.getRows(), GlassPane.C7));
         this.serverWorld = serverWorld;
     }
 
     @Override
     public Inventory fillInventory() {
-        registerButton(6, 0, new OpenInventoryButton(new ServerWorldInventory(serverWorld), player),
-                new ItemBuilder(Material.IRON_DOOR)
+        registerButtonAndItem(5, 0, new OpenInventoryButton(invManager, new ServerWorldInventory(player, serverWorld), player),
+                new SimpleItemData(Material.IRON_DOOR)
                         .setDisplayName(
                                 lang.getText("inventory.general.back"))
-                        .setLore(
-                                lang.getText("inventory.general.back.desc"))
-                        .getItem());
-        int row = 2;
+                        .addLore(
+                                lang.getText("inventory.general.back.desc")));
+        int row = 1;
         int slot = 1;
         for (WorldSetting setting : serverWorld.getSettings()) {
-            registerButton(row, slot, new Button() {
+            registerButtonAndItem(row, slot, new Button() {
                 @Override
                 public void onClick(InventoryAction inventoryAction) {
                     boolean allowed;
@@ -78,17 +80,15 @@ public class SettingsInventory extends Inventory {
     }
 
     @Override
-    public Inventory cleanInventory() {
+    public Inventory clearInventory() {
         return this;
     }
 
     @Override
     public void onOpen() {
-
     }
 
     @Override
     public void onClose() {
-
     }
 }

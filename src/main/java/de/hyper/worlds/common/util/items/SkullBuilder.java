@@ -11,6 +11,8 @@ import java.util.UUID;
 
 public class SkullBuilder {
 
+	public static final String notRegisteredURL = "http://textures.minecraft.net/texture/b095a7fd90daa1bbe7069089740e05d0bfc66296ee3c40ee71a4e0a6616b2bbc";
+
 	public static ItemStack getSkullByPlayerName(String playerName) {
 		ItemStack item = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
 		SkullMeta skullmeta = (SkullMeta) item.getItemMeta();

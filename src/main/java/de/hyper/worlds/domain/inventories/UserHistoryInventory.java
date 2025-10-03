@@ -1,34 +1,38 @@
 package de.hyper.worlds.domain.inventories;
 
+import de.hyper.inventory.InfinityInventory;
+import de.hyper.inventory.Inventory;
+import de.hyper.inventory.InventoryManager;
+import de.hyper.inventory.buttons.Button;
+import de.hyper.inventory.buttons.NoButton;
+import de.hyper.inventory.buttons.OpenInventoryButton;
+import de.hyper.inventory.designs.BottomLineBackGroundDesign;
+import de.hyper.inventory.items.GlassPane;
+import de.hyper.inventory.items.SimpleItemData;
 import de.hyper.worlds.common.obj.ServerUser;
 import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.common.util.TimeStampFormatting;
-import de.hyper.worlds.common.util.inventory.InfinityInventory;
-import de.hyper.worlds.common.util.inventory.Inventory;
-import de.hyper.worlds.common.util.inventory.buttons.Button;
-import de.hyper.worlds.common.util.inventory.buttons.NoButton;
-import de.hyper.worlds.common.util.inventory.buttons.OpenInventoryButton;
-import de.hyper.worlds.common.util.inventory.designs.BottomLineBackGroundDesign;
-import de.hyper.worlds.common.util.items.GlassPane;
 import de.hyper.worlds.common.util.items.HDBSkulls;
-import de.hyper.worlds.common.util.items.ItemBuilder;
+import de.hyper.worlds.common.util.items.SkullItemData;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Language;
 import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserHistoryInventory extends InfinityInventory<List<net.coreprotect.CoreProtectAPI.ParseResult>> {
+public class UserHistoryInventory extends InfinityInventory<List<CoreProtectAPI.ParseResult>> {
 
     protected ServerWorld serverWorld;
     protected ServerUser serverUser;
     Language lang = WorldManagement.get().getLanguage();
+    InventoryManager invManager = WorldManagement.get().getInventoryManager();
 
-    public UserHistoryInventory(ServerWorld serverWorld, ServerUser serverUser) {
-        super("History: " + serverUser.getName(), 6, true);
+    public UserHistoryInventory(Player player, ServerWorld serverWorld, ServerUser serverUser) {
+        super(player, "History: " + serverUser.getName(), 6);
         this.setDesign(new BottomLineBackGroundDesign(this.getRows(), null, GlassPane.C7));
         this.serverWorld = serverWorld;
         this.serverUser = serverUser;
@@ -42,42 +46,39 @@ public class UserHistoryInventory extends InfinityInventory<List<net.coreprotect
 
     @Override
     public Inventory fillInventory() {
-        registerButton(6, 1,
-                new OpenInventoryButton(new HistoryInventory(serverWorld), player),
-                new ItemBuilder(Material.IRON_DOOR)
+        registerButtonAndItem(5, 1,
+                new OpenInventoryButton(invManager, new HistoryInventory(player, serverWorld), player),
+                new SimpleItemData(Material.IRON_DOOR)
                         .setDisplayName(
                                 lang.getText("inventory.general.back"))
-                        .setLore(
-                                lang.getText("inventory.general.back.desc"))
-                        .getItem());
+                        .addLore(
+                                lang.getText("inventory.general.back.desc")));
         if (currentPage > 0) {
-            registerLastPageButton(6, 0,
-                    new ItemBuilder(HDBSkulls.OAK_WOOD_ARROW_LEFT)
+            registerLastPageButton(5, 0,
+                    new SkullItemData(HDBSkulls.OAK_WOOD_ARROW_LEFT)
                             .setDisplayName(
-                                    lang.getText("inventory.general.pages.last"))
-                            .getItem());
+                                    lang.getText("inventory.general.pages.last")));
         }
         if (currentPage < maxPage) {
-            registerNextPageButton(6, 8,
-                    new ItemBuilder(HDBSkulls.OAK_WOOD_ARROW_RIGHT)
+            registerNextPageButton(5, 8,
+                    new SkullItemData(HDBSkulls.OAK_WOOD_ARROW_RIGHT)
                             .setDisplayName(
-                                    lang.getText("inventory.general.pages.next"))
-                            .getItem());
+                                    lang.getText("inventory.general.pages.next")));
         }
-        int row = 1;
+        int row = 0;
         int slot = 0;
         for (int i = 0; i != 45; i++) {
             int get = i + (currentPage * 45);
             if (get < list.size()) {
                 List<net.coreprotect.CoreProtectAPI.ParseResult> parseResultList = list.get(get);
-                registerButton(row, slot, new Button() {
+                registerButtonAndItem(row, slot, new Button() {
                     @Override
                     public void onClick(InventoryAction inventoryAction) {
                     }
-                }, new ItemBuilder(parseResultList.get(0).getType())
+                }, new SimpleItemData(parseResultList.get(0).getType())
                         .setAmount(parseResultList.size())
                         .setDisplayName("§b" + getAsText(parseResultList.get(0).getType()))
-                        .setLore(
+                        .addLore(
                                 lang.getText(
                                         "inventory.playerhistory.parseresult.desc.1",
                                         getActionText(parseResultList.get(0).getActionString())),
@@ -100,8 +101,7 @@ public class UserHistoryInventory extends InfinityInventory<List<net.coreprotect
                                                 "b"))),
                                 " ",
                                 lang.getText("inventory.playerhistory.parseresult.desc.info.1"),
-                                lang.getText("inventory.playerhistory.parseresult.desc.info.2"))
-                        .getItem());
+                                lang.getText("inventory.playerhistory.parseresult.desc.info.2")));
                 slot++;
                 if (slot > 8) {
                     slot = 0;
@@ -113,19 +113,19 @@ public class UserHistoryInventory extends InfinityInventory<List<net.coreprotect
     }
 
     @Override
-    public Inventory cleanInventory() {
-        int row = 1;
+    public Inventory clearInventory() {
+        int row = 0;
         int slot = 0;
         for (int i = 0; i != 45; i++) {
-            registerButton(row, slot, new NoButton(), null);
+            registerButtonAndItem(row, slot, new NoButton(), null);
             slot++;
             if (slot > 8) {
                 slot = 0;
                 row++;
             }
         }
-        registerButton(6, 0, new NoButton(), GlassPane.C7);
-        registerButton(6, 8, new NoButton(), GlassPane.C7);
+        registerButtonAndItem(5, 0, new NoButton(), GlassPane.C7);
+        registerButtonAndItem(5, 8, new NoButton(), GlassPane.C7);
         return this;
     }
 
@@ -169,7 +169,7 @@ public class UserHistoryInventory extends InfinityInventory<List<net.coreprotect
     public String getAsText(Material material) {
         String[] strings = material.name().split("_");
         for (int i = 0; i < strings.length; i++) {
-            strings[i] = strings[i].toUpperCase().substring(0, 1) + strings[i].toLowerCase().substring(1, strings[i].length());
+            strings[i] = strings[i].toUpperCase().charAt(0) + strings[i].toLowerCase().substring(1, strings[i].length());
         }
         return String.join(" ", strings);
     }

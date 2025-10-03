@@ -1,10 +1,12 @@
 package de.hyper.worlds.domain;
 
+import de.hyper.inventory.InventoryBuilder;
+import de.hyper.inventory.InventoryFramework;
+import de.hyper.inventory.InventoryManager;
 import de.hyper.worlds.common.enums.SettingType;
 import de.hyper.worlds.common.obj.Dependency;
 import de.hyper.worlds.common.obj.world.ServerWorld;
 import de.hyper.worlds.common.util.Converter;
-import de.hyper.worlds.common.util.inventory.InventoryManager;
 import de.hyper.worlds.domain.commands.WorldCommand;
 import de.hyper.worlds.domain.commands.WorldConsoleCommand;
 import de.hyper.worlds.domain.events.JoinEvents;
@@ -33,6 +35,7 @@ public class WorldManagement extends JavaPlugin {
     private Config configuration;
     private PluginManager pluginManager = Bukkit.getPluginManager();
     private InventoryManager inventoryManager;
+    private InventoryBuilder inventoryBuilder;
     private DependencyManager dependencyManager;
     private FaweAPI fawe;
     private CoreProtectAPI coreProtectAPI;
@@ -50,7 +53,9 @@ public class WorldManagement extends JavaPlugin {
         this.cache = new Cache();
         this.loadHelper = new LoadHelper();
         this.language = new Language(configuration.getData("language").asString());
-        this.inventoryManager = new InventoryManager(this, "WIS");
+        new InventoryFramework().setUp();
+        this.inventoryManager = InventoryFramework.createInventoryManager(this);
+        this.inventoryBuilder = InventoryFramework.createInventoryBuilder(this.inventoryManager);
         this.dependencyManager = new DependencyManager(
                 new Dependency("com.fastasyncworldedit.bukkit.FaweBukkit"),
                 new Dependency("net.coreprotect.CoreProtect"));

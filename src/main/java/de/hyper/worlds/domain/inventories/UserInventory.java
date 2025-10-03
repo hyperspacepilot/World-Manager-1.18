@@ -1,17 +1,20 @@
 package de.hyper.worlds.domain.inventories;
 
+import de.hyper.inventory.Inventory;
+import de.hyper.inventory.InventoryManager;
+import de.hyper.inventory.buttons.Button;
+import de.hyper.inventory.buttons.OpenInventoryButton;
+import de.hyper.inventory.designs.TopBottomLineBackGroundDesign;
+import de.hyper.inventory.items.GlassPane;
+import de.hyper.inventory.items.SimpleItemData;
 import de.hyper.worlds.common.obj.ServerUser;
 import de.hyper.worlds.common.obj.world.ServerWorld;
-import de.hyper.worlds.common.util.inventory.Inventory;
-import de.hyper.worlds.common.util.inventory.buttons.Button;
-import de.hyper.worlds.common.util.inventory.buttons.OpenInventoryButton;
-import de.hyper.worlds.common.util.inventory.designs.TopBottomLineBackGroundDesign;
-import de.hyper.worlds.common.util.items.GlassPane;
 import de.hyper.worlds.common.util.items.HDBSkulls;
-import de.hyper.worlds.common.util.items.ItemBuilder;
+import de.hyper.worlds.common.util.items.SkullItemData;
 import de.hyper.worlds.domain.WorldManagement;
 import de.hyper.worlds.domain.using.Language;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 
 public class UserInventory extends Inventory {
@@ -19,9 +22,10 @@ public class UserInventory extends Inventory {
     protected ServerWorld serverWorld;
     protected ServerUser serverUser;
     Language lang = WorldManagement.get().getLanguage();
+    InventoryManager invManager = WorldManagement.get().getInventoryManager();
 
-    public UserInventory(ServerWorld serverWorld, ServerUser serverUser) {
-        super("Member: " + serverUser.getName(), 3, true);
+    public UserInventory(Player player, ServerWorld serverWorld, ServerUser serverUser) {
+        super(player, "Member: " + serverUser.getName(), 3);
         this.setDesign(new TopBottomLineBackGroundDesign(this.getRows(), null, GlassPane.C7));
         this.serverWorld = serverWorld;
         this.serverUser = serverUser;
@@ -29,64 +33,56 @@ public class UserInventory extends Inventory {
 
     @Override
     public Inventory fillInventory() {
-        registerButton(6, 0, new OpenInventoryButton(new MembersInventory(serverWorld), this.player),
-                new ItemBuilder(Material.IRON_DOOR)
+        registerButtonAndItem(2, 0, new OpenInventoryButton(invManager, new MembersInventory(player, serverWorld), this.player),
+                new SimpleItemData(Material.IRON_DOOR)
                         .setDisplayName(
                                 lang.getText("inventory.general.back"))
-                        .setLore(
-                                lang.getText("inventory.general.back.desc"))
-                        .getItem());
-        registerButton(2, 2, new Button() {
+                        .addLore(
+                                lang.getText("inventory.general.back.desc")));
+        registerButtonAndItem(1, 2, new Button() {
             @Override
             public void onClick(InventoryAction inventoryAction) {
                 if (serverWorld.isAllowed(player, "users.role.change")) {
-                    ChangeRoleInventory changeRoleInventory = new ChangeRoleInventory(serverWorld, serverUser);
-                    changeRoleInventory.open(player).fillInventory();
+                    ChangeRoleInventory changeRoleInventory = new ChangeRoleInventory(player, serverWorld, serverUser);
+                    WorldManagement.get().getInventoryBuilder().buildInventory(changeRoleInventory);
                 }
             }
-        }, new ItemBuilder(HDBSkulls.CHANGE_IRON_BLUE)
+        }, new SkullItemData(HDBSkulls.CHANGE_IRON_BLUE)
                 .setDisplayName(
                         lang.getText("inventory.user.change.name"))
-                .setLore(
-                        lang.getText("inventory.user.change.desc.1"))
-                .getItem());
-        registerButton(2, 4,
-                new OpenInventoryButton(
-                        new RoleInventory(
-                                serverWorld,
-                                serverUser.getWorldRole(serverWorld)),
+                .addLore(
+                        lang.getText("inventory.user.change.desc.1")));
+        registerButtonAndItem(1, 4,
+                new OpenInventoryButton(invManager, new RoleInventory(player, serverWorld, serverUser.getWorldRole(serverWorld)),
                         player),
                 serverUser.getWorldRole(serverWorld).buildDisplayItem());
-        registerButton(2, 6, new Button() {
+        registerButtonAndItem(1, new Button() {
             @Override
             public void onClick(InventoryAction event) {
                 if (serverWorld.isAllowed(player, "users.remove")) {
                     serverUser.removeRole(serverWorld);
-                    MembersInventory membersInventory = new MembersInventory(serverWorld);
-                    membersInventory.open(player).fillInventory();
+                    MembersInventory membersInventory = new MembersInventory(player, serverWorld);
+                    WorldManagement.get().getInventoryBuilder().buildInventory(membersInventory);
                 }
             }
-        }, new ItemBuilder(HDBSkulls.RED_MINUS)
+        }, new SkullItemData(HDBSkulls.RED_MINUS)
                 .setDisplayName(
                         lang.getText("inventory.user.remove.name"))
-                .setLore(
-                        lang.getText("inventory.user.remove.desc.1"))
-                .getItem());
+                .addLore(
+                        lang.getText("inventory.user.remove.desc.1")));
         return this;
     }
 
     @Override
-    public Inventory cleanInventory() {
+    public Inventory clearInventory() {
         return this;
     }
 
     @Override
     public void onOpen() {
-
     }
 
     @Override
     public void onClose() {
-
     }
 }
